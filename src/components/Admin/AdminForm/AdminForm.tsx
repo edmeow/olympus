@@ -3,6 +3,8 @@ import './AdminForm.scss';
 import AdminService from '../../../services/AdminService';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { ISignInRequest } from '../../../models/request/ISignInRequest';
 
 interface AdminFormProps {
     setView: React.Dispatch<React.SetStateAction<any>>;
@@ -17,6 +19,16 @@ const AdminForm: React.FC<AdminFormProps> = () => {
     const [duration, setDuration] = useState<string>('');
     const [problems, setProblems] = useState<string[]>([]);
     const history = useNavigate();
+    // const {
+    //     register,
+    //     handleSubmit,
+    //     reset,
+    //     setError,
+    //     formState: { errors, isSubmitting, isValid },
+    // } = useForm<ISignInRequest>({
+    //     mode: 'onBlur',
+    //     resolver: zodResolver(signInSchema),
+    // });
     const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
         const fileReader = new FileReader();
         const files = event.target.files;
