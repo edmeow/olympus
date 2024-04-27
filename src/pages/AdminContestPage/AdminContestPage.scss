@@ -1,0 +1,9 @@
+.contestPage {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    &__menu {
+        display: flex;
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,9 @@
+.userPageContent {
+    width: 100%;
+    padding: 26px 46px;
+    box-sizing: border-box;
+    &__main {
+        display: flex;
+        flex-direction: column;
+    }
+}

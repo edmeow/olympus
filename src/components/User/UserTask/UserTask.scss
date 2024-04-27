@@ -1,0 +1,32 @@
+.user-task {
+    max-width: 900px;
+    margin-left: auto;
+
+    &__item {
+        max-height: 800px;
+        overflow-y: scroll;
+        border: 1px solid rgb(0, 0, 0);
+        border-radius: 15px;
+    }
+    &__input-label {
+        display: block;
+        box-sizing: border-box;
+        border: 1px solid rgb(0, 0, 0);
+        width: 100%;
+        box-sizing: border-box;
+        padding: 15px 0;
+        border-radius: 15px;
+        text-align: center;
+        margin-top: 10px;
+        background: #181818;
+        color: white;
+        cursor: pointer;
+        transition: opacity 0.3s;
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+    &__input {
+        display: none;
+    }
+}
