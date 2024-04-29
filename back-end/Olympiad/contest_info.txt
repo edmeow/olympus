@@ -1,7 +1,0 @@
-Информация об олимпиаде: ContestName
-Участники: 
-Username: webcontest_1000_1, Password: CYM5d3NMGkom
-Username: webcontest_1000_2, Password: sehO7fyxu33T
-Жюри: 
-Username: webcontest_J_1000_2, Password: 5w4WNyJF1G7m
-Username: webcontest_J_1000_1, Password: 4fH0kt5GOMx9
