@@ -42,11 +42,15 @@ export default class Store {
         //     console.error(
         //         'Invalid startTime or endTime in the contest object.',
         //     );
-        // }
-        this.setSelectedTask(contest.tasks[0].id);
+        // }        this.setSelectedTask(contest.tasks[0].id);
         this.contest = contest;
     }
-
+    updateDurationContest(newDuration: string) {
+        this.contest.duration = newDuration;
+    }
+    updateProblemsList(problems: Itasks[]) {
+        this.contest.tasks = problems;
+    }
     private formatDateToCustomString(date: Date): string {
         const options: Intl.DateTimeFormatOptions = {
             minute: 'numeric',

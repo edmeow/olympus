@@ -1,4 +1,9 @@
 import { z } from 'zod';
+const ProblemModel = z.object({
+    name: z.string(),
+    problem: z.string(),
+    points: z.string(),
+});
 
 export const createContestSchema = z.object({
     nameContest: z
@@ -17,7 +22,5 @@ export const createContestSchema = z.object({
             /^\d{2}:\d{2}$/,
             'Строка не соответствует формату времени (00:00).',
         ),
-    problems: z
-        .array(z.string())
-        .min(1, 'Массив проблем должен содержать хотя бы 1 элемент'),
+    problemInfos: z.array(ProblemModel),
 });

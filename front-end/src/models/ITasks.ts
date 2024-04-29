@@ -3,4 +3,5 @@ export interface Itasks {
     session: number;
     task: string;
     points: number;
+    name: string;
 }

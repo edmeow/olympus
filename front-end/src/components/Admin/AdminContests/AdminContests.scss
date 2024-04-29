@@ -20,3 +20,15 @@
         color: #5181b8;
     }
 }
+
+.not-started {
+    border: 3px solid grey;
+}
+
+.in-progress {
+    border: 3px solid green;
+}
+
+.finished {
+    border: 3px solid red;
+}

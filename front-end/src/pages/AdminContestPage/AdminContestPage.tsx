@@ -7,6 +7,8 @@ import { AxiosError } from 'axios';
 import AdminContest from '../../components/Admin/AdminContest/AdminContest';
 import { Context } from '../..';
 import { observer } from 'mobx-react-lite';
+import Modal from '../../components/UI/Modal/Modal';
+import { z } from 'zod';
 
 interface AdminContestPageProps {}
 
@@ -18,6 +20,8 @@ const AdminContestPage: React.FC<AdminContestPageProps> = () => {
     const [view, setView] = useState<ViewType>('info');
     const [participantCount, setParticipantCount] = useState<string>('');
     const [judgeCount, setJudgeCount] = useState<string>('');
+    const [newDuration, setNewDuration] = useState<string>('');
+    const [open, setOpen] = React.useState(false);
     const { store } = useContext(Context);
     useEffect(() => {
         const fetchData = async () => {
@@ -36,6 +40,7 @@ const AdminContestPage: React.FC<AdminContestPageProps> = () => {
 
         fetchData();
     }, [contestId]);
+
     function onSubmit(e: FormEvent) {
         e.preventDefault();
         if (contest) {
@@ -66,11 +71,32 @@ const AdminContestPage: React.FC<AdminContestPageProps> = () => {
         }
     }
 
+    const changeDurationContest = async () => {
+        AdminService.changeContestDuration(
+            store.contest.session,
+            newDuration,
+        ).then((res) => {
+            if (res.data) {
+                store.updateDurationContest(res.data);
+                setOpen(false);
+                setNewDuration('');
+            }
+        });
+    };
+
     async function startContest() {
         const response = await AdminService.startContest(store.contest.session);
         store.setContestTime(response.data);
         console.log(store.contest.startTime, store.contest.endTime);
     }
+
+    const isValidTimeFormat = (timeString: string) => {
+        setNewDuration(
+            timeString
+                .replace(/[^\d:]/g, '') // Удаление всех символов, кроме цифр и двоеточий
+                .replace(/^(\d{2}):?(\d{0,2}).*$/, '$1:$2'),
+        );
+    };
 
     return (
         <div className="contestPage">
@@ -93,7 +119,16 @@ const AdminContestPage: React.FC<AdminContestPageProps> = () => {
                 >
                     Начать олимпиаду
                 </button>
+                <button
+                    onClick={() => {
+                        setOpen(true);
+                    }}
+                    className="contest__button contest__button_start"
+                >
+                    Изменить длительность олимпиады
+                </button>
             </div>
+
             {view === 'create' && (
                 <form
                     style={{ display: 'flex', flexDirection: 'column' }}
@@ -115,6 +150,19 @@ const AdminContestPage: React.FC<AdminContestPageProps> = () => {
                 </form>
             )}
             {view === 'info' && store.contest.tasks && <AdminContest />}
+            <Modal active={open} setActive={setOpen}>
+                <p>Укажите новую длительность олимпиады</p>
+                <input
+                    value={newDuration}
+                    onChange={(e) => {
+                        isValidTimeFormat(e.target.value);
+                        //setNewDuration(e.target.value);
+                    }}
+                    placeholder="00:00"
+                    pattern="/^\d{2}:\d{2}$/"
+                ></input>
+                <button onClick={changeDurationContest}>Изменить</button>
+            </Modal>
         </div>
     );
 };

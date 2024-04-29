@@ -9,7 +9,6 @@ import { AxiosError } from 'axios';
 
 const App: FC = observer(() => {
     const { store } = useContext(Context);
-
     const history = useNavigate();
     const redirectToPage = (role: string, session: string) => {
         switch (role) {

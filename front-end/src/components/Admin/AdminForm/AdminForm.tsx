@@ -4,73 +4,39 @@ import AdminService from '../../../services/AdminService';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { ISignInRequest } from '../../../models/request/ISignInRequest';
+import { createContestSchema } from '../../../models/zodSchemas/createContestSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { IСreateContestRequest } from '../../../models/request/IСreateContestRequest';
+import FileInputs from '../../UI/FileInputs';
 
-interface AdminFormProps {
-    setView: React.Dispatch<React.SetStateAction<any>>;
-}
-
-const AdminForm: React.FC<AdminFormProps> = () => {
-    const [session, setSession] = useState<string>('');
-    const [nameContest, setNameContest] = useState<string>('');
-    const [participantCount, setParticipantCount] = useState<string>('');
-    const [judgeCount, setJudgeCount] = useState<string>('');
-    const [prefix, setPrefix] = useState<string>('');
-    const [duration, setDuration] = useState<string>('');
-    const [problems, setProblems] = useState<string[]>([]);
+const AdminForm: React.FC = () => {
     const history = useNavigate();
-    // const {
-    //     register,
-    //     handleSubmit,
-    //     reset,
-    //     setError,
-    //     formState: { errors, isSubmitting, isValid },
-    // } = useForm<ISignInRequest>({
-    //     mode: 'onBlur',
-    //     resolver: zodResolver(signInSchema),
-    // });
-    const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
-        const fileReader = new FileReader();
-        const files = event.target.files;
 
-        if (files) {
-            // Читаем содержимое каждого файла и обновляем состояние
-            const newproblems: string[] = [];
-            for (let i = 0; i < files.length; i++) {
-                fileReader.readAsText(files[i]);
-                await new Promise<void>((resolve) => {
-                    fileReader.onloadend = () => {
-                        if (fileReader.result) {
-                            newproblems.push(fileReader.result.toString());
-                        }
-                        resolve();
-                    };
-                });
-            }
-            setProblems(newproblems);
-        }
-    };
+    const {
+        register,
+        control,
+        handleSubmit,
+        reset,
+        setValue,
+        setError,
+        watch,
+        formState: { errors, isSubmitting, isValid },
+    } = useForm<IСreateContestRequest>({
+        mode: 'onBlur',
+        resolver: zodResolver(createContestSchema),
+    });
 
-    function onChange(
-        e: ChangeEvent<HTMLInputElement>,
-        setFunction: React.Dispatch<React.SetStateAction<any>>,
-    ) {
-        setFunction(e.currentTarget.value);
-    }
-    function onSubmit(e: FormEvent) {
-        e.preventDefault();
+    async function onSubmit(dataFields: IСreateContestRequest) {
         AdminService.createContest(
-            session,
-            nameContest,
-            participantCount,
-            judgeCount,
-            prefix,
-            duration,
-            problems,
+            dataFields.nameContest,
+            dataFields.participantCount,
+            dataFields.judgeCount,
+            dataFields.prefix,
+            dataFields.duration,
+            dataFields.problemInfos,
         )
             .then((res) => {
                 const base64String = res.data.fileContent;
-
                 const binaryData = atob(base64String);
                 const byteArray = new Uint8Array(binaryData.length);
                 for (let i = 0; i < binaryData.length; i++) {
@@ -82,81 +48,90 @@ const AdminForm: React.FC<AdminFormProps> = () => {
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
+                history(`/admin/contest/${res.data.contest.session}`);
             })
 
             .catch((err: AxiosError) => {
                 console.log(err);
-            })
-            .finally(() => {
-                history(`/admin/contest/${session}`);
             });
     }
-
     return (
         <div className="AdminForm_сontainer">
-            <form
-                className="adminForm"
-                onSubmit={onSubmit}
-                style={{ display: 'flex', flexDirection: 'column' }}
-            >
-                <h1>Create contest</h1>
-                <label>
-                    Session Id
-                    <input
-                        placeholder="Session Id"
-                        value={session}
-                        onChange={(e) => onChange(e, setSession)}
-                    ></input>
-                </label>
-                <label>
-                    Name contest
-                    <input
-                        placeholder="Name contest"
-                        value={nameContest}
-                        onChange={(e) => onChange(e, setNameContest)}
-                    ></input>
-                </label>
-                <label>
-                    Count participant
-                    <input
-                        placeholder="Count participant"
-                        value={participantCount}
-                        onChange={(e) => onChange(e, setParticipantCount)}
-                    ></input>
-                </label>
-                <label>
-                    Count judge
-                    <input
-                        placeholder="Count judge"
-                        value={judgeCount}
-                        onChange={(e) => onChange(e, setJudgeCount)}
-                    ></input>
-                </label>
-                <label>
-                    Prefix contest
-                    <input
-                        placeholder="Prefix contest"
-                        value={prefix}
-                        onChange={(e) => onChange(e, setPrefix)}
-                    ></input>
-                </label>
-                <label>
-                    Contest duration
-                    <input
-                        placeholder="Contest duration"
-                        value={duration}
-                        onChange={(e) => onChange(e, setDuration)}
-                    ></input>
-                </label>
-                <label>
-                    Add problems
-                    <input
-                        type="file"
-                        onChange={(event) => handleFileChange(event)}
-                        multiple
-                    />
-                </label>
-                <button type="submit">Create</button>
+            <h1>Форма создания олимпиады</h1>
+            <form className="adminForm" onSubmit={handleSubmit(onSubmit)}>
+                <div className="adminForm__inputs">
+                    <div className="adminForm__left">
+                        <label>
+                            Название олимпиады
+                            <input
+                                {...register('nameContest')}
+                                placeholder="Наименование олимпиады..."
+                            ></input>
+                            {errors.nameContest && (
+                                <p className="formAuth__input-error">{`${errors.nameContest.message}`}</p>
+                            )}
+                        </label>
+                        <label>
+                            Количество участников
+                            <input
+                                {...register('participantCount')}
+                                placeholder="Количество участников..."
+                            ></input>
+                            {errors.participantCount && (
+                                <p className="formAuth__input-error">{`${errors.participantCount.message}`}</p>
+                            )}
+                        </label>
+                        <label>
+                            Количество жюри
+                            <input
+                                {...register('judgeCount')}
+                                placeholder="Количество жюри..."
+                            ></input>
+                            {errors.judgeCount && (
+                                <p className="formAuth__input-error">{`${errors.judgeCount.message}`}</p>
+                            )}
+                        </label>
+                        <label>
+                            Префикс олимпиады
+                            <input
+                                {...register('prefix')}
+                                placeholder="Префикс олимпиады..."
+                            ></input>
+                            {errors.prefix && (
+                                <p className="formAuth__input-error">{`${errors.prefix.message}`}</p>
+                            )}
+                        </label>
+                        <label>
+                            Длительность олимпиады
+                            <input
+                                {...register('duration')}
+                                placeholder="00:00"
+                            ></input>
+                            {errors.duration && (
+                                <p className="formAuth__input-error">{`${errors.duration.message}`}</p>
+                            )}
+                        </label>
+                    </div>
+                    <div className="adminForm__right">
+                        <FileInputs
+                            control={control}
+                            errors={errors}
+                            watch={watch}
+                            setValue={setValue}
+                            reset={reset}
+                        />
+
+                        {errors.problemInfos && (
+                            <p className="formAuth__input-error">{`${errors.problemInfos.message}`}</p>
+                        )}
+                    </div>
+                </div>
+                <button
+                    disabled={!isValid || isSubmitting}
+                    //className="formAuth__btn"
+                >
+                    {isSubmitting ? 'Создается...' : 'Создание олимпиады'}
+                </button>
             </form>
         </div>
     );

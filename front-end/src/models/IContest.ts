@@ -7,7 +7,7 @@ export interface IContest {
     participantCount: number;
     judgeCount: number;
     usernamePrefix: string;
-    duration: number;
+    duration: string;
     startTime: string | null;
     endTime: string | null;
     tasks: Itasks[];

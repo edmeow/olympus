@@ -8,13 +8,15 @@ import ProtectedRoute from './ProtectedRoute';
 import { observer } from 'mobx-react-lite';
 import ProtectedRouteAuth from './ProtectedRouteAuth';
 import AdminContestPage from '../pages/AdminContestPage/AdminContestPage';
+import AdminForm from '../components/Admin/AdminForm/AdminForm';
+import AdminNavRouter from './AdminNavRouter';
 
 const RoutesPack = () => {
     return (
         <Routes>
-            <Route path="/login" element={<LoginPage />} />{' '}
+            <Route path="/login" element={<LoginPage />} />
             {/* Маршрут для страницы входа доступен всем */}
-            <Route path="/forbidden" element={<ForbiddenPage />} />{' '}
+            <Route path="/forbidden" element={<ForbiddenPage />} />
             {/* Маршрут для страницы входа доступен всем */}
             <Route element={<ProtectedRouteAuth />}>
                 <Route
@@ -50,11 +52,17 @@ const RoutesPack = () => {
                         ></ProtectedRoute>
                     }
                 >
-                    <Route path="/admin" element={<AdminPage />} />
-                    <Route
-                        path="/admin/contest/:contestId"
-                        element={<AdminContestPage />}
-                    />
+                    <Route element={<AdminNavRouter></AdminNavRouter>}>
+                        <Route path="/admin" element={<AdminPage />} />
+                        <Route
+                            path="/admin/create-contest"
+                            element={<AdminForm />}
+                        />
+                        <Route
+                            path="/admin/contest/:contestId"
+                            element={<AdminContestPage />}
+                        />
+                    </Route>
                 </Route>
             </Route>
             <Route path="*" element={<Navigate to="/login"></Navigate>}></Route>
