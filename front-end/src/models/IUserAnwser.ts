@@ -1,10 +1,12 @@
 export interface IUserAnwser {
-    comment: string | null;
-    fileContent: string;
-    id: string;
-    points: string | null;
-    sentTime: Date;
+    id: number;
     session: number;
-    taskNumber: number;
     userId: number;
+    userName: string;
+    taskNumber: number;
+    points: number | null;
+    comment: string | null;
+    sentTime: Date;
+    fileName: string;
+    state: string;
 }

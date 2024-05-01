@@ -20,16 +20,16 @@ const UserAnswersTable: React.FC<UserAnswersTableProps> = () => {
             .catch((err) => console.log(err));
     }, [store.selectedTask]);
     const userAnswerMapper = (answer: IUserAnwser) => {
-        const fileContentBytes = atob(answer.fileContent);
-        const byteNumbers = new Array(fileContentBytes.length);
-        for (let i = 0; i < fileContentBytes.length; i++) {
-            byteNumbers[i] = fileContentBytes.charCodeAt(i);
-        }
+        // const fileContentBytes = atob(answer.fileContent);
+        // const byteNumbers = new Array(fileContentBytes.length);
+        // for (let i = 0; i < fileContentBytes.length; i++) {
+        //     byteNumbers[i] = fileContentBytes.charCodeAt(i);
+        // }
 
-        let blob = new Blob([new Uint8Array(byteNumbers)], {
-            type: 'application/zip',
-        });
-        const url = URL.createObjectURL(blob);
+        // let blob = new Blob([new Uint8Array(byteNumbers)], {
+        //     type: answer.fileExtension,
+        // });
+        // const url = URL.createObjectURL(blob);
         const sentTime = new Date(answer.sentTime);
 
         // Получение времени в формате часы:минуты:секунды
@@ -38,15 +38,15 @@ const UserAnswersTable: React.FC<UserAnswersTableProps> = () => {
         return (
             <div key={answer.id} className="user-table__item">
                 <p>{timeString}</p>
-                <a
+                {/* <a
                     className="user-table__item-file"
                     href={url}
-                    download="file.zip"
+                    download={answer.fileName}
                 >
-                    Zip-файл
-                </a>
-                <p>{answer.comment && 'Пусто'}</p>
-                <p>{answer.points && 'Пусто'}</p>
+                    {answer.fileName}
+                </a> */}
+                <p>{answer.comment || 'Пусто'}</p>
+                <p>{answer.points || 'Пусто'}</p>
             </div>
         );
     };

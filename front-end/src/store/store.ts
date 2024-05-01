@@ -17,6 +17,12 @@ export default class Store {
     setUserAnswer(answers: IUserAnwser[]) {
         this.userAnswser = answers;
     }
+    updateUserAnswer(answer: IUserAnwser) {
+        const index = this.userAnswser.findIndex(
+            (item) => item.id === answer.id,
+        ); // находим индекс элемента по ID
+        this.userAnswser[index] = answer;
+    }
     setSelectedTask(task: number) {
         this.selectedTask = task;
     }
@@ -42,7 +48,8 @@ export default class Store {
         //     console.error(
         //         'Invalid startTime or endTime in the contest object.',
         //     );
-        // }        this.setSelectedTask(contest.tasks[0].id);
+        // }
+        this.setSelectedTask(contest.tasks[0].id);
         this.contest = contest;
     }
     updateDurationContest(newDuration: string) {

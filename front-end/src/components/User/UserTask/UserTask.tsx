@@ -13,14 +13,19 @@ const UserTask: React.FC<UserTaskProps> = () => {
     ) => {
         const file = event.target.files && event.target.files[0];
         if (file) {
+            console.log(file, file.type);
+
             const response = await ParticipantService.setAnswer(
                 store.user.session,
                 store.user.id,
                 store.selectedTask,
                 file,
+                file.name,
+                file.type,
             );
             if (response) {
                 store.setUserAnswer(response.data);
+                event.target.value = '';
             }
         }
     };
@@ -38,7 +43,7 @@ const UserTask: React.FC<UserTaskProps> = () => {
                     className="user-task__input"
                     type="file"
                     multiple={false}
-                    accept=".zip"
+                    accept=".zip, .js"
                 />
             </label>
         </div>

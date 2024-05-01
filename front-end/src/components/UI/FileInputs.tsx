@@ -10,11 +10,11 @@ import { IСreateContestRequest } from '../../models/request/IСreateContestRequ
 import { ChangeEvent } from 'react';
 
 interface FileInputProps {
-    control: Control<any>;
-    watch: UseFormWatch<any>;
-    setValue: UseFormSetValue<any>;
-    reset: UseFormReset<any>;
-    errors: Partial<FieldErrorsImpl<any>>;
+    control: Control<IСreateContestRequest>;
+    watch: UseFormWatch<IСreateContestRequest>;
+    setValue: UseFormSetValue<IСreateContestRequest>;
+    reset: UseFormReset<IСreateContestRequest>;
+    errors: Partial<FieldErrorsImpl<IСreateContestRequest>>;
 }
 
 const FileInputs: React.FC<FileInputProps> = ({
@@ -24,32 +24,10 @@ const FileInputs: React.FC<FileInputProps> = ({
     watch,
 }) => {
     const { problemInfos } = watch();
-    console.log(problemInfos);
-
     const validateFile = (v: any[]): boolean => {
         return false;
     };
 
-    // const handleFileChange = async (file: File): Promise<string> => {
-    //     return new Promise<string>((resolve, reject) => {
-    //         const fileReader = new FileReader();
-
-    //         fileReader.onload = () => {
-    //             const fileString = fileReader.result as string;
-    //             resolve(fileString);
-    //         };
-
-    //         fileReader.onerror = () => {
-    //             reject(fileReader.error);
-    //         };
-
-    //         if (file) {
-    //             fileReader.readAsText(file);
-    //         } else {
-    //             reject(new Error('No file provided'));
-    //         }
-    //     });
-    // };
     const handleFileChange = async (files: File) => {
         const fileReader = new FileReader();
         let newproblems: string = '';
@@ -71,7 +49,7 @@ const FileInputs: React.FC<FileInputProps> = ({
     return (
         <>
             <Controller
-                name="problems"
+                name="problemInfos"
                 control={control}
                 defaultValue={[]}
                 rules={{
@@ -114,7 +92,7 @@ const FileInputs: React.FC<FileInputProps> = ({
             {problemInfos
                 ? problemInfos.map((item: any, index: number) => {
                       return (
-                          <div>
+                          <div key={index}>
                               <p>{item.name}</p>
                               <input
                                   value={item.points}
@@ -124,7 +102,7 @@ const FileInputs: React.FC<FileInputProps> = ({
                                           ...newProblems[index],
                                           points: e.target.value,
                                       };
-                                      setValue('problemsInfos', newProblems);
+                                      setValue('problemInfos', newProblems);
                                   }}
                                   placeholder="Введите количество баллов"
                               ></input>
@@ -132,7 +110,7 @@ const FileInputs: React.FC<FileInputProps> = ({
                                   onClick={() => {
                                       const newProblems = problemInfos;
                                       newProblems.splice(index, 1);
-                                      setValue('problemsInfos', newProblems);
+                                      setValue('problemInfos', newProblems);
                                   }}
                               >
                                   Удалить

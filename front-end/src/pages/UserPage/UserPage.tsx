@@ -1,5 +1,5 @@
 import { FC, useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ParticipantService from '../../services/ParticipantService';
 import { IContest } from '../../models/IContest';
 import UserPageContent from '../../components/User/UserPageContent/UserPageContent';
@@ -10,6 +10,7 @@ const UserPage: FC = () => {
     const { sessionId } = useParams<string>();
     const { store } = useContext(Context);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const history = useNavigate();
     useEffect(() => {
         async function getContest() {
             try {
@@ -18,7 +19,6 @@ const UserPage: FC = () => {
                     response = await ParticipantService.getContest<IContest>(
                         sessionId,
                     );
-
                     if (response?.data) {
                         store.setContest(response.data);
                     }
@@ -33,7 +33,9 @@ const UserPage: FC = () => {
                 setIsLoading(false);
             }
         }
-
+        if (!store.user.email && !store.user.name && !store.user.surname) {
+            history('/add-personal-data');
+        }
         getContest();
     }, [sessionId]);
     if (isLoading) {

@@ -10,6 +10,7 @@ import ProtectedRouteAuth from './ProtectedRouteAuth';
 import AdminContestPage from '../pages/AdminContestPage/AdminContestPage';
 import AdminForm from '../components/Admin/AdminForm/AdminForm';
 import AdminNavRouter from './AdminNavRouter';
+import SetNamePage from '../pages/SetNamePage/SetNamePage';
 
 const RoutesPack = () => {
     return (
@@ -30,6 +31,11 @@ const RoutesPack = () => {
                     <Route
                         path={`/session/:sessionId`}
                         element={<UserPage />}
+                    />
+
+                    <Route
+                        path={`/add-personal-data`}
+                        element={<SetNamePage />}
                     />
                 </Route>
 

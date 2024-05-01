@@ -63,12 +63,15 @@ const AdminContest: React.FC<AdminContestProps> = () => {
                 newProblem?.name,
                 newProblem?.problem,
                 points,
-            ).then((res) => {
-                setPoints('0');
-                setNewProblem({ problem: '', name: '' });
-                setOpen(false);
-                store.updateProblemsList(res.data);
-            });
+            )
+                .then((res) => {
+                    store.updateProblemsList(res.data);
+                })
+                .finally(() => {
+                    setPoints('0');
+                    setNewProblem({ problem: '', name: '' });
+                    setOpen(false);
+                });
     };
     return (
         <div className="contest">
