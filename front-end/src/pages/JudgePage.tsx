@@ -1,17 +1,22 @@
 import { useParams } from 'react-router-dom';
-import React from 'react';
+import React, { useState } from 'react';
 import { Context } from '..';
 import JudgeTable from '../components/Judge/JudgeTable/JudgeTable';
-
+import JudgeNav from '../components/Judge/JudgeNav/JudgeNav';
+import { selectedJudgeContentType } from '../models/types/SelectedJudgeContentType';
 const JudgePage = () => {
     const { store } = React.useContext(Context);
     const { sessionId } = useParams();
-
+    const [selectedContent, setSelectedContent] =
+        useState<selectedJudgeContentType>('answers');
     return (
         <div>
-            <h2>Judge Page</h2>
-            <p>Session ID: {sessionId}</p>
-            <JudgeTable />
+            <JudgeNav
+                selectedContent={selectedContent}
+                setSelectedContent={setSelectedContent}
+            />
+            {selectedContent === 'answers' && <JudgeTable />}
+            {selectedContent === 'results' && 'В разработке'}
         </div>
     );
 };

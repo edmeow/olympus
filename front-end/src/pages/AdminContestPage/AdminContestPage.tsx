@@ -12,7 +12,7 @@ import { z } from 'zod';
 
 interface AdminContestPageProps {}
 
-type ViewType = 'info' | 'create';
+type ViewType = 'info' | 'create' | 'answers';
 
 const AdminContestPage: React.FC<AdminContestPageProps> = () => {
     const { contestId } = useParams<{ contestId: string }>();
@@ -127,6 +127,14 @@ const AdminContestPage: React.FC<AdminContestPageProps> = () => {
                 >
                     Изменить длительность олимпиады
                 </button>
+                <button
+                    onClick={() => {
+                        setOpen(true);
+                    }}
+                    className="contest__button contest__button_start"
+                >
+                    Ответы пользователей
+                </button>
             </div>
 
             {view === 'create' && (
@@ -150,6 +158,7 @@ const AdminContestPage: React.FC<AdminContestPageProps> = () => {
                 </form>
             )}
             {view === 'info' && store.contest.tasks && <AdminContest />}
+            {view === 'answers' && store.contest.tasks && <AdminContest />}
             <Modal active={open} setActive={setOpen}>
                 <p>Укажите новую длительность олимпиады</p>
                 <input

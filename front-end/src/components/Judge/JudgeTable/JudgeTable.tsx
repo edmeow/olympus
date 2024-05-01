@@ -8,6 +8,7 @@ import Button from '../../UI/Button/Button';
 import Input from '../../UI/Input/Input';
 import JudgeFeedback from '../JudgeFeedback/JudgeFeedback';
 import { observer } from 'mobx-react-lite';
+import ModalComment from '../../UI/ModalComment/ModalComment';
 
 interface JudgeTableProps {}
 
@@ -16,6 +17,8 @@ const JudgeTable: React.FC<JudgeTableProps> = () => {
     const { sessionId } = useParams();
 
     const [isOpenSetStateModal, setOpenSetStateModal] =
+        useState<boolean>(false);
+    const [isActiveCommentModal, setActiveCommentModal] =
         useState<boolean>(false);
     const [selectedFeedbackModalId, setSelectedFeedbackModalId] =
         useState<number>(0);
@@ -77,7 +80,13 @@ const JudgeTable: React.FC<JudgeTableProps> = () => {
                     {answer.fileName}
                 </p>
                 <p>{answer.state}</p>
-                <p>{answer.comment || 'Пусто'}</p>
+                {answer.comment ? (
+                    <p onClick={(e) => setActiveCommentModal(true)}>
+                        Открыть комментарий
+                    </p>
+                ) : (
+                    <p>Пусто</p>
+                )}
                 <p>{answer.points === null ? 'Пусто' : answer.points}</p>
                 <button
                     onClick={() => {
@@ -87,6 +96,12 @@ const JudgeTable: React.FC<JudgeTableProps> = () => {
                 >
                     Оценить
                 </button>
+                <ModalComment
+                    active={isActiveCommentModal}
+                    setActive={setActiveCommentModal}
+                >
+                    {<p>{answer.comment}</p>}
+                </ModalComment>
             </div>
         );
     };

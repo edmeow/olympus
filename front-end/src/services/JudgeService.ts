@@ -13,6 +13,8 @@ export default class JudgeService {
         points: string | null,
         comment: string | null,
     ) {
+        console.log(userTasksId, accepted, points, comment);
+
         return await $api.post<IUserAnwser>(`/api/v1/judge/feedback`, {
             userTasksId,
             accepted: accepted === 'accept' ? true : false,

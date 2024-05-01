@@ -12,12 +12,6 @@
     visibility: hidden;
     opacity: 0;
     &__content {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        min-width: 400px;
-        min-height: 300px;
         padding: 20px;
         border-radius: 12px;
         background-color: white;

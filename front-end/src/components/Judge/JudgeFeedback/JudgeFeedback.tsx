@@ -46,6 +46,7 @@ const JudgeFeedback: React.FC<JudgeFeedbackProps> = ({
                 dataFields.points,
                 dataFields.comment,
             );
+            console.log(response);
 
             if (response) {
                 store.updateUserAnswer(response.data);
@@ -75,7 +76,7 @@ const JudgeFeedback: React.FC<JudgeFeedbackProps> = ({
                 <Controller
                     name="accepted"
                     control={control}
-                    defaultValue={'accept'}
+                    defaultValue={'not-accept'}
                     render={({ field }) => (
                         <select {...field}>
                             <option value="not-accept">Отклонено</option>

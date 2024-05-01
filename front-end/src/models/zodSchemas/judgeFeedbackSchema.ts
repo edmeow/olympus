@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const judgeFeedbackSchema = z.object({
-    accepted: z.enum(['accept', 'not-accept']),
+    accepted: z.enum(['accept', 'not-accept'], { message: 'Ошибка статуса' }),
     points: z
         .string()
         .min(0, { message: 'dasdas' })

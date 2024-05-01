@@ -22,6 +22,7 @@ const FileInputs: React.FC<FileInputProps> = ({
     setValue,
     control,
     watch,
+    reset,
 }) => {
     const { problemInfos } = watch();
     const validateFile = (v: any[]): boolean => {
@@ -81,6 +82,7 @@ const FileInputs: React.FC<FileInputProps> = ({
                                                     points: '0',
                                                 },
                                             ]);
+                                            e.target.value = '';
                                         }
                                     }
                                 }}
