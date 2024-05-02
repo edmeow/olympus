@@ -1,5 +1,5 @@
 import { Itasks } from './../models/ITasks';
-import $api from '../http';
+import $api, { BASE_URL } from '../http';
 import { AxiosResponse } from 'axios';
 import { ContestCreationResponse } from '../models/response/ContestCreationResponse';
 import { IChangeDurationResponse } from '../models/response/ChangeDurationResponse';
@@ -10,7 +10,7 @@ export default class AdminService {
         judgeCount: string,
         usernamePrefix: string,
         duration: string,
-        problems: { name: string; problem: string; points: string }[],
+        //problems: { name: string; problem: string; points: string }[],
     ): Promise<AxiosResponse<ContestCreationResponse>> {
         return $api.post<ContestCreationResponse>(
             '/api/v1/admin/createContest',
@@ -20,7 +20,7 @@ export default class AdminService {
                 judgeCount,
                 usernamePrefix,
                 duration: duration,
-                problemInfos: problems,
+                // problemInfos: problems,
             },
         );
     }
@@ -52,17 +52,41 @@ export default class AdminService {
             id,
         });
     }
+
+    static async downloadProblem(
+        session: number,
+        taskId: number,
+        fileName: string,
+    ) {
+        return await fetch(`${BASE_URL}/api/v1/admin/download`, {
+            method: 'POST',
+            body: JSON.stringify({
+                session,
+                taskId,
+                fileName,
+            }),
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+            },
+        });
+    }
     static async addProblem<Itasks>(
         session: number,
         name: string,
-        problem: string,
+        problem: File,
         points: string,
     ) {
-        return $api.post(`/api/v1/admin/addProblems`, {
-            session,
-            name,
-            problem,
-            points,
+        const formData = new FormData();
+        formData.append('problem', problem);
+        formData.append('session', session.toString());
+        formData.append('name', name);
+        formData.append('points', points);
+        return $api.post(`/api/v1/admin/addProblems`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
         });
     }
     static async changeContestDuration(session: number, newDuration: string) {

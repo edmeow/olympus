@@ -9,7 +9,7 @@ interface UserAnswersTableProps {}
 
 const UserAnswersTable: React.FC<UserAnswersTableProps> = () => {
     const { store } = React.useContext(Context);
-    useEffect(() => {
+    const getUserAnswer = () => {
         ParticipantService.getAnswer<IUserAnwser>(
             store.user.session,
             store.user.id,
@@ -19,6 +19,16 @@ const UserAnswersTable: React.FC<UserAnswersTableProps> = () => {
                 store.setUserAnswer(response.data);
             })
             .catch((err) => console.log(err));
+    };
+    useEffect(() => {
+        getUserAnswer();
+        const intervalId = setInterval(() => {
+            getUserAnswer();
+        }, 30000);
+
+        return () => {
+            clearInterval(intervalId);
+        };
     }, [store.selectedTask]);
     const handleDownloadFile = (
         userId: number,

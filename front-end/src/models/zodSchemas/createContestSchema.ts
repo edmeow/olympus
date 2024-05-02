@@ -22,5 +22,5 @@ export const createContestSchema = z.object({
             /^\d{2}:\d{2}$/,
             'Строка не соответствует формату времени (00:00).',
         ),
-    problemInfos: z.array(ProblemModel),
+    //problemInfos: z.array(ProblemModel),
 });

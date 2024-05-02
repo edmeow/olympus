@@ -9,14 +9,16 @@ import { Context } from '../..';
 import { observer } from 'mobx-react-lite';
 import Modal from '../../components/UI/Modal/Modal';
 import { z } from 'zod';
+import AdminAnswers from '../../components/Admin/AdminAnswers/AdminAnswers';
+import Button from '../../components/UI/Button/Button';
+import { ContestsStatesEnum } from '../../models/constants/ContestsStatesEnum';
 
 interface AdminContestPageProps {}
 
 type ViewType = 'info' | 'create' | 'answers';
 
 const AdminContestPage: React.FC<AdminContestPageProps> = () => {
-    const { contestId } = useParams<{ contestId: string }>();
-    const [contest, setContest] = useState<IContest>();
+    const { sessionId } = useParams<{ sessionId: string }>();
     const [view, setView] = useState<ViewType>('info');
     const [participantCount, setParticipantCount] = useState<string>('');
     const [judgeCount, setJudgeCount] = useState<string>('');
@@ -26,12 +28,11 @@ const AdminContestPage: React.FC<AdminContestPageProps> = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                if (contestId) {
+                if (sessionId) {
                     const response = await AdminService.getContest<IContest>(
-                        contestId,
+                        sessionId,
                     );
                     await store.setContest(response.data);
-                    setContest(response.data);
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -39,13 +40,13 @@ const AdminContestPage: React.FC<AdminContestPageProps> = () => {
         };
 
         fetchData();
-    }, [contestId]);
+    }, [sessionId]);
 
     function onSubmit(e: FormEvent) {
         e.preventDefault();
-        if (contest) {
+        if (store.contest) {
             AdminService.createUsers(
-                contest.session,
+                store.contest.session,
                 participantCount,
                 judgeCount,
             )
@@ -101,64 +102,66 @@ const AdminContestPage: React.FC<AdminContestPageProps> = () => {
     return (
         <div className="contestPage">
             <div className="contestPage__menu">
-                <button
+                <Button
+                    label="Информация"
                     onClick={() => setView('info')}
                     className="contest__button contest__button_info"
-                >
-                    Информация
-                </button>
-                <button
+                />
+                <hr></hr>
+                <Button
+                    label="Создать аккаунты"
                     onClick={() => setView('create')}
                     className="contest__button contest__button_create"
-                >
-                    Создать аккаунты
-                </button>
-                <button
+                />
+                <hr></hr>
+                <Button
+                    label="Ответы пользователей"
+                    onClick={() => setView('answers')}
+                    className="contest__button contest__button_start"
+                />
+                <hr></hr>
+                <Button
+                    label="Начать олимпиаду"
                     onClick={startContest}
                     className="contest__button contest__button_start"
-                >
-                    Начать олимпиаду
-                </button>
-                <button
-                    onClick={() => {
-                        setOpen(true);
-                    }}
-                    className="contest__button contest__button_start"
-                >
-                    Изменить длительность олимпиады
-                </button>
-                <button
-                    onClick={() => {
-                        setOpen(true);
-                    }}
-                    className="contest__button contest__button_start"
-                >
-                    Ответы пользователей
-                </button>
+                />
+                <hr></hr>
+                {ContestsStatesEnum.NOT_STARTED === store.contest.state && (
+                    <Button
+                        label="Изменить длительность олимпиады"
+                        onClick={() => {
+                            setOpen(true);
+                        }}
+                        className="contest__button contest__button_start"
+                    />
+                )}
             </div>
-
-            {view === 'create' && (
-                <form
-                    style={{ display: 'flex', flexDirection: 'column' }}
-                    onSubmit={onSubmit}
-                >
-                    <input
-                        value={participantCount}
-                        onChange={(e) =>
-                            setParticipantCount(e.currentTarget.value)
-                        }
-                        placeholder="Количество участников"
-                    ></input>
-                    <input
-                        value={judgeCount}
-                        onChange={(e) => setJudgeCount(e.currentTarget.value)}
-                        placeholder="Количество жюри"
-                    ></input>
-                    <button>Создать</button>
-                </form>
-            )}
-            {view === 'info' && store.contest.tasks && <AdminContest />}
-            {view === 'answers' && store.contest.tasks && <AdminContest />}
+            <div className="contestPage__content">
+                {view === 'create' && (
+                    <form
+                        style={{ display: 'flex', flexDirection: 'column' }}
+                        onSubmit={onSubmit}
+                    >
+                        <input
+                            value={participantCount}
+                            onChange={(e) =>
+                                setParticipantCount(e.currentTarget.value)
+                            }
+                            placeholder="Количество участников"
+                        ></input>
+                        <input
+                            value={judgeCount}
+                            onChange={(e) =>
+                                setJudgeCount(e.currentTarget.value)
+                            }
+                            placeholder="Количество жюри"
+                        ></input>
+                        <button>Создать</button>
+                    </form>
+                )}
+                {view === 'info' && store.contest.tasks && <AdminContest />}
+                {view === 'answers' && <AdminAnswers />}
+            </div>
             <Modal active={open} setActive={setOpen}>
                 <p>Укажите новую длительность олимпиады</p>
                 <input

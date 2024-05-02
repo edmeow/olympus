@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 import { createContestSchema } from '../../../models/zodSchemas/createContestSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { IСreateContestRequest } from '../../../models/request/IСreateContestRequest';
-import FileInputs from '../../UI/FileInputs';
 
 const AdminForm: React.FC = () => {
     const history = useNavigate();
@@ -33,7 +32,7 @@ const AdminForm: React.FC = () => {
             dataFields.judgeCount,
             dataFields.prefix,
             dataFields.duration,
-            dataFields.problemInfos,
+            // dataFields.problemInfos,
         )
             .then((res) => {
                 const base64String = res.data.fileContent;
@@ -59,60 +58,60 @@ const AdminForm: React.FC = () => {
         <div className="AdminForm_сontainer">
             <h1>Форма создания олимпиады</h1>
             <form className="adminForm" onSubmit={handleSubmit(onSubmit)}>
-                <div className="adminForm__inputs">
-                    <div className="adminForm__left">
-                        <label>
-                            Название олимпиады
-                            <input
-                                {...register('nameContest')}
-                                placeholder="Наименование олимпиады..."
-                            ></input>
-                            {errors.nameContest && (
-                                <p className="formAuth__input-error">{`${errors.nameContest.message}`}</p>
-                            )}
-                        </label>
-                        <label>
-                            Количество участников
-                            <input
-                                {...register('participantCount')}
-                                placeholder="Количество участников..."
-                            ></input>
-                            {errors.participantCount && (
-                                <p className="formAuth__input-error">{`${errors.participantCount.message}`}</p>
-                            )}
-                        </label>
-                        <label>
-                            Количество жюри
-                            <input
-                                {...register('judgeCount')}
-                                placeholder="Количество жюри..."
-                            ></input>
-                            {errors.judgeCount && (
-                                <p className="formAuth__input-error">{`${errors.judgeCount.message}`}</p>
-                            )}
-                        </label>
-                        <label>
-                            Префикс олимпиады
-                            <input
-                                {...register('prefix')}
-                                placeholder="Префикс олимпиады..."
-                            ></input>
-                            {errors.prefix && (
-                                <p className="formAuth__input-error">{`${errors.prefix.message}`}</p>
-                            )}
-                        </label>
-                        <label>
-                            Длительность олимпиады
-                            <input
-                                {...register('duration')}
-                                placeholder="00:00"
-                            ></input>
-                            {errors.duration && (
-                                <p className="formAuth__input-error">{`${errors.duration.message}`}</p>
-                            )}
-                        </label>
-                    </div>
-                    <div className="adminForm__right">
+                {/* <div className="adminForm__inputs"> */}
+                {/* <div className="adminForm__left"> */}
+                <label>
+                    Название олимпиады
+                    <input
+                        {...register('nameContest')}
+                        placeholder="Наименование олимпиады..."
+                    ></input>
+                    {errors.nameContest && (
+                        <p className="formAuth__input-error">{`${errors.nameContest.message}`}</p>
+                    )}
+                </label>
+                <label>
+                    Количество участников
+                    <input
+                        {...register('participantCount')}
+                        placeholder="Количество участников..."
+                    ></input>
+                    {errors.participantCount && (
+                        <p className="formAuth__input-error">{`${errors.participantCount.message}`}</p>
+                    )}
+                </label>
+                <label>
+                    Количество жюри
+                    <input
+                        {...register('judgeCount')}
+                        placeholder="Количество жюри..."
+                    ></input>
+                    {errors.judgeCount && (
+                        <p className="formAuth__input-error">{`${errors.judgeCount.message}`}</p>
+                    )}
+                </label>
+                <label>
+                    Префикс олимпиады
+                    <input
+                        {...register('prefix')}
+                        placeholder="Префикс олимпиады..."
+                    ></input>
+                    {errors.prefix && (
+                        <p className="formAuth__input-error">{`${errors.prefix.message}`}</p>
+                    )}
+                </label>
+                <label>
+                    Длительность олимпиады
+                    <input
+                        {...register('duration')}
+                        placeholder="00:00"
+                    ></input>
+                    {errors.duration && (
+                        <p className="formAuth__input-error">{`${errors.duration.message}`}</p>
+                    )}
+                </label>
+                {/* </div> */}
+                {/* <div className="adminForm__right">
                         <FileInputs
                             control={control}
                             errors={errors}
@@ -124,8 +123,8 @@ const AdminForm: React.FC = () => {
                         {errors.problemInfos && (
                             <p className="formAuth__input-error">{`${errors.problemInfos.message}`}</p>
                         )}
-                    </div>
-                </div>
+                    </div> */}
+                {/* </div> */}
                 <button
                     disabled={!isValid || isSubmitting}
                     //className="formAuth__btn"

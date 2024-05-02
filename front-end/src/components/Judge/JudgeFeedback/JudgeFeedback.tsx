@@ -46,8 +46,6 @@ const JudgeFeedback: React.FC<JudgeFeedbackProps> = ({
                 dataFields.points,
                 dataFields.comment,
             );
-            console.log(response);
-
             if (response) {
                 store.updateUserAnswer(response.data);
             }
@@ -56,7 +54,7 @@ const JudgeFeedback: React.FC<JudgeFeedbackProps> = ({
         } catch (e: AxiosError | any) {
             setError('root', {
                 type: 'manual',
-                message: 'Невалидные данные в форме',
+                message: 'Ошибка сервера',
             });
         }
     };

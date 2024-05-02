@@ -36,7 +36,6 @@ export default class ParticipantService {
         taskNum: number,
         file: File,
         fileName: string,
-        fileExtension: string,
     ) {
         const formData = new FormData();
         formData.append('file', file);
@@ -44,7 +43,6 @@ export default class ParticipantService {
         formData.append('userId', userId.toString());
         formData.append('taskNumber', taskNum.toString());
         formData.append('fileName', fileName.toString());
-        formData.append('fileExtension', fileExtension.toString());
         return await $api.post<IUserAnwser[]>(
             `/api/v1/users/contest/uploadFile`,
             formData,

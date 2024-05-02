@@ -49,7 +49,9 @@ export default class Store {
         //         'Invalid startTime or endTime in the contest object.',
         //     );
         // }
-        this.setSelectedTask(contest.tasks[0].id);
+        if (contest.tasks.length) {
+            this.setSelectedTask(contest.tasks[0].id);
+        }
         this.contest = contest;
     }
     updateDurationContest(newDuration: string) {
@@ -57,6 +59,20 @@ export default class Store {
     }
     updateProblemsList(problems: Itasks[]) {
         this.contest.tasks = problems;
+    }
+    getStartTime() {
+        const startTime = this.contest.startTime;
+        if (startTime) {
+            return this.formatDateToCustomString(new Date(startTime));
+        }
+        return null;
+    }
+    getEndTime() {
+        const endTime = this.contest.endTime;
+        if (endTime) {
+            return this.formatDateToCustomString(new Date(endTime));
+        }
+        return null;
     }
     private formatDateToCustomString(date: Date): string {
         const options: Intl.DateTimeFormatOptions = {

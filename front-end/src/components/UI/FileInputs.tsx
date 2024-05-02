@@ -24,7 +24,7 @@ const FileInputs: React.FC<FileInputProps> = ({
     watch,
     reset,
 }) => {
-    const { problemInfos } = watch();
+    //const { problemInfos } = watch();
     const validateFile = (v: any[]): boolean => {
         return false;
     };
@@ -49,7 +49,7 @@ const FileInputs: React.FC<FileInputProps> = ({
 
     return (
         <>
-            <Controller
+            {/* <Controller
                 name="problemInfos"
                 control={control}
                 defaultValue={[]}
@@ -120,7 +120,7 @@ const FileInputs: React.FC<FileInputProps> = ({
                           </div>
                       );
                   })
-                : 'Нет заданий'}
+                : 'Нет заданий'} */}
         </>
     );
 };

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const BASE_URL = 'http://158.160.166.207:8080';
+export const BASE_URL = 'https://3e77-188-191-29-81.ngrok-free.app';
 
 const $api = axios.create({
     baseURL: BASE_URL,

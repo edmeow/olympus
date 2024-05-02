@@ -4,6 +4,8 @@ import { observer } from 'mobx-react-lite';
 import './AdminContest.scss';
 import AdminService from '../../../services/AdminService';
 import Modal from '../../UI/Modal/Modal';
+import Button from '../../UI/Button/Button';
+import { ContestsStatesEnum } from '../../../models/constants/ContestsStatesEnum';
 
 interface AdminContestProps {}
 
@@ -15,7 +17,6 @@ export interface Task {
     id: number;
     session: number;
     name: string;
-    task: string;
     points: number;
 }
 
@@ -24,28 +25,40 @@ const AdminContest: React.FC<AdminContestProps> = () => {
     const [open, setOpen] = React.useState(false);
     const [points, setPoints] = React.useState('0');
     const [newProblem, setNewProblem] = React.useState<{
-        problem: string;
+        problem: File | null;
         name: string;
     }>();
 
     const handleOpen = () => setOpen(true);
 
-    const handleFileChange = async (files: File) => {
-        const fileReader = new FileReader();
-        let newproblems: string = '';
-
-        if (files) {
-            fileReader.readAsText(files);
-            await new Promise<void>((resolve) => {
-                fileReader.onloadend = () => {
-                    if (fileReader.result) {
-                        newproblems = fileReader.result.toString();
-                    }
-                    resolve();
-                };
+    const handleDownloadFile = (userTaskId: number, fileName: string) => {
+        AdminService.downloadProblem(
+            store.contest.session,
+            userTaskId,
+            fileName,
+        )
+            .then((res) => {
+                res.blob()
+                    .then((blob) => {
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.href = url;
+                        link.download = fileName;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            })
+            .catch((err) => {
+                console.log(err);
             });
-        }
-        return { problem: newproblems, name: files.name };
+    };
+
+    const handleFileChange = async (file: File) => {
+        setNewProblem({ problem: file, name: file.name });
     };
 
     const handleDeleteProblem = (id: number) => {
@@ -57,7 +70,7 @@ const AdminContest: React.FC<AdminContestProps> = () => {
         e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     ) => {
         e.preventDefault();
-        if (newProblem)
+        if (newProblem?.problem)
             AdminService.addProblem(
                 store.contest.session,
                 newProblem?.name,
@@ -69,44 +82,77 @@ const AdminContest: React.FC<AdminContestProps> = () => {
                 })
                 .finally(() => {
                     setPoints('0');
-                    setNewProblem({ problem: '', name: '' });
+                    setNewProblem({ problem: null, name: '' });
                     setOpen(false);
                 });
     };
     return (
         <div className="contest">
             <ul className="contestInfo">
-                {store.contest &&
-                    Object.entries(store.contest).map(([key, value]) => {
-                        return (
-                            <li className="contestInfo__item" key={key}>
-                                {key + ' ' + value}
-                            </li>
-                        );
-                    })}
+                <h1>
+                    Олимпиада <b>{store.contest.name}</b>
+                </h1>
+                <p>
+                    Сессия <b>#{store.contest.session}</b>
+                </p>
+                <p>
+                    <b>{store.contest.participantCount}</b> участников и{' '}
+                    <b>{store.contest.judgeCount}</b> жюри
+                </p>
+                <p>
+                    Префикс олимпиады <b>{store.contest.usernamePrefix}</b>
+                </p>
+                <p>
+                    Длительность олимпиады <b>{store.contest.duration}</b>
+                </p>
+                {ContestsStatesEnum.FINISHED === store.contest.state && (
+                    <p>
+                        Начата {store.getStartTime()}, завершилась{' '}
+                        {store.getEndTime()}
+                    </p>
+                )}
+                {ContestsStatesEnum.IN_PROGRESS === store.contest.state && (
+                    <p>
+                        Начата {store.getStartTime()}, закончится{' '}
+                        {store.getEndTime()}
+                    </p>
+                )}
+                {ContestsStatesEnum.NOT_STARTED === store.contest.state && (
+                    <p>Не начата</p>
+                )}
             </ul>
-            <div className="contest__list">
-                {store.contest.tasks
-                    ? store.contest.tasks.map((item: Task, index: number) => {
-                          return (
-                              <div key={item.id}>
-                                  <p>{item.name}</p>
-                                  <p>
-                                      Количество баллов за задание:{' '}
-                                      {item.points}
-                                  </p>
-                                  <button
-                                      onClick={() =>
-                                          handleDeleteProblem(item.id)
-                                      }
-                                  >
-                                      Удалить
-                                  </button>
-                              </div>
-                          );
-                      })
-                    : 'Нет заданий'}
-                <button onClick={handleOpen}>Добавить задание</button>
+            <div className="contest__right-column">
+                <div className="contest__list">
+                    {store.contest.tasks.length ? (
+                        store.contest.tasks.map((item: Task, index: number) => {
+                            return (
+                                <div className="contest__answer" key={item.id}>
+                                    <p
+                                        onClick={() =>
+                                            handleDownloadFile(
+                                                item.id,
+                                                item.name,
+                                            )
+                                        }
+                                    >
+                                        {' '}
+                                        Файл: {item.name}
+                                    </p>
+                                    <p>Баллы за задание: {item.points}</p>
+                                    <Button
+                                        label=" Удалить"
+                                        onClick={() =>
+                                            handleDeleteProblem(item.id)
+                                        }
+                                    />
+                                </div>
+                            );
+                        })
+                    ) : (
+                        <h3>Нет заданий</h3>
+                    )}
+                </div>
+                <Button label="Добавить задание" onClick={handleOpen} />
             </div>
             <Modal active={open} setActive={setOpen}>
                 <form>
@@ -117,14 +163,10 @@ const AdminContest: React.FC<AdminContestProps> = () => {
                             className="adminForm__fileInput"
                             id="formId"
                             type="file"
-                            onChange={async (e) => {
-                                if (e.target) {
-                                    if (e.target.files) {
-                                        const newFile = e.target.files[0];
-                                        const changedFile =
-                                            await handleFileChange(newFile);
-                                        setNewProblem(changedFile);
-                                    }
+                            onChange={(e) => {
+                                if (e.target.files) {
+                                    handleFileChange(e.target.files[0]);
+                                    e.target.value = '';
                                 }
                             }}
                         />
@@ -137,13 +179,12 @@ const AdminContest: React.FC<AdminContestProps> = () => {
                         }}
                         placeholder="Количество баллов"
                     ></input>
-                    <button
+                    <Button
+                        label="Добавить"
                         onClick={(e) => {
                             handleAddTaskClick(e);
                         }}
-                    >
-                        Добавить
-                    </button>
+                    />
                 </form>
             </Modal>
         </div>

@@ -1,4 +1,5 @@
 import { Itasks } from './ITasks';
+import { ContestsStatesEnum } from './constants/ContestsStatesEnum';
 
 export interface IContest {
     id: number;
@@ -11,4 +12,5 @@ export interface IContest {
     startTime: string | null;
     endTime: string | null;
     tasks: Itasks[];
+    state: ContestsStatesEnum;
 }

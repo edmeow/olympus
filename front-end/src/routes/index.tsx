@@ -65,7 +65,7 @@ const RoutesPack = () => {
                             element={<AdminForm />}
                         />
                         <Route
-                            path="/admin/contest/:contestId"
+                            path="/admin/contest/:sessionId"
                             element={<AdminContestPage />}
                         />
                     </Route>

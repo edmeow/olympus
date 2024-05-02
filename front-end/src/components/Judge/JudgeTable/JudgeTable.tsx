@@ -5,24 +5,23 @@ import { IUserAnwser } from '../../../models/IUserAnwser';
 import JudgeService from '../../../services/JudgeService';
 import Modal from '../../UI/Modal/Modal';
 import Button from '../../UI/Button/Button';
-import Input from '../../UI/Input/Input';
 import JudgeFeedback from '../JudgeFeedback/JudgeFeedback';
 import { observer } from 'mobx-react-lite';
-import ModalComment from '../../UI/ModalComment/ModalComment';
+import './JudgeTable.scss';
 
 interface JudgeTableProps {}
 
 const JudgeTable: React.FC<JudgeTableProps> = () => {
     const { store } = React.useContext(Context);
     const { sessionId } = useParams();
-
+    const [judgeComment, setJudgeComment] = useState<string | null>(null);
     const [isOpenSetStateModal, setOpenSetStateModal] =
         useState<boolean>(false);
     const [isActiveCommentModal, setActiveCommentModal] =
         useState<boolean>(false);
     const [selectedFeedbackModalId, setSelectedFeedbackModalId] =
         useState<number>(0);
-    useEffect(() => {
+    const getUserAnswers = () => {
         if (sessionId) {
             JudgeService.getUserAnswers<IUserAnwser>(sessionId).then((res) => {
                 if (res.data) {
@@ -30,6 +29,16 @@ const JudgeTable: React.FC<JudgeTableProps> = () => {
                 }
             });
         }
+    };
+    useEffect(() => {
+        getUserAnswers();
+        const intervalId = setInterval(() => {
+            getUserAnswers();
+        }, 30000);
+        return () => {
+            clearInterval(intervalId);
+            store.setUserAnswer([]);
+        };
     }, []);
 
     const userAnswerMapper = (answer: IUserAnwser) => {
@@ -62,7 +71,7 @@ const JudgeTable: React.FC<JudgeTableProps> = () => {
                 });
         };
         return (
-            <div key={answer.id} className="user-table__item">
+            <div key={answer.id} className="judge-table__item">
                 <p>{answer.id}</p>
                 <p>{timeString}</p>
                 <p>{answer.userName}</p>
@@ -75,40 +84,41 @@ const JudgeTable: React.FC<JudgeTableProps> = () => {
                             answer.fileName,
                         )
                     }
-                    className="user-table__item-file"
+                    className="judge-table__item-file"
                 >
                     {answer.fileName}
                 </p>
                 <p>{answer.state}</p>
                 {answer.comment ? (
-                    <p onClick={(e) => setActiveCommentModal(true)}>
-                        Открыть комментарий
+                    <p
+                        className="judge-table__comment"
+                        onClick={(e) => {
+                            setJudgeComment(answer.comment);
+                            setActiveCommentModal(true);
+                        }}
+                    >
+                        Комментарий
                     </p>
                 ) : (
                     <p>Пусто</p>
                 )}
                 <p>{answer.points === null ? 'Пусто' : answer.points}</p>
-                <button
+                <Button
+                    label="Оценить"
+                    className="judge-table__btn-feedback"
                     onClick={() => {
                         setSelectedFeedbackModalId(answer.id);
                         setOpenSetStateModal(true);
                     }}
-                >
-                    Оценить
-                </button>
-                <ModalComment
-                    active={isActiveCommentModal}
-                    setActive={setActiveCommentModal}
-                >
-                    {<p>{answer.comment}</p>}
-                </ModalComment>
+                ></Button>
             </div>
         );
     };
     return (
         <div>
-            <div className="user-table">
-                <div className="user-table__info">
+            <Button label="Обновить данные" onClick={() => getUserAnswers()} />
+            <div className="judge-table">
+                <div className="judge-table__info">
                     <span>ID ответа</span>
                     <span>Время отправки</span>
                     <span>Ник пользователя</span>
@@ -116,15 +126,26 @@ const JudgeTable: React.FC<JudgeTableProps> = () => {
                     <span>Файл</span>
                     <span>Статус проверки</span>
                     <span>Комментарий</span>
-                    <span> Оценка</span>
+                    <span>Оценка</span>
+                    <span>Действия</span>
                 </div>
-                {store.userAnswser.map(userAnswerMapper)}
+                {store.userAnswser.length ? (
+                    store.userAnswser.map(userAnswerMapper)
+                ) : (
+                    <p>Заданий на проверку нет</p>
+                )}
             </div>
             <JudgeFeedback
                 userTasksId={selectedFeedbackModalId}
                 isOpenSetStateModal={isOpenSetStateModal}
                 setOpenSetStateModal={setOpenSetStateModal}
             />
+            <Modal
+                active={isActiveCommentModal}
+                setActive={setActiveCommentModal}
+            >
+                <p>{judgeComment}</p>
+            </Modal>
         </div>
     );
 };

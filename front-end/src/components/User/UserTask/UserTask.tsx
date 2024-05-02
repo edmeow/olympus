@@ -13,15 +13,12 @@ const UserTask: React.FC<UserTaskProps> = () => {
     ) => {
         const file = event.target.files && event.target.files[0];
         if (file) {
-            console.log(file, file.type);
-
             const response = await ParticipantService.setAnswer(
                 store.user.session,
                 store.user.id,
                 store.selectedTask,
                 file,
                 file.name,
-                file.type,
             );
             if (response) {
                 store.setUserAnswer(response.data);
@@ -34,7 +31,7 @@ const UserTask: React.FC<UserTaskProps> = () => {
         <div className="user-task">
             <div
                 className="user-task__item"
-                dangerouslySetInnerHTML={store.sanitizeHtml(selectedTask.task)}
+                // dangerouslySetInnerHTML={store.sanitizeHtml(selectedTask.task)}
             ></div>
             <label className="user-task__input-label">
                 Отправить работу на проверку
