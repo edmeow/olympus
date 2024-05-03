@@ -52,6 +52,23 @@
         padding: 5px;
         justify-content: space-between;
     }
+    &__add-problem {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    &__points-input {
+        display: flex;
+        width: 100%;
+        border: 1px solid #181818;
+        padding: 10px;
+        border-radius: 12px;
+        box-sizing: border-box;
+    }
+    &__points-label {
+        width: 100%;
+    }
 }
 .contestInfo {
     padding: 0;

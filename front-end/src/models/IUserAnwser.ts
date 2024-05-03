@@ -6,7 +6,8 @@ export interface IUserAnwser {
     taskNumber: number;
     points: number | null;
     comment: string | null;
-    sentTime: Date;
+    sentTime: string;
     fileName: string;
     state: string;
+    answerId: number;
 }

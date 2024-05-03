@@ -42,9 +42,6 @@ const JudgeTable: React.FC<JudgeTableProps> = () => {
     }, []);
 
     const userAnswerMapper = (answer: IUserAnwser) => {
-        const sentTime = new Date(answer.sentTime);
-        const timeString = sentTime.toLocaleString().substr(11, 9);
-
         const handleDownloadFile = (
             userId: number,
             userTaskId: number,
@@ -72,8 +69,8 @@ const JudgeTable: React.FC<JudgeTableProps> = () => {
         };
         return (
             <div key={answer.id} className="judge-table__item">
-                <p>{answer.id}</p>
-                <p>{timeString}</p>
+                <p>{answer.answerId}</p>
+                <p>{answer.sentTime}</p>
                 <p>{answer.userName}</p>
                 <p>{answer.taskNumber}</p>
                 <p

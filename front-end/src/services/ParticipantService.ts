@@ -1,5 +1,5 @@
 import { IAddPersonalDataRequest } from './../models/request/IAddPersonalDataRequest';
-import $api from '../http';
+import $api, { BASE_URL } from '../http';
 import { IUserAnwser } from '../models/IUserAnwser';
 import { AuthResponse } from '../models/response/AuthResponse';
 export default class ParticipantService {
@@ -52,5 +52,25 @@ export default class ParticipantService {
                 },
             },
         );
+    }
+
+    static async downloadFileZip(
+        session: number,
+        taskId: number,
+        fileName: string,
+    ) {
+        return await fetch(`${BASE_URL}/api/v1/users/download-task`, {
+            method: 'POST',
+            body: JSON.stringify({
+                session,
+                taskId,
+                fileName,
+            }),
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+            },
+        });
     }
 }

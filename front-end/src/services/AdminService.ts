@@ -74,15 +74,19 @@ export default class AdminService {
     }
     static async addProblem<Itasks>(
         session: number,
-        name: string,
-        problem: File,
+        name: string | null,
+        problem: File | null,
         points: string,
+        htmlContent: string,
+        htmlName: string,
     ) {
         const formData = new FormData();
-        formData.append('problem', problem);
+        if (problem) formData.append('problem', problem);
         formData.append('session', session.toString());
-        formData.append('name', name);
+        if (name) formData.append('name', name);
         formData.append('points', points);
+        formData.append('htmlContent', htmlContent);
+        formData.append('htmlName', htmlName);
         return $api.post(`/api/v1/admin/addProblems`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',

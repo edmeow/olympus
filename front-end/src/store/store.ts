@@ -9,6 +9,7 @@ export default class Store {
     user = {} as IUser;
     contest = {} as IContest;
     selectedTask: number = 0;
+    selectedComment: string = '';
     userAnswser = [] as IUserAnwser[];
     isAuth = false;
     constructor() {
@@ -26,8 +27,15 @@ export default class Store {
     setSelectedTask(task: number) {
         this.selectedTask = task;
     }
+    setSelectedComment(task: string) {
+        console.log(task);
+
+        this.selectedComment = task;
+        console.log(this.selectedComment);
+    }
     sanitizeHtml = (htmlCode: string) => {
         const sanitizedHtml = DOMPurify.sanitize(htmlCode);
+
         return { __html: sanitizedHtml };
     };
     getSelectedTask(): Itasks {
@@ -110,7 +118,7 @@ export default class Store {
         this.user = user;
     }
 
-    async logout() {
+    logout() {
         try {
             this.setAuth(false);
             this.setUser({} as IUser);

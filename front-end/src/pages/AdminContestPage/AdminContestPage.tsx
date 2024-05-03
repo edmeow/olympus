@@ -136,6 +136,7 @@ const AdminContestPage: React.FC<AdminContestPageProps> = () => {
                     />
                 )}
             </div>
+
             <div className="contestPage__content">
                 {view === 'create' && (
                     <form

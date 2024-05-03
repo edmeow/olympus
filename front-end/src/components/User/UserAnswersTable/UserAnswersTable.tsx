@@ -1,14 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './UserAnswersTable.scss';
 import { observer } from 'mobx-react-lite';
 import { Context } from '../../..';
 import { IUserAnwser } from '../../../models/IUserAnwser';
 import ParticipantService from '../../../services/ParticipantService';
 import JudgeService from '../../../services/JudgeService';
+import Modal from '../../UI/Modal/Modal';
 interface UserAnswersTableProps {}
 
 const UserAnswersTable: React.FC<UserAnswersTableProps> = () => {
     const { store } = React.useContext(Context);
+    const [isActiveCommentModal, setActiveCommentModal] =
+        useState<boolean>(false);
+    const [judgeComment, setJudgeComment] = useState<string | null>(null);
+
     const getUserAnswer = () => {
         ParticipantService.getAnswer<IUserAnwser>(
             store.user.session,
@@ -56,12 +61,9 @@ const UserAnswersTable: React.FC<UserAnswersTableProps> = () => {
             });
     };
     const userAnswerMapper = (answer: IUserAnwser) => {
-        const sentTime = new Date(answer.sentTime);
-        const timeString = sentTime.toLocaleString().substr(11, 9); // Вырезаем часы, минуты и секунды
-
         return (
             <div key={answer.id} className="user-table__item">
-                <p>{timeString}</p>
+                <p>{answer.sentTime}</p>
                 <p
                     onClick={() =>
                         handleDownloadFile(
@@ -75,13 +77,26 @@ const UserAnswersTable: React.FC<UserAnswersTableProps> = () => {
                     {answer.fileName}
                 </p>
                 <p>{answer.state}</p>
-                <p>{answer.comment || 'Пусто'}</p>
+                {answer.comment ? (
+                    <p
+                        className="judge-table__comment"
+                        onClick={(e) => {
+                            setJudgeComment(answer.comment);
+                            setActiveCommentModal(true);
+                        }}
+                    >
+                        Комментарий
+                    </p>
+                ) : (
+                    <p>Пусто</p>
+                )}
                 <p>{answer.points === null ? 'Пусто' : answer.points}</p>
             </div>
         );
     };
     return (
         <div className="user-table">
+            <div onClick={getUserAnswer}>Обновить</div>
             <div className="user-table__info">
                 <span>Время отправки</span>
                 <span>Файл</span>
@@ -90,6 +105,12 @@ const UserAnswersTable: React.FC<UserAnswersTableProps> = () => {
                 <span> Оценка</span>
             </div>
             {store.userAnswser.map(userAnswerMapper)}
+            <Modal
+                active={isActiveCommentModal}
+                setActive={setActiveCommentModal}
+            >
+                <p>{judgeComment}</p>
+            </Modal>
         </div>
     );
 };
