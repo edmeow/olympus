@@ -1,15 +1,191 @@
-.contestPage {
+.contest-page {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    max-width: 1440px;
     width: 100%;
+    box-sizing: border-box;
+    padding: 0 50px;
+    margin-top: 24px;
+
     &__menu {
         display: flex;
         flex-direction: column;
     }
+
     &__content {
         padding: 15px;
         box-sizing: border-box;
         border: 1px solid rgb(0, 0, 0);
         border-radius: 15px;
+    }
+
+    &__nav {
+        display: flex;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+
+    &__nav-item {
+        border-radius: 12px;
+        padding: 11px 24px 11px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: opacity 0.5s ease;
+        &:hover {
+            opacity: 0.7;
+        }
+        &_active {
+            background: rgba(57, 135, 253, 0.1);
+        }
+    }
+
+    &__nav-text {
+        color: rgb(143, 149, 158);
+        font-family: 'Manrope';
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 150%;
+        letter-spacing: 0%;
+        text-align: center;
+        margin: 0 0 0 10px;
+        &_active {
+            color: rgb(57, 135, 253);
+        }
+    }
+
+    &__nav-icon-info {
+        width: 18px;
+        height: 18px;
+        background-image: url('../../utils/icons/icon-contest-nav-info.svg');
+        &_active {
+            background-image: url('../../utils/icons/icon-contest-nav-info-active.svg');
+        }
+    }
+    &__nav-icon-answers {
+        width: 16px;
+        height: 16px;
+        background-image: url('../../utils/icons/icon-contest-nav-answers.svg');
+        &_active {
+            background-image: url('../../utils/icons/icon-contest-nav-answers-active.svg');
+        }
+    }
+    &__nav-icon-results {
+        width: 16px;
+        height: 16px;
+        background-image: url('../../utils/icons/icon-contest-nav-results.svg');
+        &_active {
+            background-image: url('../../utils/icons/icon-contest-nav-results.svg');
+        }
+    }
+}
+
+.contest-header {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 24px;
+    border-radius: 12px;
+    background: rgb(255, 255, 255);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+
+    &__left-block {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__title {
+        color: rgb(36, 36, 36);
+        font-family: 'Manrope';
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 150%;
+        letter-spacing: 0%;
+        margin: 0 10px 0 0;
+    }
+
+    &__edit-btn {
+        background-image: url('../../utils/icons/icon-edit-name-contest.svg');
+        width: 36px;
+        height: 36px;
+        cursor: pointer;
+        transition: opacity 0.5s ease;
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+
+    &__right-block {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__status-block {
+        border: 1px solid rgb(209, 209, 209);
+        box-sizing: border-box;
+        border-radius: 8px;
+        padding: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 10px 0 7px;
+    }
+
+    &__status-circle {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        margin-right: 10px;
+        &.not-started {
+            background-color: rgb(57, 135, 253);
+        }
+        &.in-progress {
+            background: rgb(63, 204, 128);
+        }
+        &.finished {
+            background: rgb(247, 147, 26);
+        }
+    }
+
+    &__status {
+        color: rgb(143, 149, 158);
+        font-family: 'Manrope';
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 16px;
+        letter-spacing: 0%;
+        text-align: left;
+        margin: 0;
+    }
+
+    &__status-text {
+        color: rgb(120, 120, 120);
+        font-family: 'Manrope';
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 150%;
+        letter-spacing: 0%;
+        text-align: left;
+        margin: 0;
+    }
+
+    &__start-btn {
+        border: none;
+        border-radius: 6px;
+        background: rgb(63, 204, 128);
+        color: rgb(255, 255, 255);
+        font-family: 'Manrope';
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 150%;
+        letter-spacing: 0%;
+        text-align: center;
+        box-sizing: border-box;
+        padding: 8px 16px 8px 16px;
     }
 }

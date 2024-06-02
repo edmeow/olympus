@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import './Modal.scss';
+import { ExitIcon } from '../../../utils/icons/ExitIcon';
 interface ModalProps {
     active: boolean;
     setActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,6 +20,10 @@ const Modal: React.FC<ModalProps> = ({ active, setActive, children }) => {
                 onClick={(e) => e.stopPropagation()}
             >
                 {children}
+                <ExitIcon
+                    onClick={() => setActive(false)}
+                    className="modal__exit"
+                />
             </div>
         </div>
     );

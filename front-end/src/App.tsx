@@ -1,5 +1,5 @@
 import React, { FC, useContext, useEffect } from 'react';
-import './App.css';
+import './App.scss';
 import RoutesPack from './routes';
 import { observer } from 'mobx-react-lite';
 import { Context } from '.';

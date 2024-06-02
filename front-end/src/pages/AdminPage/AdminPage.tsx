@@ -3,10 +3,8 @@ import './AdminPage.scss';
 import AdminContests from '../../components/Admin/AdminContests/AdminContests';
 const AdminPage: FC = () => {
     return (
-        <div className="adminPage">
-            <div className="adminPage_content">
-                <AdminContests />
-            </div>
+        <div className="admin-page">
+            <AdminContests />
         </div>
     );
 };

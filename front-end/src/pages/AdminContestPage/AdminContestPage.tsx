@@ -11,19 +11,21 @@ import Modal from '../../components/UI/Modal/Modal';
 import { z } from 'zod';
 import AdminAnswers from '../../components/Admin/AdminAnswers/AdminAnswers';
 import Button from '../../components/UI/Button/Button';
-import { ContestsStatesEnum } from '../../models/constants/ContestsStatesEnum';
+import {
+    ContestsStatesEnum,
+    ContestsStatesLabel,
+} from '../../models/constants/ContestsStatesEnum';
+import { getClassNameByContestState } from '../../utils/utils';
 
 interface AdminContestPageProps {}
 
-type ViewType = 'info' | 'create' | 'answers';
+type ViewType = 'info' | 'results' | 'answers';
 
 const AdminContestPage: React.FC<AdminContestPageProps> = () => {
     const { sessionId } = useParams<{ sessionId: string }>();
     const [view, setView] = useState<ViewType>('info');
     const [participantCount, setParticipantCount] = useState<string>('');
     const [judgeCount, setJudgeCount] = useState<string>('');
-    const [newDuration, setNewDuration] = useState<string>('');
-    const [open, setOpen] = React.useState(false);
     const { store } = useContext(Context);
     useEffect(() => {
         const fetchData = async () => {
@@ -72,73 +74,108 @@ const AdminContestPage: React.FC<AdminContestPageProps> = () => {
         }
     }
 
-    const changeDurationContest = async () => {
-        AdminService.changeContestDuration(
-            store.contest.session,
-            newDuration,
-        ).then((res) => {
-            if (res.data) {
-                store.updateDurationContest(res.data);
-                setOpen(false);
-                setNewDuration('');
-            }
-        });
-    };
-
     async function startContest() {
         const response = await AdminService.startContest(store.contest.session);
         store.setContestTime(response.data);
         console.log(store.contest.startTime, store.contest.endTime);
     }
 
-    const isValidTimeFormat = (timeString: string) => {
-        setNewDuration(
-            timeString
-                .replace(/[^\d:]/g, '') // Удаление всех символов, кроме цифр и двоеточий
-                .replace(/^(\d{2}):?(\d{0,2}).*$/, '$1:$2'),
-        );
-    };
-
     return (
-        <div className="contestPage">
-            <div className="contestPage__menu">
-                <Button
-                    label="Информация"
-                    onClick={() => setView('info')}
-                    className="contest__button contest__button_info"
-                />
-                <hr></hr>
-                <Button
-                    label="Создать аккаунты"
-                    onClick={() => setView('create')}
-                    className="contest__button contest__button_create"
-                />
-                <hr></hr>
-                <Button
-                    label="Ответы пользователей"
-                    onClick={() => setView('answers')}
-                    className="contest__button contest__button_start"
-                />
-                <hr></hr>
-                <Button
-                    label="Начать олимпиаду"
-                    onClick={startContest}
-                    className="contest__button contest__button_start"
-                />
-                <hr></hr>
-                {ContestsStatesEnum.NOT_STARTED === store.contest.state && (
-                    <Button
-                        label="Изменить длительность олимпиады"
-                        onClick={() => {
-                            setOpen(true);
-                        }}
-                        className="contest__button contest__button_start"
-                    />
-                )}
+        <div className="contest-page">
+            <div className="contest-header">
+                <div className="contest-header__left-block">
+                    <h1 className="contest-header__title">
+                        {store.contest.name}
+                    </h1>
+                    <div className="contest-header__edit-btn"></div>
+                </div>
+                <div className="contest-header__right-block">
+                    <p className="contest-header__status">Статус</p>
+                    <div className="contest-header__status-block">
+                        <div
+                            className={`contest-header__status-circle ${getClassNameByContestState(
+                                store.contest.state,
+                            )}`}
+                        ></div>
+                        <p className="contest-header__status-text">
+                            {ContestsStatesLabel[store.contest.state]}
+                        </p>
+                    </div>
+                    {store.contest.state === ContestsStatesEnum.NOT_STARTED && (
+                        <button className="contest-header__start-btn">
+                            Начать
+                        </button>
+                    )}
+                </div>
             </div>
+            <div className="contest-page__nav">
+                <div
+                    onClick={() => setView('info')}
+                    className={`contest-page__nav-item ${
+                        view === 'info' && 'contest-page__nav-item_active'
+                    }`}
+                >
+                    <div
+                        className={`contest-page__nav-icon-info ${
+                            view === 'info' &&
+                            'contest-page__nav-icon-info_active'
+                        }`}
+                    ></div>
+                    <p
+                        className={`contest-page__nav-text ${
+                            view === 'info' && 'contest-page__nav-text_active'
+                        }`}
+                    >
+                        Основная информация
+                    </p>
+                </div>
+                <div
+                    onClick={() => setView('answers')}
+                    className={`contest-page__nav-item ${
+                        view === 'answers' && 'contest-page__nav-item_active'
+                    }`}
+                >
+                    <div
+                        className={`contest-page__nav-icon-answers ${
+                            view === 'answers' &&
+                            'contest-page__nav-icon-answers_active'
+                        }`}
+                    ></div>
+                    <p
+                        className={`contest-page__nav-text ${
+                            view === 'answers' &&
+                            'contest-page__nav-text_active'
+                        }`}
+                    >
+                        Ответы пользователей
+                    </p>
+                </div>
+                <div
+                    onClick={() => setView('results')}
+                    className={`contest-page__nav-item ${
+                        view === 'results' && 'contest-page__nav-item_active'
+                    }`}
+                >
+                    <div
+                        className={`contest-page__nav-icon-results ${
+                            view === 'results' &&
+                            'contest-page__nav-icon-results_active'
+                        }`}
+                    ></div>
+                    <p
+                        className={`contest-page__nav-text ${
+                            view === 'results' &&
+                            'contest-page__nav-text_active'
+                        }`}
+                    >
+                        Итоговые результаты
+                    </p>
+                </div>
+            </div>
+            <div className="contestPage__menu"></div>
 
             <div className="contestPage__content">
-                {view === 'create' && (
+                {/* {view === 'create' && (
                     <form
                         style={{ display: 'flex', flexDirection: 'column' }}
                         onSubmit={onSubmit}
@@ -159,23 +196,10 @@ const AdminContestPage: React.FC<AdminContestPageProps> = () => {
                         ></input>
                         <button>Создать</button>
                     </form>
-                )}
-                {view === 'info' && store.contest.tasks && <AdminContest />}
+                )} */}
+                {view === 'info' && <AdminContest />}
                 {view === 'answers' && <AdminAnswers />}
             </div>
-            <Modal active={open} setActive={setOpen}>
-                <p>Укажите новую длительность олимпиады</p>
-                <input
-                    value={newDuration}
-                    onChange={(e) => {
-                        isValidTimeFormat(e.target.value);
-                        //setNewDuration(e.target.value);
-                    }}
-                    placeholder="00:00"
-                    pattern="/^\d{2}:\d{2}$/"
-                ></input>
-                <button onClick={changeDurationContest}>Изменить</button>
-            </Modal>
         </div>
     );
 };

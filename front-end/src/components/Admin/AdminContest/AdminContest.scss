@@ -1,5 +1,6 @@
 .contest {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     width: 100%;
     &__list-btn {
@@ -9,6 +10,7 @@
         gap: 15px;
         padding: 0;
     }
+
     &__btn {
         background: none;
         list-style: none;
@@ -20,6 +22,7 @@
         margin-bottom: 10px;
         max-width: 450px;
     }
+
     &__list {
         min-width: 150px;
         min-height: 150px;
@@ -32,16 +35,19 @@
         overflow-y: scroll;
         margin: 0 15px 15px;
     }
+
     &__right-column {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
     }
+
     &__task {
         max-height: 700px;
         overflow-y: scroll;
     }
+
     &__answer {
         display: flex;
         flex-direction: column;
@@ -52,12 +58,14 @@
         padding: 5px;
         justify-content: space-between;
     }
+
     &__add-problem {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
     }
+
     &__points-input {
         display: flex;
         width: 100%;
@@ -66,22 +74,497 @@
         border-radius: 12px;
         box-sizing: border-box;
     }
+
     &__points-label {
         width: 100%;
     }
 }
-.contestInfo {
-    padding: 0;
-    margin: 0;
-    &__item {
-        list-style: none;
-        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
-            'Lucida Sans', Arial, sans-serif;
+
+.contest-data {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.contest-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    background: rgb(255, 255, 255);
+    box-sizing: border-box;
+    padding: 24px;
+    margin-right: 24px;
+
+    &__title {
+        color: rgb(36, 36, 36);
+        font-family: 'Manrope';
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 150%;
+        letter-spacing: 0%;
+        text-align: start;
+        margin: 0 0 20px 0;
+        box-sizing: border-box;
+        padding-bottom: 20px;
+        border: 1px solid rgb(240, 240, 240);
+        border-style: none none solid none;
+    }
+
+    &__block {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+    }
+
+    &__label {
+        color: rgb(143, 149, 158);
+        font-family: 'Manrope';
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 150%;
+        letter-spacing: 0%;
+        text-align: center;
+        margin: 0;
+    }
+
+    &__value {
+        color: rgb(69, 69, 69);
+        font-family: 'Manrope';
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 150%;
+        letter-spacing: 0%;
+        text-align: center;
+        margin: 0;
+    }
+}
+
+.contest-timing {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+    background: rgb(255, 255, 255);
+    box-sizing: border-box;
+    padding: 24px;
+
+    &__title {
+        color: rgb(36, 36, 36);
+        font-family: 'Manrope';
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 150%;
+        letter-spacing: 0%;
+        text-align: start;
+        margin: 0 0 20px 0;
+        box-sizing: border-box;
+        padding-bottom: 20px;
+        border: 1px solid rgb(240, 240, 240);
+        border-style: none none solid none;
+    }
+
+    &__container {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__period {
+        flex: 1;
+        display: flex;
+        border-radius: 8px;
+        box-sizing: border-box;
+        padding: 14px 20px 14px 20px;
+        background: rgb(247, 247, 247);
+        min-width: 300px;
+    }
+
+    &__period-logo {
+        margin-right: 15px;
+        width: 24px;
+        height: 24px;
+        background-image: url('../../../utils/icons/icon-contest-timing-time.svg');
+    }
+
+    &__period-title {
+        color: rgb(69, 69, 69);
+        font-family: 'Manrope';
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 150%;
+        letter-spacing: 0%;
+        margin: 0 0 2px 0;
+    }
+
+    &__period-label {
+        color: rgb(69, 69, 69);
+        font-family: 'Manrope';
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 150%;
+        letter-spacing: 0%;
+        margin: 0;
+    }
+    &__period-value {
+        margin-left: 5px;
+        color: rgb(36, 36, 36);
+        font-family: 'Manrope';
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 150%;
+        letter-spacing: 0%;
+    }
+
+    &__duration {
+        margin-left: 10px;
+        flex: 1;
+        display: flex;
+        border-radius: 8px;
+        box-sizing: border-box;
+        padding: 14px 20px 14px 20px;
+        background: rgb(247, 247, 247);
+        min-width: 300px;
+    }
+
+    &__duration-logo {
+        margin-right: 15px;
+        width: 24px;
+        height: 32px;
+        background-repeat: no-repeat;
+        background-image: url('../../../utils/icons/icon-contest-timeng-duration.svg');
+    }
+
+    &__duration-title {
+        color: rgb(69, 69, 69);
+        font-family: 'Manrope';
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 150%;
+        letter-spacing: 0%;
+        margin: 0 0 10px 0;
+    }
+
+    &__duration-info {
+        display: flex;
+        align-items: center;
+    }
+
+    &__duration-value {
+        color: rgb(36, 36, 36);
+        font-family: 'Manrope';
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 150%;
+        letter-spacing: 0%;
+        margin: 0;
+    }
+
+    &__duration-edit {
+        color: rgb(57, 135, 253);
+        font-family: 'Manrope';
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 16px;
+        letter-spacing: 0%;
+        margin: 0 0 0 5px;
+        cursor: pointer;
+        transition: opacity 0.5s ease;
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+
+    &__duration-modal {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__duration-modal-title {
+        color: rgb(0, 0, 0);
+        font-family: 'Manrope';
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 150%;
+        letter-spacing: 0%;
+        text-align: left;
+        margin: 0 0 20px;
+    }
+
+    &__duration-modal-input {
+        box-sizing: border-box;
+        border: 1px solid rgb(211, 217, 222);
+        border-radius: 8px;
+        padding: 10px 11px 10px 11px;
+        width: 70%;
+    }
+
+    &__duration-modal-btn {
+        border: none;
+        border-radius: 8px;
+        background: rgba(57, 135, 253, 0.1);
+        color: rgb(57, 135, 253);
+        font-family: 'Manrope';
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 150%;
+        letter-spacing: 0%;
+        text-align: center;
+        width: 50%;
+        margin-top: 10px;
+    }
+}
+
+.contest-tasks {
+    &__header {
+        width: 100%;
+        background: #ffffff;
+        border-radius: 12px;
+        margin: 24px 0 12px 0;
+        display: flex;
+        justify-content: space-between;
+        box-sizing: border-box;
+        padding: 10px 24px 10px 24px;
+    }
+
+    &__title {
+        color: rgb(36, 36, 36);
+        font-family: 'Manrope';
+        font-size: 24px;
+        font-weight: 500;
+        line-height: 150%;
+        letter-spacing: 0%;
+        margin: 0;
+    }
+
+    &__count {
+        margin-left: 10px;
+        color: rgb(143, 149, 158);
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 22px;
+    }
+
+    &__add-button {
+        border: none;
+        border-radius: 8px;
+        background: rgba(57, 135, 253, 0.1);
+        color: rgb(57, 135, 253);
+        font-family: 'Manrope';
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 150%;
+        letter-spacing: 0%;
+        text-align: right;
+        padding: 10px 16px;
+        cursor: pointer;
+    }
+
+    &__content {
+        // display: flex;
+        // flex-wrap: wrap;
+        // justify-content: space-around;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 10px;
+
+        border-radius: 16px;
+        background: rgb(255, 255, 255);
+        padding: 24px;
+        gap: 10px;
+        min-height: 200px;
+        position: relative;
+        max-height: 500px;
+        overflow: auto;
+    }
+
+    &__empty {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    &__empty-text {
+        color: rgb(143, 149, 158);
+        font-family: 'Manrope';
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 150%;
+        letter-spacing: 0%;
+        text-align: right;
+    }
+
+    &__modal-task {
+        overflow: auto;
+    }
+}
+
+.contest-task {
+    border-radius: 8px;
+    background: rgb(247, 247, 247);
+    padding: 14px 20px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 380px;
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__header-text {
+        color: rgb(36, 36, 36);
+        font-family: 'Manrope';
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 25px;
+        letter-spacing: 0%;
+        text-align: left;
+        margin: 0;
+    }
+
+    &__header-btn {
+        box-sizing: border-box;
+        border: 1px solid rgb(243, 55, 100);
+        border-radius: 8px;
+        background: rgba(243, 55, 100, 0.03);
+        padding: 6px 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+    &__do-btn {
+        color: rgb(57, 135, 253);
+        font-family: 'Manrope';
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 22px;
+        letter-spacing: 0%;
+        text-align: left;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+
+    &__file-name {
+        max-width: 300px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        //margin: 24px 0 20px 0;
+    }
+
+    &__text-container {
+        display: flex;
+        align-items: center;
+    }
+
+    &__file-prefix {
+        color: rgb(143, 149, 158);
+        font-family: 'Manrope';
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 22px;
+        letter-spacing: 0%;
+        text-align: left;
+        margin-right: 5px;
+    }
+}
+
+.form-add-problem {
+    width: 100%;
+    max-width: 650px;
+    padding: 25px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &__input {
+        display: flex;
+        max-width: 600px;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        border: 2px dashed rgb(211, 217, 222);
         border-radius: 4px;
-        border: 2px solid #5181b8;
-        color: #5181b8;
-        margin-bottom: 10px;
-        max-width: 450px;
-        padding-left: 30px;
+        background: rgb(255, 255, 255);
+        color: rgb(48, 48, 48);
+        font-family: 'Manrope';
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 150%;
+        letter-spacing: 0%;
+
+        cursor: pointer;
+
+        input {
+            display: none;
+        }
+    }
+
+    &__label {
+        width: 100%;
+        color: rgb(36, 36, 36);
+        font-family: 'Manrope';
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 22px;
+        letter-spacing: 0%;
+        text-align: left;
+    }
+
+    &__points-input {
+        box-sizing: border-box;
+        border: 1px solid rgb(211, 217, 222);
+        border-radius: 8px;
+        width: 100%;
+
+        color: rgb(143, 149, 158);
+        font-family: 'Manrope';
+        font-size: 16px;
+        font-weight: 300;
+        line-height: 150%;
+        letter-spacing: 0%;
+        text-align: left;
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+
+    &__file {
+        color: rgb(143, 149, 158);
+        font-family: 'Manrope';
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 150%;
+        letter-spacing: 0%;
+        align-self: flex-start;
+        margin-left: 5px;
+        height: 24px;
+    }
+
+    &__submit-btn {
+        border: none;
+        border-radius: 8px;
+        background: rgba(57, 135, 253, 0.1);
+
+        color: rgb(57, 135, 253);
+        font-family: 'Manrope';
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 150%;
+        letter-spacing: 0%;
+        text-align: right;
+        padding: 12px 24px;
+        width: 100%;
+        text-align: center;
+
+        cursor: pointer;
     }
 }

@@ -1,0 +1,14 @@
+<svg width="34.000000" height="35.000000" viewBox="0 0 34 35" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+			Created with Pixso.
+	</desc>
+	<defs>
+		<linearGradient x1="17.000000" y1="0.000000" x2="17.000000" y2="35.000000" id="paint_linear_2_2024_0" gradientUnits="userSpaceOnUse">
+			<stop stop-color="#3987FD"/>
+			<stop offset="1.000000" stop-color="#4939FD"/>
+		</linearGradient>
+	</defs>
+	<rect id="Ава" rx="17.000000" width="34.000000" height="35.000000" fill="url(#paint_linear_2_2024_0)" fill-opacity="1.000000"/>
+	<rect id="Iconly/Regular/Bold/Profile" width="20.000000" height="20.000000" transform="translate(7.000000 7.500000)" fill="#FFFFFF" fill-opacity="0"/>
+	<path id="Profile" d="M21.4116 13.5759C21.4116 16.0234 19.4492 17.9859 16.9999 17.9859C14.5515 17.9859 12.5883 16.0234 12.5883 13.5759C12.5883 11.1283 14.5515 9.16665 16.9999 9.16665C19.4492 9.16665 21.4116 11.1283 21.4116 13.5759ZM16.9999 25.8333C13.3853 25.8333 10.3333 25.2458 10.3333 22.9791C10.3333 20.7116 13.4044 20.1449 16.9999 20.1449C20.6155 20.1449 23.6666 20.7324 23.6666 22.9991C23.6666 25.2666 20.5955 25.8333 16.9999 25.8333Z" clip-rule="evenodd" fill="#FFFFFF" fill-opacity="1.000000" fill-rule="evenodd"/>
+</svg>

@@ -1,0 +1,116 @@
+.admin-nav {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 1440px;
+    justify-content: space-between;
+    padding: 12px 50px 12px 50px;
+    box-shadow: 0px 2px 8px 0px rgba(27, 25, 56, 0.05);
+    background: rgb(255, 255, 255);
+    box-sizing: border-box;
+    border-radius: 10px;
+    position: relative;
+
+    &__title {
+        color: rgb(120, 120, 120);
+        font-family: 'Manrope';
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 160%;
+        letter-spacing: 0%;
+        text-align: left;
+        margin-left: 64px;
+        cursor: pointer;
+        transition: opacity 0.5s;
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+    &__left {
+        display: flex;
+        align-self: center;
+        justify-content: center;
+    }
+    &__right {
+        position: relative;
+    }
+
+    &__profile-icon {
+        background-image: url('../../../utils/icons/Ава.svg');
+        width: 34px;
+        height: 35px;
+        background-repeat: no-repeat;
+    }
+
+    &__user-name {
+        color: rgb(0, 0, 0);
+        font-family: 'Manrope';
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 19px;
+        letter-spacing: 0%;
+        margin: 0 15px 0 10px;
+    }
+
+    &__vector {
+        background-image: url('../../../utils/icons/chevron-down.svg');
+        width: 11px;
+        height: 10px;
+        background-repeat: no-repeat;
+    }
+
+    &__info {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__dropdown {
+        display: flex;
+        align-items: center;
+        box-shadow: 5px 5px 10px 5px rgba(27, 25, 56, 0.1);
+        border-radius: 10px;
+        padding: 8px;
+        box-sizing: border-box;
+        cursor: pointer;
+
+        &_checked {
+            top: -25px;
+            left: -190px;
+            position: absolute;
+            flex-direction: column;
+            background-color: white;
+        }
+    }
+
+    &__exit {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+        padding: 10px 5px 20px 5px;
+        cursor: pointer;
+        transition: opacity 0.5s;
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+
+    &__exit-logo {
+        background-image: url('../../../utils/icons/SignOut.svg');
+        width: 18px;
+        height: 17px;
+        background-repeat: no-repeat;
+        margin-right: 10px;
+    }
+
+    &__exit-text {
+        color: rgb(32, 33, 37);
+        font-family: 'Manrope';
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 18px;
+        letter-spacing: 0%;
+        text-align: left;
+    }
+}

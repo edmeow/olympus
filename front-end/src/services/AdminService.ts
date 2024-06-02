@@ -2,7 +2,7 @@ import { Itasks } from './../models/ITasks';
 import $api, { BASE_URL } from '../http';
 import { AxiosResponse } from 'axios';
 import { ContestCreationResponse } from '../models/response/ContestCreationResponse';
-import { IChangeDurationResponse } from '../models/response/ChangeDurationResponse';
+import { IGetContestsResponse } from '../models/response/IGetContestsResponse';
 export default class AdminService {
     static async createContest(
         name: string,
@@ -24,8 +24,10 @@ export default class AdminService {
             },
         );
     }
-    static async getContests<IChangeDurationResponse>() {
-        return $api.get<IChangeDurationResponse>('/api/v1/admin/contests');
+    static async getContests<IGetContestsResponse>(page: number) {
+        return $api.post<IGetContestsResponse>('/api/v1/admin/contests', {
+            page,
+        });
     }
     static async getContest<IContest>(session: string) {
         return $api.get<IContest>(`/api/v1/admin/contest/${session}`);
