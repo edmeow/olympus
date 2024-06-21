@@ -1,0 +1,22 @@
+.hoverText {
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    margin: 0;
+    padding: 1px;
+    color: rgb(0, 0, 0);
+    font-family: 'Manrope';
+    font-size: 0.88rem;
+    font-weight: 300;
+    line-height: 150%;
+    letter-spacing: 0%;
+    text-align: left;
+    &:hover {
+        background-color: rgba(27, 25, 56, 0.15);
+        border-radius: 8px;
+    }
+
+    &_download {
+        color: rgb(57, 135, 253);
+    }
+}

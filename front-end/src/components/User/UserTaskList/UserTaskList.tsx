@@ -9,6 +9,7 @@ const UserTaskList: React.FC<UserTaskListProps> = () => {
     const handleItemClick = (id: number) => {
         store.setSelectedTask(id);
     };
+
     return (
         <div className="user-tasklist">
             <div className="user-tasklist__info">Номер задания</div>

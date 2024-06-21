@@ -13,6 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { changeDurationSchema } from '../../../models/zodSchemas/changeDurationSchema';
 import { EmtyIcon } from '../../../utils/icons/EmtyIcon';
 import { DeleteIcon } from '../../../utils/icons/DeleteIcon';
+import AddUserModal from '../../UI/AddUserModal/AddUserModal';
 
 interface AdminContestProps {}
 
@@ -35,6 +36,8 @@ const AdminContest: React.FC<AdminContestProps> = () => {
     const [isCommentModalOpen, setCommentModalOpen] = React.useState(false);
     const [isChangeDurationOpen, setChangeDurationOpen] = React.useState(false);
     const [newDuration, setNewDuration] = React.useState<string>('');
+    const [isCreateUserModalOpen, setCreateUserModalOpen] =
+        React.useState(false);
 
     const {
         register,
@@ -119,6 +122,7 @@ const AdminContest: React.FC<AdminContestProps> = () => {
             store.updateProblemsList(res.data);
         });
     };
+
     const handleAddTaskClick = (
         e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     ) => {
@@ -176,6 +180,12 @@ const AdminContest: React.FC<AdminContestProps> = () => {
                         </p>
                     </div>
                     <div className="contest-info__block">
+                        <p className="contest-info__label">Префикс олимпиады</p>
+                        <p className="contest-info__value">
+                            {store.contest.usernamePrefix}
+                        </p>
+                    </div>
+                    <div className="contest-info__block">
                         <p className="contest-info__label">Участников</p>
                         <p className="contest-info__value">
                             {store.contest.participantCount}
@@ -187,12 +197,11 @@ const AdminContest: React.FC<AdminContestProps> = () => {
                             {store.contest.judgeCount}
                         </p>
                     </div>
-                    <div className="contest-info__block">
-                        <p className="contest-info__label">Префикс олимпиады</p>
-                        <p className="contest-info__value">
-                            {store.contest.usernamePrefix}
-                        </p>
-                    </div>
+                    <Button
+                        onClick={() => setCreateUserModalOpen(true)}
+                        className="contest-info__add-btn"
+                        label="Добавить пользователей"
+                    />
                 </div>
                 <div className="contest-timing">
                     <h3 className="contest-timing__title">Тайминг</h3>
@@ -261,12 +270,14 @@ const AdminContest: React.FC<AdminContestProps> = () => {
                             {store.contest.tasks?.length || 0}
                         </span>
                     </h2>
-                    <button
-                        onClick={() => setAddProblemOpen(true)}
-                        className="contest-tasks__add-button"
-                    >
-                        Добавить задание
-                    </button>
+                    {store.contest.state === ContestsStatesEnum.NOT_STARTED && (
+                        <button
+                            onClick={() => setAddProblemOpen(true)}
+                            className="contest-tasks__add-button"
+                        >
+                            Добавить задание
+                        </button>
+                    )}
                 </div>
                 <div className="contest-tasks__content">
                     {store.contest.tasks?.length ? (
@@ -278,14 +289,19 @@ const AdminContest: React.FC<AdminContestProps> = () => {
                                             <p className="contest-task__header-text">
                                                 Задание #{index + 1}
                                             </p>
-                                            <button
-                                                className="contest-task__header-btn"
-                                                onClick={() =>
-                                                    handleDeleteProblem(item.id)
-                                                }
-                                            >
-                                                <DeleteIcon /> Удалить
-                                            </button>
+                                            {store.contest.state ===
+                                                ContestsStatesEnum.NOT_STARTED && (
+                                                <button
+                                                    className="contest-task__header-btn"
+                                                    onClick={() =>
+                                                        handleDeleteProblem(
+                                                            item.id,
+                                                        )
+                                                    }
+                                                >
+                                                    <DeleteIcon /> Удалить
+                                                </button>
+                                            )}
                                         </div>
                                         <div className="contest-task__text-container">
                                             <p className="contest-task__file-name">
@@ -460,6 +476,10 @@ const AdminContest: React.FC<AdminContestProps> = () => {
                     </button>
                 </form>
             </Modal>
+            <AddUserModal
+                active={isCreateUserModalOpen}
+                setActive={setCreateUserModalOpen}
+            />
         </div>
     );
 };

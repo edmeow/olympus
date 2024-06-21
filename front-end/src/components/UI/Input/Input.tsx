@@ -23,7 +23,7 @@ const Input: React.FC<InputProps> = ({
     disabled,
 }) => {
     return (
-        <label className="formAuth__label">
+        <label className="input__label">
             {label}
             <input
                 {...register(name)}

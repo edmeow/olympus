@@ -34,8 +34,8 @@ export default class AdminService {
     }
     static async createUsers(
         session: number,
-        participantCount: string,
-        judgeCount: string,
+        participantCount: number | null,
+        judgeCount: number | null,
     ) {
         return $api.post(`/api/v1/admin/createUsers`, {
             session,
@@ -53,6 +53,16 @@ export default class AdminService {
             session,
             id,
         });
+    }
+
+    static async getUserAnswers(session: number) {
+        return $api.get(`/api/v1/admin/contest/user-problems/${session}`);
+    }
+
+    static async getUserResults(session: number) {
+        return $api.get(
+            `/api/v1/admin/contest/user-problems/result/${session}`,
+        );
     }
 
     static async downloadProblem(
@@ -74,6 +84,7 @@ export default class AdminService {
             },
         });
     }
+
     static async addProblem<Itasks>(
         session: number,
         name: string | null,
@@ -95,10 +106,31 @@ export default class AdminService {
             },
         });
     }
+
     static async changeContestDuration(session: number, newDuration: string) {
         return $api.post(`/api/v1/admin/changeDuration`, {
             session,
             newDuration,
+        });
+    }
+
+    static async downloadFile(
+        userId: number,
+        userTasksId: number,
+        fileName: string,
+    ) {
+        return await fetch(`${BASE_URL}/api/v1/admin/download-user-task`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userId,
+                userTasksId,
+                fileName,
+            }),
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+            },
         });
     }
 }

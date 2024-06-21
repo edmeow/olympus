@@ -9,6 +9,8 @@ import {
 } from '../../../models/request/IContestListRequest';
 import img from '../../../utils/icons/contestIcons/img-contest1.png';
 import { getClassNameByContestState } from '../../../utils/utils';
+import Modal from '../../UI/Modal/Modal';
+import AdminForm from '../AdminForm/AdminForm';
 
 interface AdminContestsProps {}
 
@@ -17,6 +19,7 @@ const AdminContests: React.FC<AdminContestsProps> = () => {
     const [page, setPage] = useState<number>(1);
     const [totalPageCount, setTotalPageCount] = useState(0);
     const [pageNumbers, setPageNumbers] = useState<number[]>([]);
+    const [isAdminFormOpen, setAdminFormOpen] = React.useState(false);
 
     const history = useNavigate();
     useEffect(() => {
@@ -56,7 +59,10 @@ const AdminContests: React.FC<AdminContestsProps> = () => {
                     </p>
                 </div>
                 <div className="admin-content__info-right">
-                    <button className="admin-content__btn-create">
+                    <button
+                        onClick={() => setAdminFormOpen(true)}
+                        className="admin-content__btn-create"
+                    >
                         Создать олимпиаду
                     </button>
                 </div>
@@ -145,6 +151,9 @@ const AdminContests: React.FC<AdminContestsProps> = () => {
                     </div>
                 ))}
             </div>
+            <Modal active={isAdminFormOpen} setActive={setAdminFormOpen}>
+                <AdminForm />
+            </Modal>
         </div>
     );
 };

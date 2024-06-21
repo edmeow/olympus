@@ -4,6 +4,8 @@ import { IContest } from '../models/IContest';
 import { Itasks } from '../models/ITasks';
 import DOMPurify from 'dompurify';
 import { IUserAnwser } from '../models/IUserAnwser';
+import { IUserResults } from '../models/IUserResult';
+import { ContestsStatesEnum } from '../models/constants/ContestsStatesEnum';
 
 export default class Store {
     user = {} as IUser;
@@ -12,38 +14,51 @@ export default class Store {
     selectedComment: string = '';
     userAnswser = [] as IUserAnwser[];
     isAuth = false;
+    userResults: IUserResults = {
+        users: [],
+        tasksCount: 0,
+    };
+
     constructor() {
         makeAutoObservable(this);
     }
+
     setUserAnswer(answers: IUserAnwser[]) {
         this.userAnswser = answers;
     }
+
+    setUserResults(results: IUserResults) {
+        this.userResults = results;
+    }
+
     updateUserAnswer(answer: IUserAnwser) {
         const index = this.userAnswser.findIndex(
             (item) => item.id === answer.id,
         ); // находим индекс элемента по ID
         this.userAnswser[index] = answer;
     }
+
     setSelectedTask(task: number) {
         this.selectedTask = task;
     }
-    setSelectedComment(task: string) {
-        console.log(task);
 
+    setSelectedComment(task: string) {
         this.selectedComment = task;
-        console.log(this.selectedComment);
     }
+
     sanitizeHtml = (htmlCode: string) => {
         const sanitizedHtml = DOMPurify.sanitize(htmlCode);
 
         return { __html: sanitizedHtml };
     };
+
     getSelectedTask(): Itasks {
         const task = this.contest.tasks.find(
             (task: Itasks) => task.id === this.selectedTask,
         );
         return task as Itasks;
     }
+
     setContest(contest: IContest) {
         // if (contest.startTime && contest.endTime) {
         //     contest.startTime = this.formatDateToCustomString(
@@ -62,12 +77,15 @@ export default class Store {
         }
         this.contest = contest;
     }
+
     updateDurationContest(newDuration: string) {
         this.contest.duration = newDuration;
     }
+
     updateProblemsList(problems: Itasks[]) {
         this.contest.tasks = problems;
     }
+
     getStartTime() {
         const startTime = this.contest.startTime;
         if (startTime) {
@@ -75,6 +93,7 @@ export default class Store {
         }
         return null;
     }
+
     getEndTime() {
         const endTime = this.contest.endTime;
         if (endTime) {
@@ -82,6 +101,7 @@ export default class Store {
         }
         return null;
     }
+
     private formatDateToCustomString(date: Date): string {
         const options: Intl.DateTimeFormatOptions = {
             minute: 'numeric',
@@ -93,7 +113,8 @@ export default class Store {
 
         return new Intl.DateTimeFormat('ru-RU', options).format(date);
     }
-    setContestTime({
+
+    startContest({
         startTime,
         endTime,
     }: {
@@ -109,11 +130,14 @@ export default class Store {
 
         this.contest.startTime = startTimeDate;
         this.contest.endTime = endTimeDate;
+
+        this.contest.state = ContestsStatesEnum.IN_PROGRESS;
     }
 
     setAuth(bool: boolean) {
         this.isAuth = bool;
     }
+
     setUser(user: IUser) {
         this.user = user;
     }

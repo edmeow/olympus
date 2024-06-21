@@ -22,8 +22,12 @@ const AdminNav: React.FC<AdminNavProps> = () => {
     return (
         <div className="admin-nav">
             <div className="admin-nav__left">
-                <img src={logo} alt="Логотип" />
-                <p className="admin-nav__title">Главная</p>
+                <img
+                    className="admin-nav__logo"
+                    onClick={() => history('/admin')}
+                    src={logo}
+                    alt="Логотип"
+                />
             </div>
             <div
                 onClick={() => setModalIsOpen((prev) => !prev)}

@@ -13,11 +13,14 @@ const UserTask: React.FC<UserTaskProps> = () => {
         event: React.ChangeEvent<HTMLInputElement>,
     ) => {
         const file = event.target.files && event.target.files[0];
-        if (file) {
+        const task = store.contest.tasks.find(
+            (task) => task.id === store.selectedTask,
+        );
+        if (file && task) {
             const response = await ParticipantService.setAnswer(
                 store.user.session,
                 store.user.id,
-                store.selectedTask,
+                task.taskId,
                 file,
                 file.name,
             );

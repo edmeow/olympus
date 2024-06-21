@@ -10,12 +10,12 @@ import { observer } from 'mobx-react-lite';
 import Modal from '../../components/UI/Modal/Modal';
 import { z } from 'zod';
 import AdminAnswers from '../../components/Admin/AdminAnswers/AdminAnswers';
-import Button from '../../components/UI/Button/Button';
 import {
     ContestsStatesEnum,
     ContestsStatesLabel,
 } from '../../models/constants/ContestsStatesEnum';
 import { getClassNameByContestState } from '../../utils/utils';
+import AdminResults from '../../components/Admin/AdminResults/AdminResults';
 
 interface AdminContestPageProps {}
 
@@ -44,40 +44,10 @@ const AdminContestPage: React.FC<AdminContestPageProps> = () => {
         fetchData();
     }, [sessionId]);
 
-    function onSubmit(e: FormEvent) {
-        e.preventDefault();
-        if (store.contest) {
-            AdminService.createUsers(
-                store.contest.session,
-                participantCount,
-                judgeCount,
-            )
-                .then((res) => {
-                    const base64String = res.data.fileContent;
-
-                    const binaryData = atob(base64String);
-                    const byteArray = new Uint8Array(binaryData.length);
-                    for (let i = 0; i < binaryData.length; i++) {
-                        byteArray[i] = binaryData.charCodeAt(i);
-                    }
-                    const link = document.createElement('a');
-                    link.href = `data:application/octet-stream;base64,${base64String}`;
-                    link.download = 'contest_info.txt';
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                })
-
-                .catch((err: AxiosError) => {
-                    console.log(err);
-                });
-        }
-    }
-
     async function startContest() {
         const response = await AdminService.startContest(store.contest.session);
-        store.setContestTime(response.data);
-        console.log(store.contest.startTime, store.contest.endTime);
+
+        store.startContest(response.data);
     }
 
     return (
@@ -102,7 +72,10 @@ const AdminContestPage: React.FC<AdminContestPageProps> = () => {
                         </p>
                     </div>
                     {store.contest.state === ContestsStatesEnum.NOT_STARTED && (
-                        <button className="contest-header__start-btn">
+                        <button
+                            onClick={startContest}
+                            className="contest-header__start-btn"
+                        >
                             Начать
                         </button>
                     )}
@@ -175,30 +148,9 @@ const AdminContestPage: React.FC<AdminContestPageProps> = () => {
             <div className="contestPage__menu"></div>
 
             <div className="contestPage__content">
-                {/* {view === 'create' && (
-                    <form
-                        style={{ display: 'flex', flexDirection: 'column' }}
-                        onSubmit={onSubmit}
-                    >
-                        <input
-                            value={participantCount}
-                            onChange={(e) =>
-                                setParticipantCount(e.currentTarget.value)
-                            }
-                            placeholder="Количество участников"
-                        ></input>
-                        <input
-                            value={judgeCount}
-                            onChange={(e) =>
-                                setJudgeCount(e.currentTarget.value)
-                            }
-                            placeholder="Количество жюри"
-                        ></input>
-                        <button>Создать</button>
-                    </form>
-                )} */}
                 {view === 'info' && <AdminContest />}
                 {view === 'answers' && <AdminAnswers />}
+                {view === 'results' && <AdminResults />}
             </div>
         </div>
     );

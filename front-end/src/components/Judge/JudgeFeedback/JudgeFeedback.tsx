@@ -10,6 +10,7 @@ import { Context } from '../../..';
 import JudgeService from '../../../services/JudgeService';
 import { IUserAnwser } from '../../../models/IUserAnwser';
 import { AxiosError } from 'axios';
+import './JudgeFeedback.scss';
 
 interface JudgeFeedbackProps {
     userTasksId: number;
@@ -66,22 +67,21 @@ const JudgeFeedback: React.FC<JudgeFeedbackProps> = ({
     }, [allValues.accepted]);
     return (
         <Modal active={isOpenSetStateModal} setActive={setOpenSetStateModal}>
-            <form
-                onSubmit={handleSubmit(onSubmit)}
-                style={{ display: 'flex', flexDirection: 'column' }}
-            >
-                <p>Установить состояние</p>
-                <Controller
-                    name="accepted"
-                    control={control}
-                    defaultValue={'not-accept'}
-                    render={({ field }) => (
-                        <select {...field}>
-                            <option value="not-accept">Отклонено</option>
-                            <option value="accept">Принято</option>
-                        </select>
-                    )}
-                />
+            <form onSubmit={handleSubmit(onSubmit)} className="feedback">
+                <label className="feedback__select-label">
+                    Установить состояние
+                    <Controller
+                        name="accepted"
+                        control={control}
+                        defaultValue={'not-accept'}
+                        render={({ field }) => (
+                            <select className="feedback__select" {...field}>
+                                <option value="not-accept">Отклонено</option>
+                                <option value="accept">Принято</option>
+                            </select>
+                        )}
+                    />
+                </label>
                 <Input
                     disabled={
                         allValues.accepted === 'not-accept' ? true : false

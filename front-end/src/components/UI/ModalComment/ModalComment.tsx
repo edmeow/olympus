@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import './ModalComment.scss';
 import Modal from '../Modal/Modal';
 interface ModalProps {
@@ -10,8 +10,7 @@ interface ModalProps {
 const ModalComment: React.FC<ModalProps> = ({ active, setActive, text }) => {
     return (
         <Modal active={active} setActive={setActive}>
-            {/* {children !== '' ? children : 'Комментарий пустой'} */}
-            <p>{text}</p>
+            <p className="modalComment__text">{text ? text : 'Пусто'}</p>
         </Modal>
     );
 };

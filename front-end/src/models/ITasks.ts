@@ -5,4 +5,5 @@ export interface Itasks {
     points: number;
     htmlName: string;
     name: string | null;
+    taskId: number;
 }
