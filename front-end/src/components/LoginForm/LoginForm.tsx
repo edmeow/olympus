@@ -9,9 +9,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signInSchema } from '../../models/zodSchemas/signInSchema';
 import './loginForm.scss';
 import axios, { AxiosError } from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import bgImage from '../../utils/icons/login-form-bg-Image.png';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const LoginForm = () => {
     const [passwordShown, setPasswordShown] = useState(false);
@@ -102,11 +101,19 @@ const LoginForm = () => {
                         placeholder="Password"
                         type={passwordShown ? 'text' : 'password'}
                     />
-                    <FontAwesomeIcon
-                        icon={passwordShown ? faEyeSlash : faEye}
-                        onClick={togglePasswordVisiblity}
-                        className="formAuth__password-icon"
-                    />
+                    {passwordShown ? (
+                        <VisibilityOffIcon
+                            onClick={togglePasswordVisiblity}
+                            aria-label="Hide password"
+                            className="formAuth__password-icon"
+                        />
+                    ) : (
+                        <VisibilityIcon
+                            onClick={togglePasswordVisiblity}
+                            aria-label="Show password"
+                            className="formAuth__password-icon"
+                        />
+                    )}
                 </div>
                 <p className="formAuth__input-error">
                     {errors.password ? errors.password.message : ''}
