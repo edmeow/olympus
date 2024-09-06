@@ -9,6 +9,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signInSchema } from '../../models/zodSchemas/signInSchema';
 import './loginForm.scss';
 import axios, { AxiosError } from 'axios';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import LoginIcon from "../../utils/icons/loginFormIcons/img-login.png";
 
 const LoginForm = () => {
     const [passwordShown, setPasswordShown] = useState(false);
@@ -75,14 +78,15 @@ const LoginForm = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="formAuth">
+        <div onSubmit={handleSubmit(onSubmit)} className="formAuth">
+            <h2 className="formAuth__welcome">Добро пожаловать</h2>
             <h1 className="formAuth__title">Вход</h1>
             <label className="formAuth__label">
-                <p className="formAuth__label-text">Имя пользователя</p>
+                <p className="formAuth__label-text">Введите логин</p>
                 <input
                     {...register('username')}
                     className="formAuth__input formAuth__input_login"
-                    placeholder="Введите имя пользователя"
+                    placeholder="Username or email address"
                     type="text"
                 />
                 {errors.username && (
@@ -90,27 +94,21 @@ const LoginForm = () => {
                 )}
             </label>
             <label className="formAuth__label">
-                <p className="formAuth__label-text">Пароль</p>
-                <input
-                    {...register('password')}
-                    className="formAuth__input formAuth__input_password"
-                    placeholder="Введите пароль"
-                    type={passwordShown ? 'text' : 'password'}
-                />
-                <label className="formAuth__label-password">
-                    <p className="formAuth__input-error">{`${
-                        errors.password ? errors.password.message : ''
-                    }`}</p>
-
-                    <div>
-                        <input
-                            onClick={togglePasswordVisiblity}
-                            type="checkbox"
-                            className="formAuth__password-checkbox"
-                        />
-                        Показать пароль
-                    </div>
-                </label>
+                <p className="formAuth__label-text">Введите пароль</p>
+                <div className="formAuth__password-container">
+                    <input
+                        {...register('password')}
+                        className="formAuth__input formAuth__input_password"
+                        placeholder="Password"
+                        type={passwordShown ? 'text' : 'password'}
+                    />
+                    <FontAwesomeIcon
+                        icon={passwordShown ? faEyeSlash : faEye}
+                        onClick={togglePasswordVisiblity}
+                        className="formAuth__password-icon"
+                    />
+                </div>
+                <p className="formAuth__input-error">{errors.password ? errors.password.message : ''}</p>
             </label>
             <p className="formAuth__error">{errors.root?.message}</p>
             <button
@@ -119,7 +117,7 @@ const LoginForm = () => {
             >
                 {isSubmitting ? 'Ожидание ответа' : 'Войти'}
             </button>
-        </form>
+        </div>
     );
 };
 
