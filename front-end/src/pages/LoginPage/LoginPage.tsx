@@ -1,9 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
-import LoginForm from '../components/LoginForm/LoginForm';
-import AuthService from '../services/AuthService';
+import LoginForm from '../../components/LoginForm/LoginForm';
+import AuthService from '../../services/AuthService';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Context } from '..';
+import { Context } from '../..';
+import './LoginPage.scss';
 
 function LoginPage() {
     const { store } = useContext(Context);
@@ -53,7 +54,16 @@ function LoginPage() {
         return null;
     }
 
-    return <LoginForm />;
+    return (
+        <div className="form-container">
+            <div className="form-container__left">
+                {/* add logo  */}
+                <p style={{ padding: '32px 42px' }}>logo</p>
+            </div>
+            <div className="form-container__right"></div>
+            <LoginForm />
+        </div>
+    );
 }
 
 export default LoginPage;

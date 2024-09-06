@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import UserPage from '../pages/UserPage/UserPage';
 import JudgePage from '../pages/JudgePage';
 import AdminPage from '../pages/AdminPage/AdminPage';
-import LoginPage from '../pages/LoginPage';
+import LoginPage from '../pages/LoginPage/LoginPage';
 import ForbiddenPage from '../pages/ForbiddenPage';
 import ProtectedRoute from './ProtectedRoute';
 import { observer } from 'mobx-react-lite';
