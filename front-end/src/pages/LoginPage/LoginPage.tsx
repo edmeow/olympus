@@ -5,6 +5,8 @@ import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Context } from '../..';
 import './LoginPage.scss';
+import Logo from "../../utils/icons/logo.svg"
+import LoginBack from '../../utils/icons/login-form-bg-Image.png';
 
 function LoginPage() {
     const { store } = useContext(Context);
@@ -56,12 +58,9 @@ function LoginPage() {
 
     return (
         <div className="form-container">
-            <div className="form-container__left">
-                {/* add logo  */}
-                <p style={{ padding: '32px 42px' }}>logo</p>
-            </div>
-            <div className="form-container__right"></div>
+            <img src={Logo} alt="logo" className="form-container__logo"/>
             <LoginForm />
+            <img src={LoginBack} alt="login-background" className="form-container__back"/>
         </div>
     );
 }
