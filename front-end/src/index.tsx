@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Store from './store/store';
 import { BrowserRouter } from 'react-router-dom';
+import { SnackbarProvider } from 'notistack';
 
 const store = new Store();
 export const Context = createContext({ store });
@@ -16,7 +17,9 @@ root.render(
     <React.StrictMode>
         <Context.Provider value={{ store }}>
             <BrowserRouter>
-                <App />
+                <SnackbarProvider>
+                    <App />
+                </SnackbarProvider>
             </BrowserRouter>
         </Context.Provider>
     </React.StrictMode>,

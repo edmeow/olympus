@@ -152,7 +152,7 @@ const AdminContests: React.FC<AdminContestsProps> = () => {
                 ))}
             </div>
             <Modal active={isAdminFormOpen} setActive={setAdminFormOpen}>
-                <AdminForm />
+                <AdminForm active={isAdminFormOpen} />
             </Modal>
         </div>
     );
