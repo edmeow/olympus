@@ -12,6 +12,9 @@ import { observer } from 'mobx-react-lite';
 import { z } from 'zod';
 import { selectedStateSchema } from '../../../models/zodSchemas/userSelectedContent';
 import axios from 'axios';
+import Logo from "../../../utils/icons/logo.svg"
+import ChecklistIcon from '@mui/icons-material/Checklist';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 interface UserHeaderProps {
     selectedContent: string;
@@ -98,40 +101,52 @@ const UserHeader: React.FC<UserHeaderProps> = ({
 
     return (
         <div className="user-header">
-            <div className="user-header__timer">
-                <p className="user-header__time">Осталось: {remainingTime} </p>
+            <div className="user-header__top">
+                <div className="user-header__logo">
+                    <img src={Logo} alt="logo" />
+                </div>
+                <div className="user-header__btns">
+                    <button
+                        onClick={() => {
+                            setSelectedContent('tasks');
+                        }}
+                        className={`user-header__btn user-header__btn_tasks ${
+                            selectedContent === 'tasks'
+                                ? 'user-header__btn_tasks_checked'
+                                : ''
+                        }`}
+                    >
+                        <ChecklistIcon className="user-header__btn-icon" />
+                        Задания
+                    </button>
+                    <button
+                        onClick={() => {
+                            setSelectedContent('results');
+                        }}
+                        className={`user-header__btn user-header__btn_results ${
+                            selectedContent === 'results'
+                                ? 'user-header__btn_results_checked'
+                                : ''
+                        }`}
+                    >
+                        <CheckCircleOutlineIcon className="user-header__btn-icon" />
+                        Результаты
+                    </button>
+                </div>
+                <div className="user-header__info">
+                    <p className="user-header__user-name">{store.user.username}</p>
+                    <button onClick={handlerExit} className="user-header__btn-exit">
+                        Выйти
+                    </button>
+                </div>
             </div>
-            <div className="user-header_btns">
-                <button
-                    onClick={() => {
-                        setSelectedContent('tasks');
-                    }}
-                    className={`user-header__btn user-header__btn_tasks ${
-                        selectedContent === 'tasks'
-                            ? 'user-header__btn_tasks_checked'
-                            : ''
-                    }`}
-                >
-                    Задания
-                </button>
-                <button
-                    onClick={() => {
-                        setSelectedContent('results');
-                    }}
-                    className={`user-header__btn user-header__btn_results ${
-                        selectedContent === 'results'
-                            ? 'user-header__btn_results_checked'
-                            : ''
-                    }`}
-                >
-                    Результаты
-                </button>
-            </div>
-            <div className="user-header__info">
-                <p className="user-header__user-name">{store.user.username}</p>
-                <button onClick={handlerExit} className="user-header__btn-exit">
-                    Выйти
-                </button>
+            <div className="user-header__bottom">
+                <div className="user-header__title">
+                    <h1>Олимпиада web 2024</h1>
+                </div>
+                <div className="user-header__timer">
+                    <p className="user-header__time">Осталось: {remainingTime} </p>
+                </div>
             </div>
         </div>
     );
