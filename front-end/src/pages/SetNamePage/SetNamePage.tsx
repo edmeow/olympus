@@ -7,6 +7,7 @@ import ParticipantService from '../../services/ParticipantService';
 import { Context } from '../..';
 import { useNavigate } from 'react-router-dom';
 import { AxiosError } from 'axios';
+import './SetNamePage.scss';
 
 interface SetNamePageProps {}
 
@@ -53,45 +54,45 @@ const SetNamePage: React.FC<SetNamePageProps> = () => {
     }, []);
     return (
         <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <h1 className="formAuth__title">Введите персональные данные</h1>
-                <label className="formAuth__label">
+            <form onSubmit={handleSubmit(onSubmit)} className="formAuthUser">
+                <h1 className="formAuthUser__title">Введите персональные данные</h1>
+                <label className="formAuthUser__label">
                     Введите свое имя
                     <input
                         {...register('name')}
-                        className="formAuth__input formAuth__input_login"
+                        className="formAuthUser__input formAuthUser__input_login"
                         placeholder="Иван"
                     ></input>
                     {errors.name && (
-                        <p className="formAuth__input-error">{`${errors.name.message}`}</p>
+                        <p className="formAuthUser__input-error">{`${errors.name.message}`}</p>
                     )}
                 </label>
-                <label className="formAuth__label">
+                <label className="formAuthUser__label">
                     Введите свою фамилию
                     <input
                         {...register('surname')}
                         placeholder="Иванов"
-                        className="formAuth__input formAuth__input_login"
+                        className="formAuthUser__input formAuthUser__input_login"
                     ></input>
                     {errors.surname && (
-                        <p className="formAuth__input-error">{`${errors.surname.message}`}</p>
+                        <p className="formAuthUser__input-error">{`${errors.surname.message}`}</p>
                     )}
                 </label>
-                <label className="formAuth__label">
+                <label className="formAuthUser__label">
                     Введите свою почту
                     <input
                         {...register('email')}
                         placeholder="email@mail.ru"
-                        className="formAuth__input formAuth__input_login"
+                        className="formAuthUser__input formAuthUser__input_login"
                     ></input>
                     {errors.email && (
-                        <p className="formAuth__input-error">{`${errors.email.message}`}</p>
+                        <p className="formAuthUser__input-error">{`${errors.email.message}`}</p>
                     )}
                 </label>
-                <p className="formAuth__error">{errors.root?.message}</p>
+                <p className="formAuthUser__error">{errors.root?.message}</p>
                 <button
                     disabled={!isValid || isSubmitting}
-                    className="formAuth__btn"
+                    className="formAuthUser__btn"
                 >
                     {isSubmitting ? 'Ожидание ответа' : 'Запомнить'}
                 </button>
