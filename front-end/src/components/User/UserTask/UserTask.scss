@@ -1,5 +1,5 @@
 .user-task {
-    max-width: 1123px;
+    max-width: 1150px;
     margin-left: auto;
 
     &__item {
@@ -42,5 +42,23 @@
         flex-basis: 50%;
         text-align: center;
         box-sizing: border-box;
+    }
+}
+
+@media only screen and (max-width: 1920px ) {
+    .user-task {
+        max-width: 1550px;
+    }
+}
+
+@media only screen and (max-width: 1800px ) {
+    .user-task {
+        max-width: 1400px;
+    }
+}
+
+@media only screen and (max-width: 1650px ) {
+    .user-task {
+        max-width: 1250px;
     }
 }

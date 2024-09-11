@@ -58,7 +58,16 @@ const UserTask: React.FC<UserTaskProps> = () => {
     };
     return (
         <div className="user-task">
-            <div style={{ display: 'flex', width: '100%', boxShadow: '0px 4px 10px 0px rgba(0, 0, 0, 0.25)', padding: '10px 20px', marginBottom: '10px', borderRadius: '12px', boxSizing: 'border-box' }}>
+            <div style={{
+                    display: 'flex',
+                    justifyContent: selectedTask.name ? 'space-between' : 'flex-end',
+                    width: '100%',
+                    boxShadow: '0px 4px 10px 0px rgba(0, 0, 0, 0.25)',
+                    padding: '10px 20px',
+                    marginBottom: '10px',
+                    borderRadius: '12px',
+                    boxSizing: 'border-box',
+                }}>
                 {selectedTask.name && (
                     <div
                         className="user-task__zip-file"
