@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './UserAnswersTable.scss';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 import { observer } from 'mobx-react-lite';
 import { Context } from '../../..';
 import { IUserAnwser } from '../../../models/IUserAnwser';
@@ -95,23 +102,82 @@ const UserAnswersTable: React.FC<UserAnswersTableProps> = () => {
         );
     };
     return (
-        <div className="user-table">
-            <div onClick={getUserAnswer}>Обновить</div>
-            <div className="user-table__info">
-                <span>Время отправки</span>
-                <span>Файл</span>
-                <span>Статус</span>
-                <span>Комментарий</span>
-                <span> Оценка</span>
-            </div>
-            {store.userAnswser.map(userAnswerMapper)}
-            <Modal
-                active={isActiveCommentModal}
-                setActive={setActiveCommentModal}
+        <TableContainer component={Paper} style={{ borderRadius: "16px", marginTop: "30px", padding: "24px", width: "auto" }}>
+            <div 
+                onClick={getUserAnswer} 
+                style={{ 
+                    background: "#3987FD", 
+                    width: "160px", 
+                    padding: "10px 16px", 
+                    borderRadius: "6px", 
+                    color: "white", 
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    cursor: "pointer",
+                    marginBottom: "24px",
+                }}
             >
+                Обновить данные
+            </div>
+            <Table sx={{ minWidth: 650, maxHeight: 700 }} aria-label="user answers table">
+                <TableHead>
+                    <TableRow style={{ background: "#F7F7F7" }}>
+                        <TableCell>Время отправки</TableCell>
+                        <TableCell>Файл</TableCell>
+                        <TableCell>Статус</TableCell>
+                        <TableCell>Комментарий</TableCell>
+                        <TableCell>Оценка</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {store.userAnswser.length ? (
+                        store.userAnswser.map((answer) => (
+                            <TableRow key={answer.id}>
+                                <TableCell>{answer.sentTime}</TableCell>
+                                <TableCell
+                                    onClick={() =>
+                                        handleDownloadFile(
+                                            answer.userId,
+                                            answer.id,
+                                            answer.fileName,
+                                        )
+                                    }
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    {answer.fileName}
+                                </TableCell>
+                                <TableCell>{answer.state}</TableCell>
+                                <TableCell>
+                                    {answer.comment ? (
+                                        <span
+                                            onClick={() => {
+                                                setJudgeComment(answer.comment);
+                                                setActiveCommentModal(true);
+                                            }}
+                                        >
+                                            Открыть комментарий
+                                        </span>
+                                    ) : (
+                                        'Пусто'
+                                    )}
+                                </TableCell>
+                                <TableCell>{answer.points === null ? 'Пусто' : answer.points}</TableCell>
+                            </TableRow>
+                        ))
+                    ) : (
+                        <TableRow>
+                            <TableCell colSpan={5} align="center">
+                                Нет данных
+                            </TableCell>
+                        </TableRow>
+                    )}
+                </TableBody>
+            </Table>
+            <Modal active={isActiveCommentModal} setActive={setActiveCommentModal}>
                 <p>{judgeComment}</p>
             </Modal>
-        </div>
+        </TableContainer>
     );
 };
 
