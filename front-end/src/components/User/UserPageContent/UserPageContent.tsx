@@ -5,6 +5,7 @@ import UserTask from '../UserTask/UserTask';
 import { observer } from 'mobx-react-lite';
 import UserAnswersTable from '../UserAnswersTable/UserAnswersTable';
 import { Context } from '../../..';
+import UserResults from '../UserResults/UserResults';
 
 const UserPageContent: React.FC = () => {
     const { store } = useContext(Context);
@@ -24,7 +25,9 @@ const UserPageContent: React.FC = () => {
                     <UserAnswersTable />
                 </div>
             ) : (
-                <div>Результаты</div>
+                <div>
+                    <UserResults />
+                </div>
             )}
         </div>
     );
