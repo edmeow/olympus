@@ -4,10 +4,14 @@ import { observer } from 'mobx-react-lite';
 import { Outlet } from 'react-router-dom';
 import AdminNav from '../components/Admin/AdminNav/AdminNav';
 
-const AdminNavRouter: FC = observer(() => {
+interface AdminNavRouterProps {
+    type?: 'user' | 'judge';
+}
+
+const AdminNavRouter: FC<AdminNavRouterProps> = observer((props) => {
     return (
         <>
-            <AdminNav />
+            <AdminNav type={props.type} />
             <Outlet />
         </>
     );

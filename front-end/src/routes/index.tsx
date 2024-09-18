@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import UserPage from '../pages/UserPage/UserPage';
-import JudgePage from '../pages/JudgePage';
+import JudgePage from '../pages/JudgePage/JudgePage';
 import AdminPage from '../pages/AdminPage/AdminPage';
 import LoginPage from '../pages/LoginPage/LoginPage';
 import ForbiddenPage from '../pages/ForbiddenPage';
@@ -29,14 +29,15 @@ const RoutesPack = () => {
                     }
                 >
                     <Route
-                        path={`/session/:sessionId`}
-                        element={<UserPage />}
-                    />
-
-                    <Route
                         path={`/add-personal-data`}
                         element={<SetNamePage />}
                     />
+                    <Route element={<AdminNavRouter type={'user'} />}>
+                        <Route
+                            path={`/session/:sessionId`}
+                            element={<UserPage />}
+                        />
+                    </Route>
                 </Route>
 
                 <Route
@@ -47,7 +48,12 @@ const RoutesPack = () => {
                         ></ProtectedRoute>
                     }
                 >
-                    <Route path={`/judge/:sessionId`} element={<JudgePage />} />
+                    <Route element={<AdminNavRouter type={'judge'} />}>
+                        <Route
+                            path={`/judge/:sessionId`}
+                            element={<JudgePage />}
+                        />
+                    </Route>
                 </Route>
 
                 <Route
@@ -58,7 +64,7 @@ const RoutesPack = () => {
                         ></ProtectedRoute>
                     }
                 >
-                    <Route element={<AdminNavRouter></AdminNavRouter>}>
+                    <Route element={<AdminNavRouter />}>
                         <Route path="/admin" element={<AdminPage />} />
                         <Route
                             path="/admin/create-contest"

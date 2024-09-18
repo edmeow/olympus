@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import './UserPageContent.scss';
-import UserHeader from '../UserHeader/UserHeader';
 import UserTaskList from '../UserTaskList/UserTaskList';
 import UserTask from '../UserTask/UserTask';
 import { observer } from 'mobx-react-lite';
-import { selectedStateSchema } from '../../../models/zodSchemas/userSelectedContent';
-import { z } from 'zod';
 import UserAnswersTable from '../UserAnswersTable/UserAnswersTable';
+import { Context } from '../../..';
+
 const UserPageContent: React.FC = () => {
-    const [selectedContent, setSelectedContent] =
-        useState<z.infer<typeof selectedStateSchema>>('tasks');
+    const { store } = useContext(Context);
+
+    useEffect(() => {
+        store.setSelectedViewContent('tasks');
+    }, []);
+
     return (
         <div className="userPageContent">
-            <UserHeader
-                selectedContent={selectedContent}
-                setSelectedContent={setSelectedContent}
-            />
-            {selectedContent === 'tasks' ? (
+            {store.selectedViewContent === 'tasks' ? (
                 <div className="userPageContent__main">
                     <div style={{ display: 'flex' }}>
                         <UserTaskList />
