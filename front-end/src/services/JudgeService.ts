@@ -1,10 +1,14 @@
 import $api, { BASE_URL } from '../http';
 
 export default class JudgeService {
-    static async getUserAnswers<IUserAnwser>(sessionId: string) {
+    static async getUserAnswersTable<IUserAnwser>(sessionId: number) {
         return await $api.get<IUserAnwser[]>(
-            `/api/v1/judge/contest/${sessionId}`,
+            `/api/v1/judge/contest/${sessionId}/table`,
         );
+    }
+
+    static async getContest<IContest>(sessionId: string) {
+        return await $api.get<IContest>(`/api/v1/judge/contest/${sessionId}`);
     }
 
     static async judgeFeedback<IUserAnwser>(
@@ -20,6 +24,7 @@ export default class JudgeService {
             comment,
         });
     }
+
     static async downloadFile(
         userId: number,
         userTasksId: number,
@@ -38,5 +43,11 @@ export default class JudgeService {
                 Authorization: `Bearer ${localStorage.getItem('jwt')}`,
             },
         });
+    }
+
+    static async getUserResults(session: string) {
+        return $api.get(
+            `/api/v1/judge/contest/user-problems/result/${session}`,
+        );
     }
 }

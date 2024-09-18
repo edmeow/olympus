@@ -6,6 +6,7 @@ import DOMPurify from 'dompurify';
 import { IUserAnwser } from '../models/IUserAnwser';
 import { IUserResults } from '../models/IUserResult';
 import { ContestsStatesEnum } from '../models/constants/ContestsStatesEnum';
+import { selectedViewContentType } from '../models/selectedContentModel';
 
 export default class Store {
     user = {} as IUser;
@@ -18,9 +19,14 @@ export default class Store {
         users: [],
         tasksCount: 0,
     };
+    selectedViewContent: selectedViewContentType = 'answers';
 
     constructor() {
         makeAutoObservable(this);
+    }
+
+    setSelectedViewContent(selectedViewContent: selectedViewContentType) {
+        this.selectedViewContent = selectedViewContent;
     }
 
     setUserAnswer(answers: IUserAnwser[]) {
@@ -59,19 +65,17 @@ export default class Store {
         return task as Itasks;
     }
 
+    getSelectedTaskId(): number {
+        const task = this.contest.tasks.find(
+            (task: Itasks) => task.id === this.selectedTask,
+        );
+        if (task && task.taskId) {
+            return task.taskId;
+        }
+        return 0;
+    }
+
     setContest(contest: IContest) {
-        // if (contest.startTime && contest.endTime) {
-        //     contest.startTime = this.formatDateToCustomString(
-        //         new Date(contest.startTime),
-        //     );
-        //     contest.endTime = this.formatDateToCustomString(
-        //         new Date(contest.endTime),
-        //     );
-        // } else {
-        //     console.error(
-        //         'Invalid startTime or endTime in the contest object.',
-        //     );
-        // }
         if (contest.tasks.length) {
             this.setSelectedTask(contest.tasks[0].id);
         }
@@ -121,15 +125,8 @@ export default class Store {
         startTime: string;
         endTime: string;
     }): void {
-        const startTimeDate: string = this.formatDateToCustomString(
-            new Date(startTime),
-        );
-        const endTimeDate: string = this.formatDateToCustomString(
-            new Date(endTime),
-        );
-
-        this.contest.startTime = startTimeDate;
-        this.contest.endTime = endTimeDate;
+        this.contest.startTime = startTime;
+        this.contest.endTime = endTime;
 
         this.contest.state = ContestsStatesEnum.IN_PROGRESS;
     }

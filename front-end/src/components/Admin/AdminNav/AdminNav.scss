@@ -1,30 +1,74 @@
 .admin-nav {
     display: flex;
+    flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 1440px;
-    justify-content: space-between;
-    padding: 12px 50px 12px 50px;
-    box-shadow: 0px 2px 8px 0px rgba(27, 25, 56, 0.05);
-    background: rgb(255, 255, 255);
-    box-sizing: border-box;
-    border-radius: 10px;
-    position: relative;
+    max-width: 1920px;
+
+    &__top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 1920px;
+        padding: 12px 50px 12px 50px;
+        box-shadow: 0px 2px 8px 0px rgba(27, 25, 56, 0.05);
+        background: rgb(255, 255, 255);
+        box-sizing: border-box;
+        border-radius: 10px;
+        position: relative;
+    }
+
+    &__bottom1 {
+        display: flex;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0 50px;
+    }
+
+    &__bottom {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px 24px;
+        border-radius: 12px;
+        background: rgb(255, 255, 255);
+        margin: 24px 0;
+    }
 
     &__title {
-        color: rgb(120, 120, 120);
+        color: rgb(36, 36, 36);
         font-family: 'Manrope';
-        font-size: 14px;
-        font-weight: 500;
-        line-height: 160%;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 150%;
         letter-spacing: 0%;
         text-align: left;
-        margin-left: 64px;
-        cursor: pointer;
-        transition: opacity 0.5s;
-        &:hover {
-            opacity: 0.7;
-        }
+        margin: 0;
+    }
+
+    &__timer {
+        color: rgb(143, 149, 158);
+        font-family: 'Manrope';
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 16px;
+        letter-spacing: 0%;
+        text-align: left;
+    }
+
+    &__time {
+        color: rgb(0, 0, 0);
+        font-family: 'Manrope';
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 16px;
+        letter-spacing: 0%;
+        text-align: left;
+        padding-left: 5px;
+        width: 100%;
+        max-width: 80px;
     }
 
     &__logo {
@@ -121,5 +165,37 @@
         line-height: 18px;
         letter-spacing: 0%;
         text-align: left;
+    }
+
+    &__link-container {
+        display: flex;
+        margin-left: 64px;
+        gap: 30px;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    &__link {
+        display: flex;
+        gap: 6px;
+    }
+
+    &__link-icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    &__link-title {
+        color: rgb(120, 120, 120);
+        font-family: 'Manrope';
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 160%;
+        letter-spacing: 0%;
+        text-align: left;
+
+        &_active {
+            color: rgb(57, 135, 253);
+        }
     }
 }

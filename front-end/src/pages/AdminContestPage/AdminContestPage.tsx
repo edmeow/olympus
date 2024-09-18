@@ -1,14 +1,11 @@
-import React, { FormEvent, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import AdminService from '../../services/AdminService';
 import { IContest } from '../../models/IContest';
 import './AdminContestPage.scss';
-import { AxiosError } from 'axios';
 import AdminContest from '../../components/Admin/AdminContest/AdminContest';
 import { Context } from '../..';
 import { observer } from 'mobx-react-lite';
-import Modal from '../../components/UI/Modal/Modal';
-import { z } from 'zod';
 import AdminAnswers from '../../components/Admin/AdminAnswers/AdminAnswers';
 import {
     ContestsStatesEnum,
@@ -24,8 +21,6 @@ type ViewType = 'info' | 'results' | 'answers';
 const AdminContestPage: React.FC<AdminContestPageProps> = () => {
     const { sessionId } = useParams<{ sessionId: string }>();
     const [view, setView] = useState<ViewType>('info');
-    const [participantCount, setParticipantCount] = useState<string>('');
-    const [judgeCount, setJudgeCount] = useState<string>('');
     const { store } = useContext(Context);
     useEffect(() => {
         const fetchData = async () => {
