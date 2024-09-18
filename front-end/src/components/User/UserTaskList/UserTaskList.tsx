@@ -12,7 +12,8 @@ const UserTaskList: React.FC<UserTaskListProps> = () => {
 
     return (
         <div className="user-tasklist">
-            <div className="user-tasklist__info">Номер задания</div>
+            <div className="user-tasklist__info">Выберите задание</div>
+            <hr className="user-tasklist__divider" />
             {store.contest.tasks.map((task, index) => {
                 return (
                     <div
@@ -24,7 +25,7 @@ const UserTaskList: React.FC<UserTaskListProps> = () => {
                         onClick={() => handleItemClick(task.id)}
                         key={task.id}
                     >
-                        {index + 1}
+                        <div>Задание {index + 1}</div>
                     </div>
                 );
             })}

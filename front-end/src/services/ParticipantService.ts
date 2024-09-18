@@ -73,4 +73,24 @@ export default class ParticipantService {
             },
         });
     }
+
+    static async downloadFile(
+        userId: number,
+        userTasksId: number,
+        fileName: string,
+    ) {
+        return await fetch(`${BASE_URL}/api/v1/users/download`, {
+            method: 'POST',
+            body: JSON.stringify({
+                userId,
+                userTasksId,
+                fileName,
+            }),
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+            },
+        });
+    }
 }

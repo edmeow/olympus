@@ -1,24 +1,21 @@
 .user-task {
-    max-width: 900px;
     margin-left: auto;
 
     &__item {
         max-height: 800px;
         overflow-y: scroll;
-        border: 1px solid rgb(0, 0, 0);
-        border-radius: 15px;
+        border: 1px solid #d3d9de;
+        border-radius: 8px;
+        box-sizing: border-box;
     }
     &__input-label {
         display: block;
         box-sizing: border-box;
-        border: 1px solid rgb(0, 0, 0);
         width: 100%;
-        box-sizing: border-box;
-        padding: 15px 0;
-        border-radius: 15px;
+        padding: 15px;
+        border-radius: 8px;
         text-align: center;
-        margin-top: 10px;
-        background: #181818;
+        background: #dbdde6;
         color: white;
         cursor: pointer;
         transition: opacity 0.3s;
@@ -30,14 +27,37 @@
         display: none;
     }
     &__zip-file {
-        border: 1px solid rgb(0, 0, 0);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        border: 2px dashed #d3d9de;
         border-radius: 15px;
         width: 250px;
         padding: 10px;
         text-align: center;
-        background: #181818;
-        color: white;
+        color: black;
         cursor: pointer;
-        margin-bottom: 10px;
+        flex-basis: 50%;
+        text-align: center;
+        box-sizing: border-box;
     }
 }
+
+// @media only screen and (min-width: 1800px) {
+//     .user-task {
+//         max-width: 1550px;
+//     }
+// }
+
+// @media only screen and (max-width: 1800px) {
+//     .user-task {
+//         max-width: 1400px;
+//     }
+// }
+
+// @media only screen and (max-width: 1650px) {
+//     .user-task {
+//         max-width: 1150px;
+//     }
+// }
