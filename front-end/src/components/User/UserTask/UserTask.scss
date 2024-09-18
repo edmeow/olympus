@@ -1,11 +1,10 @@
 .user-task {
-    max-width: 1150px;
     margin-left: auto;
 
     &__item {
         max-height: 800px;
         overflow-y: scroll;
-        border: 1px solid #D3D9DE;
+        border: 1px solid #d3d9de;
         border-radius: 8px;
         box-sizing: border-box;
     }
@@ -16,7 +15,7 @@
         padding: 15px;
         border-radius: 8px;
         text-align: center;
-        background: #DBDDE6;
+        background: #dbdde6;
         color: white;
         cursor: pointer;
         transition: opacity 0.3s;
@@ -32,7 +31,7 @@
         align-items: center;
         justify-content: center;
         gap: 5px;
-        border: 2px dashed  #D3D9DE;
+        border: 2px dashed #d3d9de;
         border-radius: 15px;
         width: 250px;
         padding: 10px;
@@ -45,20 +44,20 @@
     }
 }
 
-@media only screen and (max-width: 1920px ) {
-    .user-task {
-        max-width: 1550px;
-    }
-}
+// @media only screen and (min-width: 1800px) {
+//     .user-task {
+//         max-width: 1550px;
+//     }
+// }
 
-@media only screen and (max-width: 1800px ) {
-    .user-task {
-        max-width: 1400px;
-    }
-}
+// @media only screen and (max-width: 1800px) {
+//     .user-task {
+//         max-width: 1400px;
+//     }
+// }
 
-@media only screen and (max-width: 1650px ) {
-    .user-task {
-        max-width: 1150px;
-    }
-}
+// @media only screen and (max-width: 1650px) {
+//     .user-task {
+//         max-width: 1150px;
+//     }
+// }

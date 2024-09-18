@@ -1,5 +1,6 @@
 .user-tasklist {
     max-width: 210px;
+    width: 100%;
     padding: 13px 18px;
     min-height: 500px;
     box-sizing: border-box;
@@ -9,7 +10,7 @@
     &__divider {
         margin: 20px 0;
         border: none;
-        border-top: 1px solid #F0F0F0;
+        border-top: 1px solid #f0f0f0;
     }
     &__info {
         text-align: center;
@@ -18,7 +19,7 @@
     }
     &__item {
         color: #787878;
-        border: 1px solid #D1D1D1;
+        border: 1px solid #d1d1d1;
         border-radius: 6px;
         text-align: center;
         padding: 10px 20px;
@@ -31,7 +32,7 @@
             opacity: 0.7;
         }
         &_checked {
-            background: #3987FD;
+            background: #3987fd;
             padding: 10px 20px;
             color: white;
         }

@@ -1,0 +1,14 @@
+.user-table {
+    &__comment {
+        background-color: rgb(57, 135, 253);
+        padding: 5px;
+        border-radius: 15px;
+        color: white;
+        cursor: pointer;
+    }
+
+    &__file {
+        cursor: pointer;
+        color: rgb(57, 135, 253);
+    }
+}
