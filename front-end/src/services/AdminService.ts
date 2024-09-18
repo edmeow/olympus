@@ -1,29 +1,17 @@
-import { Itasks } from './../models/ITasks';
 import $api, { BASE_URL } from '../http';
-import { AxiosResponse } from 'axios';
 import { ContestCreationResponse } from '../models/response/ContestCreationResponse';
-import { IGetContestsResponse } from '../models/response/IGetContestsResponse';
+import { IСreateContestRequest } from '../models/request/IСreateContestRequest';
+import { ResponseApi } from '../hooks/useApiHook';
+import { ResponseApiService } from '../models/ResponseModel';
 export default class AdminService {
-    static async createContest(
-        name: string,
-        participantCount: string,
-        judgeCount: string,
-        usernamePrefix: string,
-        duration: string,
-        //problems: { name: string; problem: string; points: string }[],
-    ): Promise<AxiosResponse<ContestCreationResponse>> {
-        return $api.post<ContestCreationResponse>(
+    static createContest = (
+        submitObject: IСreateContestRequest,
+    ): ResponseApiService<ContestCreationResponse> => {
+        return $api.post<ResponseApi<ContestCreationResponse>>(
             '/api/v1/admin/createContest',
-            {
-                name,
-                participantCount,
-                judgeCount,
-                usernamePrefix,
-                duration: duration,
-                // problemInfos: problems,
-            },
+            submitObject,
         );
-    }
+    };
     static async getContests<IGetContestsResponse>(page: number) {
         return $api.post<IGetContestsResponse>('/api/v1/admin/contests', {
             page,
@@ -85,7 +73,7 @@ export default class AdminService {
         });
     }
 
-    static async addProblem<Itasks>(
+    static async addProblem(
         session: number,
         name: string | null,
         problem: File | null,

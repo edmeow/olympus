@@ -5,7 +5,7 @@ import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Context } from '../..';
 import './LoginPage.scss';
-import Logo from "../../utils/icons/logo.svg"
+import Logo from '../../utils/icons/logo.svg';
 import LoginBack from '../../utils/icons/login-form-bg-Image.png';
 
 function LoginPage() {
@@ -58,9 +58,17 @@ function LoginPage() {
 
     return (
         <div className="form-container">
-            <img src={Logo} alt="logo" className="form-container__logo"/>
+            <img
+                src={Logo}
+                alt="Логотип платформы"
+                className="form-container__logo"
+            />
             <LoginForm />
-            <img src={LoginBack} alt="login-background" className="form-container__back"/>
+            <img
+                src={LoginBack}
+                alt="Фоновое изображение"
+                className="form-container__back"
+            />
         </div>
     );
 }

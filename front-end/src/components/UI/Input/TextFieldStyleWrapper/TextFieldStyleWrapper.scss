@@ -1,0 +1,46 @@
+.TextFieldStyleWrapper {
+    width: 100%;
+    &#{&} {
+        .MuiFormControl-root {
+            margin-bottom: 10px;
+        }
+
+        .MuiInputBase-root {
+            border-radius: 15px;
+        }
+
+        .MuiFormHelperText-root {
+            margin: 4px 0 0;
+
+            line-height: 1.33;
+
+            &.Mui-error {
+                color: #e11432;
+            }
+        }
+    }
+
+    &-labelText {
+        &#{&} {
+            display: block;
+
+            margin-bottom: 6px;
+
+            &_size {
+                &_medium {
+                    font: 500 14px/ 1.43 Manrope;
+                }
+            }
+
+            &_required {
+                &:after {
+                    content: '*';
+
+                    display: inline-block;
+
+                    color: #e11432;
+                }
+            }
+        }
+    }
+}

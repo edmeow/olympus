@@ -25,7 +25,7 @@ const UserAnswersTable: React.FC<UserAnswersTableProps> = () => {
         ParticipantService.getAnswer<IUserAnwser>(
             store.user.session,
             store.user.id,
-            store.selectedTask,
+            store.getSelectedTaskId(),
         )
             .then((response) => {
                 store.setUserAnswer(response.data);
@@ -36,12 +36,13 @@ const UserAnswersTable: React.FC<UserAnswersTableProps> = () => {
         getUserAnswer();
         const intervalId = setInterval(() => {
             getUserAnswer();
-        }, 30000);
+        }, 90000);
 
         return () => {
             clearInterval(intervalId);
         };
     }, [store.selectedTask]);
+
     const handleDownloadFile = (
         userId: number,
         userTaskId: number,
