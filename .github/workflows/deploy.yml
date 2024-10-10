@@ -1,5 +1,6 @@
 name: Deploy
 env:
+    SUPER_SECRET: ${{ secrets.SSH_KEY }}
     CI: false
 on:
     push:
@@ -19,10 +20,10 @@ jobs:
 
             # Настройка SSH и использование rsync для деплоя
             - run: mkdir -p ~/.ssh
-            - run: echo "$SSH_KEY" | tr -d '\r' > ~/.ssh/id_key
+            - run: echo "$SUPER_SECRET" | tr -d '\r' > ~/.ssh/id_key
             - run: chmod 600 ~/.ssh/id_key
-            - run: cat ~/.ssh/id_key
             - run: ssh -o StrictHostKeyChecking=no -i $HOME/.ssh/id_key -p 22 contest@51.250.41.208 "echo 'Connected'"
+            - run: ssh -o StrictHostKeyChecking=no -i "$SUPER_SECRET" -p 22 contest@51.250.41.208 "echo 'Connected'"
             - run:
                   rsync -e "ssh -p 22 -i $HOME/.ssh/id_key -o StrictHostKeyChecking=no" \
                   --archive --compress --delete -r ./build/ \
