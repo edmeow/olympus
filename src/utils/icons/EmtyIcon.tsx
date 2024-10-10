@@ -4,7 +4,7 @@ interface DownloadIconProps {
     className?: string;
 }
 
-export const EmtyIcon: FC<DownloadIconProps> = (props) => {
+export const EmtyIcon: FC<DownloadIconProps> = () => {
     return (
         <svg
             width="105.000000"

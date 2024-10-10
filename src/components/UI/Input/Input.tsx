@@ -1,6 +1,6 @@
-import React, { MouseEventHandler } from 'react';
-import './Input.scss';
+import React from 'react';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import './Input.scss';
 interface InputProps {
     label?: string;
     className?: string;
@@ -15,7 +15,6 @@ interface InputProps {
 const Input: React.FC<InputProps> = ({
     label,
     placeholder,
-    className,
     errors,
     register,
     name,

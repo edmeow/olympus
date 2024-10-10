@@ -1,18 +1,18 @@
+import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import AdminService from '../../services/AdminService';
-import { IContest } from '../../models/IContest';
-import './AdminContestPage.scss';
-import AdminContest from '../../components/Admin/AdminContest/AdminContest';
 import { Context } from '../..';
-import { observer } from 'mobx-react-lite';
 import AdminAnswers from '../../components/Admin/AdminAnswers/AdminAnswers';
+import AdminContest from '../../components/Admin/AdminContest/AdminContest';
+import AdminResults from '../../components/Admin/AdminResults/AdminResults';
 import {
     ContestsStatesEnum,
     ContestsStatesLabel,
 } from '../../models/constants/ContestsStatesEnum';
+import { IContest } from '../../models/IContest';
+import AdminService from '../../services/AdminService';
 import { getClassNameByContestState } from '../../utils/utils';
-import AdminResults from '../../components/Admin/AdminResults/AdminResults';
+import './AdminContestPage.scss';
 
 interface AdminContestPageProps {}
 

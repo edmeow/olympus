@@ -1,4 +1,3 @@
-import { IAddPersonalDataRequest } from './../models/request/IAddPersonalDataRequest';
 import $api, { BASE_URL } from '../http';
 import { IUserAnwser } from '../models/IUserAnwser';
 import { AuthResponse } from '../models/response/AuthResponse';
@@ -30,7 +29,7 @@ export default class ParticipantService {
             username,
         });
     }
-    static async setAnswer<IContest>(
+    static async setAnswer(
         sessionId: string,
         userId: string,
         taskNum: number,

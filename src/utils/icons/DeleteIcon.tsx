@@ -4,7 +4,7 @@ interface DeleteIconProps {
     className?: string;
 }
 
-export const DeleteIcon: FC<DeleteIconProps> = (props) => {
+export const DeleteIcon: FC<DeleteIconProps> = () => {
     return (
         <svg
             width="14.000000"

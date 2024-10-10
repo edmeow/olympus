@@ -1,11 +1,11 @@
-import React, { FC, useContext, useEffect } from 'react';
+import { AxiosError } from 'axios';
+import { observer } from 'mobx-react-lite';
+import { FC, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Context } from '.';
 import './App.scss';
 import RoutesPack from './routes';
-import { observer } from 'mobx-react-lite';
-import { Context } from '.';
 import AuthService from './services/AuthService';
-import { useNavigate } from 'react-router-dom';
-import { AxiosError } from 'axios';
 
 const App: FC = observer(() => {
     const { store } = useContext(Context);

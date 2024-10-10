@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import AnswerTable from '../../UI/AnswerTable/AnswerTable';
-import JudgeService from '../../../services/JudgeService';
-import { IUserAnwser } from '../../../models/IUserAnwser';
-import { Context } from '../../..';
 import { observer } from 'mobx-react-lite';
-import JudgeFeedback from '../JudgeFeedback/JudgeFeedback';
+import React, { useEffect, useState } from 'react';
+import { Context } from '../../..';
+import { IUserAnwser } from '../../../models/IUserAnwser';
+import JudgeService from '../../../services/JudgeService';
+import AnswerTable from '../../UI/AnswerTable/AnswerTable';
 import ModalComment from '../../UI/ModalComment/ModalComment';
+import JudgeFeedback from '../JudgeFeedback/JudgeFeedback';
 
 const JudgeAnswers: React.FC = observer(() => {
     const { store } = React.useContext(Context);

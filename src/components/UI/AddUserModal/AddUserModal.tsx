@@ -1,14 +1,13 @@
-import React, { useContext, useEffect } from 'react';
-import './AddUserModal.scss';
-import Modal from '../Modal/Modal';
-import { FieldErrors, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { IChangeDurationRequest } from '../../../models/request/IChangeDurationRequest';
-import { addUsersSchema } from '../../../models/zodSchemas/addUsersSchema';
-import { IAddUsersRequest } from '../../../models/request/IAddUsersRequest';
 import { AxiosError } from 'axios';
-import AdminService from '../../../services/AdminService';
+import React, { useContext, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { Context } from '../../..';
+import { IAddUsersRequest } from '../../../models/request/IAddUsersRequest';
+import { addUsersSchema } from '../../../models/zodSchemas/addUsersSchema';
+import AdminService from '../../../services/AdminService';
+import Modal from '../Modal/Modal';
+import './AddUserModal.scss';
 interface ModalProps {
     active: boolean;
     setActive: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,7 +20,7 @@ const AddUserModal: React.FC<ModalProps> = ({ active, setActive }) => {
         register,
         handleSubmit,
         reset,
-        formState: { errors, isSubmitting, isValid },
+        formState: { errors, isValid },
     } = useForm<IAddUsersRequest>({
         mode: 'onBlur',
         resolver: zodResolver(addUsersSchema),

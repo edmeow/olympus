@@ -1,19 +1,19 @@
-import React, { useContext, useEffect } from 'react';
-import { Context } from '../../..';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { observer } from 'mobx-react-lite';
-import './AdminContest.scss';
-import AdminService from '../../../services/AdminService';
-import Modal from '../../UI/Modal/Modal';
-import Button from '../../UI/Button/Button';
+import React, { useContext, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { Context } from '../../..';
 import { ContestsStatesEnum } from '../../../models/constants/ContestsStatesEnum';
 import { Itasks } from '../../../models/ITasks';
-import { useForm } from 'react-hook-form';
 import { IChangeDurationRequest } from '../../../models/request/IChangeDurationRequest';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { changeDurationSchema } from '../../../models/zodSchemas/changeDurationSchema';
-import { EmtyIcon } from '../../../utils/icons/EmtyIcon';
+import AdminService from '../../../services/AdminService';
 import { DeleteIcon } from '../../../utils/icons/DeleteIcon';
+import { EmtyIcon } from '../../../utils/icons/EmtyIcon';
 import AddUserModal from '../../UI/AddUserModal/AddUserModal';
+import Button from '../../UI/Button/Button';
+import Modal from '../../UI/Modal/Modal';
+import './AdminContest.scss';
 
 interface AdminContestProps {}
 
@@ -42,9 +42,7 @@ const AdminContest: React.FC<AdminContestProps> = () => {
     const {
         register,
         handleSubmit,
-        reset,
-        setError,
-        formState: { errors, isSubmitting, isValid },
+        formState: { errors, isSubmitting },
     } = useForm<IChangeDurationRequest>({
         mode: 'onBlur',
         resolver: zodResolver(changeDurationSchema),
@@ -61,8 +59,6 @@ const AdminContest: React.FC<AdminContestProps> = () => {
         htmlName: string;
         htmlSize: string;
     }>({ htmlContent: '', htmlName: '', htmlSize: '' });
-
-    const handleOpen = () => setAddProblemOpen(true);
 
     const handleDownloadFile = (userTaskId: number, fileName: string) => {
         AdminService.downloadProblem(

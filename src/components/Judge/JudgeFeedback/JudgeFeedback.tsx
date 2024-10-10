@@ -1,15 +1,15 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { AxiosError } from 'axios';
 import React, { useEffect } from 'react';
-import Modal from '../../UI/Modal/Modal';
-import Button from '../../UI/Button/Button';
 import { Controller, useForm } from 'react-hook-form';
+import { Context } from '../../..';
+import { IUserAnwser } from '../../../models/IUserAnwser';
 import { IJudgeFeedbackRequest } from '../../../models/request/IJudgeFeedbackRequest';
 import { judgeFeedbackSchema } from '../../../models/zodSchemas/judgeFeedbackSchema';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Input from '../../UI/Input/Input';
-import { Context } from '../../..';
 import JudgeService from '../../../services/JudgeService';
-import { IUserAnwser } from '../../../models/IUserAnwser';
-import { AxiosError } from 'axios';
+import Button from '../../UI/Button/Button';
+import Input from '../../UI/Input/Input';
+import Modal from '../../UI/Modal/Modal';
 import './JudgeFeedback.scss';
 
 interface JudgeFeedbackProps {
@@ -33,7 +33,7 @@ const JudgeFeedback: React.FC<JudgeFeedbackProps> = ({
         setValue,
         control,
         watch,
-        formState: { errors, isSubmitting, isValid },
+        formState: { errors },
     } = useForm<IJudgeFeedbackRequest>({
         mode: 'onBlur',
         resolver: zodResolver(judgeFeedbackSchema),

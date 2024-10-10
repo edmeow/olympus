@@ -1,21 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import './UserAnswersTable.scss';
+import { Tooltip } from '@mui/material';
+import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import { observer } from 'mobx-react-lite';
+import React, { useEffect, useState } from 'react';
 import { Context } from '../../..';
 import { IUserAnwser } from '../../../models/IUserAnwser';
 import ParticipantService from '../../../services/ParticipantService';
 import Modal from '../../UI/Modal/Modal';
-import { Tooltip } from '@mui/material';
-interface UserAnswersTableProps {}
+import './UserAnswersTable.scss';
 
-const UserAnswersTable: React.FC<UserAnswersTableProps> = () => {
+const UserAnswersTable: React.FC = () => {
     const { store } = React.useContext(Context);
     const [isActiveCommentModal, setActiveCommentModal] =
         useState<boolean>(false);

@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import AdminService from '../../../services/AdminService';
-import './AdminContests.scss';
 import { useNavigate } from 'react-router-dom';
 import { ContestsStatesLabel } from '../../../models/constants/ContestsStatesEnum';
 import {
     ContestsInfo,
     IContestListRequest,
 } from '../../../models/request/IContestListRequest';
+import AdminService from '../../../services/AdminService';
 import img from '../../../utils/icons/contestIcons/img-contest1.png';
 import { getClassNameByContestState } from '../../../utils/utils';
 import Modal from '../../UI/Modal/Modal';
 import AdminForm from '../AdminForm/AdminForm';
+import './AdminContests.scss';
 
 interface AdminContestsProps {}
 
 const AdminContests: React.FC<AdminContestsProps> = () => {
     const [contests, setContests] = useState<IContestListRequest>();
     const [page, setPage] = useState<number>(1);
-    const [totalPageCount, setTotalPageCount] = useState(0);
     const [pageNumbers, setPageNumbers] = useState<number[]>([]);
     const [isAdminFormOpen, setAdminFormOpen] = React.useState(false);
 
@@ -28,15 +27,15 @@ const AdminContests: React.FC<AdminContestsProps> = () => {
                 page,
             );
 
-            if (result.data.count)
-                await setTotalPageCount(Math.ceil(result.data.count / 6));
-            let array = [];
-            for (let i = 1; i <= Math.ceil(result.data.count / 6); i++) {
-                array.push(i);
-            }
-            setPageNumbers(array);
+            if (result.data.count) {
+                let array = [];
+                for (let i = 1; i <= Math.ceil(result.data.count / 6); i++) {
+                    array.push(i);
+                }
+                setPageNumbers(array);
 
-            await setContests(result.data);
+                setContests(result.data);
+            }
         };
 
         fetchData();

@@ -1,17 +1,15 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { AxiosError } from 'axios';
 import React, { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { Context } from '../..';
 import { IAddPersonalDataRequest } from '../../models/request/IAddPersonalDataRequest';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { addPersonalSchema } from '../../models/zodSchemas/addPersonalSchema';
 import ParticipantService from '../../services/ParticipantService';
-import { Context } from '../..';
-import { useNavigate } from 'react-router-dom';
-import { AxiosError } from 'axios';
 import './SetNamePage.scss';
 
-interface SetNamePageProps {}
-
-const SetNamePage: React.FC<SetNamePageProps> = () => {
+const SetNamePage: React.FC = () => {
     const { store } = useContext(Context);
     const history = useNavigate();
     const {
@@ -55,7 +53,9 @@ const SetNamePage: React.FC<SetNamePageProps> = () => {
     return (
         <div>
             <form onSubmit={handleSubmit(onSubmit)} className="formAuthUser">
-                <h1 className="formAuthUser__title">Введите персональные данные</h1>
+                <h1 className="formAuthUser__title">
+                    Введите персональные данные
+                </h1>
                 <label className="formAuthUser__label">
                     Введите свое имя
                     <input

@@ -1,19 +1,19 @@
-import React, { FC, ReactNode, useEffect, useId } from 'react';
-import './AdminForm.scss';
-import AdminService from '../../../services/AdminService';
-import { useNavigate } from 'react-router-dom';
-import { FormProvider, useForm, UseFormReturn } from 'react-hook-form';
-import { createContestSchema } from '../../../models/zodSchemas/createContestSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { DialogContentText } from '@mui/material';
+import React, { FC, ReactNode, useEffect, useId } from 'react';
+import { FormProvider, useForm, UseFormReturn } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { useApiHook } from '../../../hooks/useApiHook';
 import {
     IСreateContestRequest,
     IСreateContestRequestForm,
 } from '../../../models/request/IСreateContestRequest';
-import { TextFieldFormComponent } from '../../UI/FormInputs/TextFieldFormComponent';
-import { DialogContentText } from '@mui/material';
-import { ButtonComponent } from '../../UI/Button/ButtonComponent';
-import { useApiHook } from '../../../hooks/useApiHook';
 import { ContestCreationResponse } from '../../../models/response/ContestCreationResponse';
+import { createContestSchema } from '../../../models/zodSchemas/createContestSchema';
+import AdminService from '../../../services/AdminService';
+import { ButtonComponent } from '../../UI/Button/ButtonComponent';
+import { TextFieldFormComponent } from '../../UI/FormInputs/TextFieldFormComponent';
+import './AdminForm.scss';
 
 interface AdminFormProps {
     active?: boolean;

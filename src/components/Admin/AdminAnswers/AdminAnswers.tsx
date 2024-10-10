@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import AnswerTable from '../../UI/AnswerTable/AnswerTable';
-import AdminService from '../../../services/AdminService';
-import { IUserAnwser } from '../../../models/IUserAnwser';
-import { Context } from '../../..';
 import { observer } from 'mobx-react-lite';
+import React, { useEffect, useState } from 'react';
+import { Context } from '../../..';
+import AdminService from '../../../services/AdminService';
 import JudgeFeedback from '../../Judge/JudgeFeedback/JudgeFeedback';
+import AnswerTable from '../../UI/AnswerTable/AnswerTable';
 import ModalComment from '../../UI/ModalComment/ModalComment';
 
 interface AdminAnswersProps {}

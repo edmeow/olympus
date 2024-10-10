@@ -1,18 +1,18 @@
-import * as React from 'react';
+import { TableSortLabel } from '@mui/material';
+import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { IUserAnwser } from '../../../models/IUserAnwser';
-import { TableSortLabel } from '@mui/material';
-import './AnswerTable.scss';
 import { EmtyIcon } from '../../../utils/icons/EmtyIcon';
-import HoverText from '../HoverText/HoverText';
 import Button from '../Button/Button';
+import HoverText from '../HoverText/HoverText';
+import './AnswerTable.scss';
 
 interface BasicTableProps {
     rows: IUserAnwser[];
@@ -160,7 +160,7 @@ export default function AnswerTable(props: BasicTableProps) {
                                 <TableCell align="right">
                                     {row.comment ? (
                                         <p
-                                            onClick={(e) => {
+                                            onClick={() => {
                                                 props.setJudgeComment(
                                                     row.comment,
                                                 );

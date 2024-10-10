@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
-import AdminService from '../../../services/AdminService';
-import { Context } from '../../..';
 import { observer } from 'mobx-react-lite';
+import React, { useEffect } from 'react';
+import { Context } from '../../..';
+import AdminService from '../../../services/AdminService';
 import ResultsTable from '../../UI/ResultsTable/ResultsTable';
-import { IUserResults } from '../../../models/IUserResult';
 
 interface AdminResultsProps {}
 
