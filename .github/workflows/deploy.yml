@@ -16,7 +16,7 @@ jobs:
 
             # Установка зависимостей и сборка проекта
             - run: npm ci
-            #- run: npm run build
+            - run: npm run build
 
             # Настройка SSH и использование rsync для деплоя
             - run: mkdir -p ~/.ssh
