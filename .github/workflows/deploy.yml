@@ -22,5 +22,4 @@ jobs:
             - run: mkdir -p ~/.ssh
             - run: echo "$SUPER_SECRET" | tr -d '\r' > ~/.ssh/id_key
             - run: chmod 600 ~/.ssh/id_key
-            - run: ssh -o StrictHostKeyChecking=no -i $HOME/.ssh/id_key -p 22 contest@51.250.41.208 "echo 'Connected'"
             - run: scp -i ~/.ssh/id_key -P 22 -o StrictHostKeyChecking=no -r ./build/* contest@51.250.41.208:/home/contest/olympus-front-end/
