@@ -4,7 +4,6 @@ import { FC, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from '.';
 import './App.scss';
-import RoutesPack from './routes';
 import AuthService from './services/AuthService';
 
 const App: FC = observer(() => {
@@ -49,11 +48,7 @@ const App: FC = observer(() => {
         }
     }, []);
 
-    return (
-        <div className="App">
-            <RoutesPack />d
-        </div>
-    );
+    return <div className="App">{/* <RoutesPack /> */}</div>;
 });
 
 export default App;
