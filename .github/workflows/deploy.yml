@@ -15,13 +15,13 @@ jobs:
 
             # Установка зависимостей и сборка проекта
             - run: npm ci
-            - run: npm run build
+            #- run: npm run build
 
             # Настройка SSH и использование rsync для деплоя
             - run: mkdir -p ~/.ssh
             - run: echo "$SSH_KEY" | tr -d '\r' > ~/.ssh/id_key
             - run: chmod 600 ~/.ssh/id_key
-            - run: echo "$SSH_KEY" | tr -d '\r'
+            - run: cat ~/.ssh/id_key
             - run: ssh -o StrictHostKeyChecking=no -i $HOME/.ssh/id_key -p 22 contest@51.250.41.208 "echo 'Connected'"
             - run:
                   rsync -e "ssh -p 22 -i $HOME/.ssh/id_key -o StrictHostKeyChecking=no" \
