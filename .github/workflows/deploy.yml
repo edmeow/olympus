@@ -23,7 +23,4 @@ jobs:
             - run: echo "$SUPER_SECRET" | tr -d '\r' > ~/.ssh/id_key
             - run: chmod 600 ~/.ssh/id_key
             - run: ssh -o StrictHostKeyChecking=no -i $HOME/.ssh/id_key -p 22 contest@51.250.41.208 "echo 'Connected'"
-            - run:
-                  rsync -vv -e "ssh -p 22 -i $HOME/.ssh/id_key -o StrictHostKeyChecking=no" \
-                  --archive --compress --delete -r ./build/ \
-                  contest@51.250.41.208:/home/contest/olympus-front-end/
+            - run: scp -i ~/.ssh/id_key -P 22 -o StrictHostKeyChecking=no -r ./build/* contest@51.250.41.208:/home/contest/olympus-front-end/
