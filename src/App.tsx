@@ -51,7 +51,7 @@ const App: FC = observer(() => {
 
     return (
         <div className="App">
-            <RoutesPack />
+            <RoutesPack />d
         </div>
     );
 });
