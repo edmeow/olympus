@@ -82,3 +82,5 @@ export const TextFieldCounted = forwardRef<
         </TextFieldStyleWrapper>
     );
 });
+
+TextFieldCounted.displayName = 'TextFieldCounted';

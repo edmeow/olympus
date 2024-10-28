@@ -31,6 +31,7 @@ const App: FC = observer(() => {
             AuthService.checkJWT()
                 .then((response) => {
                     if (response.data.accessToken) {
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
                         const { accessToken, ...data } = response.data;
                         store.setUser(data);
                         store.setAuth(true);

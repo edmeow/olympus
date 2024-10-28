@@ -14,11 +14,9 @@ import AdminService from '../../services/AdminService';
 import { getClassNameByContestState } from '../../utils/utils';
 import './AdminContestPage.scss';
 
-interface AdminContestPageProps {}
-
 type ViewType = 'info' | 'results' | 'answers';
 
-const AdminContestPage: React.FC<AdminContestPageProps> = () => {
+const AdminContestPage: React.FC = () => {
     const { sessionId } = useParams<{ sessionId: string }>();
     const [view, setView] = useState<ViewType>('info');
     const { store } = useContext(Context);
