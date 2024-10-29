@@ -12,9 +12,7 @@ import Modal from '../../UI/Modal/Modal';
 import AdminForm from '../AdminForm/AdminForm';
 import './AdminContests.scss';
 
-interface AdminContestsProps {}
-
-const AdminContests: React.FC<AdminContestsProps> = () => {
+const AdminContests: React.FC = () => {
     const [contests, setContests] = useState<IContestListRequest>();
     const [page, setPage] = useState<number>(1);
     const [pageNumbers, setPageNumbers] = useState<number[]>([]);
@@ -28,7 +26,7 @@ const AdminContests: React.FC<AdminContestsProps> = () => {
             );
 
             if (result.data.count) {
-                let array = [];
+                const array = [];
                 for (let i = 1; i <= Math.ceil(result.data.count / 6); i++) {
                     array.push(i);
                 }
@@ -42,7 +40,7 @@ const AdminContests: React.FC<AdminContestsProps> = () => {
     }, [page]);
 
     function onClickHanler(
-        e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+        _: React.MouseEvent<HTMLButtonElement, MouseEvent>,
         session: number,
     ) {
         history('/admin/contest/' + session);
@@ -138,17 +136,20 @@ const AdminContests: React.FC<AdminContestsProps> = () => {
                 })}
             </ul>
             <div className="admin-content__pages">
-                {pageNumbers.map((item) => (
-                    <div
-                        key={item}
-                        className={`admin-content__page ${
-                            page === item ? 'admin-content__page_checked' : ''
-                        }`}
-                        onClick={() => setPage(item)}
-                    >
-                        {item}
-                    </div>
-                ))}
+                {pageNumbers.length > 1 &&
+                    pageNumbers.map((item) => (
+                        <div
+                            key={item}
+                            className={`admin-content__page ${
+                                page === item
+                                    ? 'admin-content__page_checked'
+                                    : ''
+                            }`}
+                            onClick={() => setPage(item)}
+                        >
+                            {item}
+                        </div>
+                    ))}
             </div>
             <Modal active={isAdminFormOpen} setActive={setAdminFormOpen}>
                 <AdminForm active={isAdminFormOpen} />

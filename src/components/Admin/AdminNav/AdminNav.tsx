@@ -3,12 +3,12 @@ import { Context } from '../../..';
 import { useNavigate } from 'react-router-dom';
 import './AdminNav.scss';
 import logo from '../../../utils/icons/logo.svg';
-import answersIcon from '../../../utils/icons/answers-tab-icon.svg';
-import resultIcon from '../../../utils/icons/results-tab-icon.svg';
-import taskIcon from '../../../utils/icons/tasks-tab-icon.svg';
 import { observer } from 'mobx-react-lite';
 import { selectedViewContentType } from '../../../models/selectedContentModel';
 import Countdown from 'react-countdown';
+import ChecklistIcon from '@mui/icons-material/Checklist';
+import AutoGraphIcon from '@mui/icons-material/AutoGraph';
+import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import { Button, Menu, MenuItem } from '@mui/material';
 
 interface AdminNavProps {
@@ -31,6 +31,7 @@ const AdminNav: React.FC<AdminNavProps> = (props) => {
 
     const handleLinkClick = (selectedViewContent: selectedViewContentType) => {
         store.setSelectedViewContent(selectedViewContent);
+        console.log(store.selectedViewContent);
     };
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -57,11 +58,14 @@ const AdminNav: React.FC<AdminNavProps> = (props) => {
                                 onClick={() => handleLinkClick('answers')}
                                 className="admin-nav__link"
                             >
-                                <img
-                                    src={answersIcon}
-                                    alt="Иконка ответов"
+                                <FormatListNumberedIcon
                                     className="admin-nav__link-icon"
-                                ></img>
+                                    color={
+                                        store.selectedViewContent === 'answers'
+                                            ? 'primary'
+                                            : 'action'
+                                    }
+                                />
                                 <div
                                     className={`admin-nav__link-title ${
                                         store.selectedViewContent === 'answers'
@@ -76,12 +80,21 @@ const AdminNav: React.FC<AdminNavProps> = (props) => {
                                 onClick={() => handleLinkClick('results')}
                                 className="admin-nav__link"
                             >
-                                <img
-                                    src={resultIcon}
-                                    alt="Иконка итоговых результатов"
+                                <AutoGraphIcon
                                     className="admin-nav__link-icon"
-                                ></img>
-                                <div className="admin-nav__link-title">
+                                    color={
+                                        store.selectedViewContent === 'results'
+                                            ? 'primary'
+                                            : 'action'
+                                    }
+                                />
+                                <div
+                                    className={`admin-nav__link-title ${
+                                        store.selectedViewContent === 'results'
+                                            ? 'admin-nav__link-title_active'
+                                            : ''
+                                    }`}
+                                >
                                     Итоговые результаты
                                 </div>
                             </div>
@@ -93,14 +106,18 @@ const AdminNav: React.FC<AdminNavProps> = (props) => {
                                 onClick={() => handleLinkClick('tasks')}
                                 className="admin-nav__link"
                             >
-                                <img
-                                    src={taskIcon}
-                                    alt="Иконка ответов"
+                                <ChecklistIcon
                                     className="admin-nav__link-icon"
-                                ></img>
+                                    color={
+                                        store.selectedViewContent === 'tasks'
+                                            ? 'primary'
+                                            : 'action'
+                                    }
+                                />
+
                                 <div
                                     className={`admin-nav__link-title ${
-                                        store.selectedViewContent === 'answers'
+                                        store.selectedViewContent === 'tasks'
                                             ? 'admin-nav__link-title_active'
                                             : ''
                                     }`}
@@ -112,12 +129,21 @@ const AdminNav: React.FC<AdminNavProps> = (props) => {
                                 onClick={() => handleLinkClick('results')}
                                 className="admin-nav__link"
                             >
-                                <img
-                                    src={resultIcon}
-                                    alt="Иконка итоговых результатов"
+                                <AutoGraphIcon
                                     className="admin-nav__link-icon"
-                                ></img>
-                                <div className="admin-nav__link-title">
+                                    color={
+                                        store.selectedViewContent === 'results'
+                                            ? 'primary'
+                                            : 'action'
+                                    }
+                                />
+                                <div
+                                    className={`admin-nav__link-title ${
+                                        store.selectedViewContent === 'results'
+                                            ? 'admin-nav__link-title_active'
+                                            : ''
+                                    }`}
+                                >
                                     Итоговые результаты
                                 </div>
                             </div>

@@ -15,8 +15,6 @@ import Button from '../../UI/Button/Button';
 import Modal from '../../UI/Modal/Modal';
 import './AdminContest.scss';
 
-interface AdminContestProps {}
-
 export interface IContestByIdResponse {
     problemInfos: Task[];
 }
@@ -30,7 +28,7 @@ export interface Task {
     task: string;
 }
 
-const AdminContest: React.FC<AdminContestProps> = () => {
+const AdminContest: React.FC = () => {
     const { store } = useContext(Context);
     const [isAddProblemOpen, setAddProblemOpen] = React.useState(false);
     const [isCommentModalOpen, setCommentModalOpen] = React.useState(false);
@@ -99,7 +97,7 @@ const AdminContest: React.FC<AdminContestProps> = () => {
     };
 
     const handleHtmlFileChange = async (file: File) => {
-        let reader = new FileReader();
+        const reader = new FileReader();
 
         reader.readAsText(file);
 

@@ -76,7 +76,9 @@
         height: 16px;
         background-image: url('../../utils/icons/icon-contest-nav-results.svg');
         &_active {
-            background-image: url('../../utils/icons/icon-contest-nav-results.svg');
+            filter: brightness(0) saturate(100%) invert(35%) sepia(92%)
+                saturate(1441%) hue-rotate(206deg) brightness(109%)
+                contrast(98%);
         }
     }
 }

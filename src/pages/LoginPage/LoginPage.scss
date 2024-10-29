@@ -1,11 +1,12 @@
 .form-container {
-    background: linear-gradient(to right, #3987FD 50%, white 50%);
+    background: linear-gradient(to right, #3987fd 50%, white 50%);
     width: 100%;
     height: 100vh;
     display: flex;
     position: relative;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
     &__logo {
         position: absolute;
         top: 0;
