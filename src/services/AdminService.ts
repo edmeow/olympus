@@ -2,7 +2,7 @@ import $api, { BASE_URL } from '../http';
 import { ContestCreationResponse } from '../models/response/ContestCreationResponse';
 import { IСreateContestRequest } from '../models/request/IСreateContestRequest';
 import { ResponseApi } from '../hooks/useApiHook';
-import { ResponseApiService } from '../models/ResponseModel';
+import { ResponseApiService, ResponseStatus } from '../models/ResponseModel';
 export default class AdminService {
     static createContest = (
         submitObject: IСreateContestRequest,
@@ -10,6 +10,16 @@ export default class AdminService {
         return $api.post<ResponseApi<ContestCreationResponse>>(
             '/api/v1/admin/createContest',
             submitObject,
+        );
+    };
+
+    static renameContest = (
+        sessionId: number,
+        name: string,
+    ): ResponseApiService<ResponseStatus> => {
+        return $api.put<ResponseApi<ResponseStatus>>(
+            `/api/v1/admin/changeName/${sessionId}`,
+            { name },
         );
     };
     static async getContests<IGetContestsResponse>(page: number) {
@@ -58,7 +68,7 @@ export default class AdminService {
         taskId: number,
         fileName: string,
     ) {
-        return await fetch(`${BASE_URL}/api/v1/admin/download`, {
+        return await fetch(`${BASE_URL}api/v1/admin/download`, {
             method: 'POST',
             body: JSON.stringify({
                 session,
@@ -77,14 +87,22 @@ export default class AdminService {
         session: number,
         name: string | null,
         problem: File | null,
+        images: File | null,
         points: string,
         htmlContent: string,
         htmlName: string,
     ) {
         const formData = new FormData();
-        if (problem) formData.append('problem', problem);
+        if (problem) {
+            formData.append('problem', problem);
+        }
+        if (images) {
+            formData.append('images', images);
+        }
+        if (name) {
+            formData.append('name', name);
+        }
         formData.append('session', session.toString());
-        if (name) formData.append('name', name);
         formData.append('points', points);
         formData.append('htmlContent', htmlContent);
         formData.append('htmlName', htmlName);
