@@ -47,6 +47,7 @@ const AdminContest: React.FC = () => {
     });
 
     const [points, setPoints] = React.useState('0');
+    const [imagesZip, setImagesZip] = React.useState<File | null>(null);
     const [newProblem, setNewProblem] = React.useState<{
         problem: File | null;
         name: string;
@@ -86,6 +87,7 @@ const AdminContest: React.FC = () => {
     useEffect(() => {
         setNewHtmlProblem({ htmlContent: '', htmlName: '', htmlSize: '' });
         setNewProblem({ problem: null, name: '', fileSize: '' });
+        setImagesZip(null);
     }, [isAddProblemOpen]);
 
     const handleFileChange = async (file: File) => {
@@ -94,6 +96,10 @@ const AdminContest: React.FC = () => {
             name: file.name,
             fileSize: file.size.toString(),
         });
+    };
+
+    const handleImagesZipChange = async (file: File) => {
+        setImagesZip(file);
     };
 
     const handleHtmlFileChange = async (file: File) => {
@@ -126,6 +132,7 @@ const AdminContest: React.FC = () => {
                 store.contest.session,
                 newProblem?.name,
                 newProblem?.problem,
+                imagesZip,
                 points,
                 newHtmlProblem.htmlContent,
                 newHtmlProblem.htmlName,
@@ -136,6 +143,7 @@ const AdminContest: React.FC = () => {
                 .finally(() => {
                     setPoints('0');
                     setNewProblem({ problem: null, name: '', fileSize: '' });
+                    setImagesZip(null);
                     setAddProblemOpen(false);
                 });
         }
@@ -329,7 +337,7 @@ const AdminContest: React.FC = () => {
                                                     onClick={() => {
                                                         if (item.name)
                                                             handleDownloadFile(
-                                                                item.id,
+                                                                item.taskId,
                                                                 item.name,
                                                             );
                                                     }}
@@ -387,6 +395,26 @@ const AdminContest: React.FC = () => {
                             ? `${newHtmlProblem.htmlName} [${newHtmlProblem.htmlSize}кб]`
                             : ''}
                     </p>
+                    <label className="form-add-problem__input">
+                        <p>Загрузить изображения</p>
+
+                        <input
+                            id="formId"
+                            type="file"
+                            onChange={(e) => {
+                                if (e.target.files) {
+                                    handleImagesZipChange(e.target.files[0]);
+                                    e.target.value = '';
+                                }
+                            }}
+                        />
+                    </label>
+                    <p className="form-add-problem__file">
+                        {imagesZip
+                            ? `${imagesZip.name} [${imagesZip.size}кб]`
+                            : ''}
+                    </p>
+                    <br></br>
 
                     <label className="form-add-problem__input">
                         <p>Выбрать доп. материалы</p>
@@ -402,11 +430,13 @@ const AdminContest: React.FC = () => {
                             }}
                         />
                     </label>
+
                     <p className="form-add-problem__file">
                         {newProblem.problem
                             ? `${newProblem.name} [${newProblem.fileSize}кб]`
                             : ''}
                     </p>
+
                     <label className="form-add-problem__label">
                         <p>Введите количество баллов</p>
                         <input

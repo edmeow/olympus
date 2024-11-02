@@ -15,8 +15,10 @@ const JudgeAnswers: React.FC = observer(() => {
         useState<boolean>(false);
 
     const [judgeComment, setJudgeComment] = useState<string | null>(null);
-    const [selectedFeedbackModalId, setSelectedFeedbackModalId] =
-        useState<number>(0);
+    const [selectedFeedbackModalData, setSelectedFeedbackModalData] = useState<{
+        selectedFeedbackModalid: number;
+        maxStr: number;
+    } | null>(null);
     const getUserAnswers = async () => {
         await JudgeService.getUserAnswersTable<IUserAnwser>(
             store.contest.session,
@@ -70,15 +72,17 @@ const JudgeAnswers: React.FC = observer(() => {
                 handleDownloadFile={handleDownloadFile}
                 rows={store.userAnswser}
                 setOpenSetStateModal={setOpenSetStateModal}
-                setSelectedFeedbackModalId={setSelectedFeedbackModalId}
+                setSelectedFeedbackModalData={setSelectedFeedbackModalData}
                 setJudgeComment={setJudgeComment}
                 setActiveCommentModal={setActiveCommentModal}
             />
-            <JudgeFeedback
-                userTasksId={selectedFeedbackModalId}
-                isOpenSetStateModal={isOpenSetStateModal}
-                setOpenSetStateModal={setOpenSetStateModal}
-            />
+            {selectedFeedbackModalData && (
+                <JudgeFeedback
+                    userTasksData={selectedFeedbackModalData}
+                    isOpenSetStateModal={isOpenSetStateModal}
+                    setOpenSetStateModal={setOpenSetStateModal}
+                />
+            )}
             <ModalComment
                 active={isActiveCommentModal}
                 setActive={setActiveCommentModal}

@@ -22,7 +22,12 @@ interface BasicTableProps {
         fileName: string,
     ) => void;
     setOpenSetStateModal: React.Dispatch<React.SetStateAction<boolean>>;
-    setSelectedFeedbackModalId: React.Dispatch<React.SetStateAction<number>>;
+    setSelectedFeedbackModalData: React.Dispatch<
+        React.SetStateAction<{
+            selectedFeedbackModalid: number;
+            maxStr: number;
+        } | null>
+    >;
     setJudgeComment: React.Dispatch<React.SetStateAction<string | null>>;
     setActiveCommentModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -180,9 +185,10 @@ export default function AnswerTable(props: BasicTableProps) {
                                 </TableCell>
                                 <TableCell
                                     onClick={() => {
-                                        props.setSelectedFeedbackModalId(
-                                            row.id,
-                                        );
+                                        props.setSelectedFeedbackModalData({
+                                            selectedFeedbackModalid: row.id,
+                                            maxStr: row.maxPoints,
+                                        });
                                         props.setOpenSetStateModal(true);
                                     }}
                                     align="center"

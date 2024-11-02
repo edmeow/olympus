@@ -1,7 +1,7 @@
 .user-task {
-    margin-left: auto;
-
     &__item {
+        min-width: 500px;
+        min-height: 500px;
         max-height: 800px;
         overflow-y: scroll;
         border: 1px solid #d3d9de;
@@ -15,7 +15,7 @@
         padding: 15px;
         border-radius: 8px;
         text-align: center;
-        background: #dbdde6;
+        background: rgb(57, 135, 253);
         color: white;
         cursor: pointer;
         transition: opacity 0.3s;

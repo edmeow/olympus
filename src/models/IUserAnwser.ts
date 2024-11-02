@@ -5,6 +5,7 @@ export interface IUserAnwser {
     userName: string;
     taskNumber: number;
     points: number | null;
+    maxPoints: number;
     comment: string | null;
     sentTime: string;
     fileName: string;

@@ -13,6 +13,7 @@ import { IContest } from '../../models/IContest';
 import AdminService from '../../services/AdminService';
 import { getClassNameByContestState } from '../../utils/utils';
 import './AdminContestPage.scss';
+import RenameContestButton from '../../features/RenameContestButton.tsx/RenameContestButton.tsx';
 
 type ViewType = 'info' | 'results' | 'answers';
 
@@ -20,6 +21,7 @@ const AdminContestPage: React.FC = () => {
     const { sessionId } = useParams<{ sessionId: string }>();
     const [view, setView] = useState<ViewType>('info');
     const { store } = useContext(Context);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -50,7 +52,7 @@ const AdminContestPage: React.FC = () => {
                     <h1 className="contest-header__title">
                         {store.contest.name}
                     </h1>
-                    <div className="contest-header__edit-btn"></div>
+                    <RenameContestButton />
                 </div>
                 <div className="contest-header__right-block">
                     <p className="contest-header__status">Статус</p>

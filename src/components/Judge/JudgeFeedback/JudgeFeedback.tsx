@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { AxiosError } from 'axios';
 import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Context } from '../../..';
@@ -11,9 +10,14 @@ import Button from '../../UI/Button/Button';
 import Input from '../../UI/Input/Input';
 import Modal from '../../UI/Modal/Modal';
 import './JudgeFeedback.scss';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { AxiosError } from 'axios';
 
 interface JudgeFeedbackProps {
-    userTasksId: number;
+    userTasksData: {
+        selectedFeedbackModalid: number;
+        maxStr: number;
+    };
     isOpenSetStateModal: boolean;
     setOpenSetStateModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -21,7 +25,7 @@ interface JudgeFeedbackProps {
 const JudgeFeedback: React.FC<JudgeFeedbackProps> = ({
     isOpenSetStateModal,
     setOpenSetStateModal,
-    userTasksId,
+    userTasksData,
 }) => {
     const { store } = React.useContext(Context);
 
@@ -42,7 +46,7 @@ const JudgeFeedback: React.FC<JudgeFeedbackProps> = ({
     const onSubmit = async (dataFields: IJudgeFeedbackRequest) => {
         try {
             const response = await JudgeService.judgeFeedback<IUserAnwser>(
-                userTasksId,
+                userTasksData.selectedFeedbackModalid,
                 dataFields.accepted,
                 dataFields.points,
                 dataFields.comment,
@@ -52,6 +56,7 @@ const JudgeFeedback: React.FC<JudgeFeedbackProps> = ({
             }
             setOpenSetStateModal(false);
             reset();
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
         } catch (e: AxiosError | any) {
             setError('root', {
                 type: 'manual',

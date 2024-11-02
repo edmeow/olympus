@@ -6,9 +6,7 @@ import JudgeFeedback from '../../Judge/JudgeFeedback/JudgeFeedback';
 import AnswerTable from '../../UI/AnswerTable/AnswerTable';
 import ModalComment from '../../UI/ModalComment/ModalComment';
 
-interface AdminAnswersProps {}
-
-const AdminAnswers: React.FC<AdminAnswersProps> = observer(() => {
+const AdminAnswers: React.FC = observer(() => {
     const { store } = React.useContext(Context);
     const [isOpenSetStateModal, setOpenSetStateModal] =
         useState<boolean>(false);
@@ -16,8 +14,10 @@ const AdminAnswers: React.FC<AdminAnswersProps> = observer(() => {
         useState<boolean>(false);
 
     const [judgeComment, setJudgeComment] = useState<string | null>(null);
-    const [selectedFeedbackModalId, setSelectedFeedbackModalId] =
-        useState<number>(0);
+    const [selectedFeedbackModalData, setSelectedFeedbackModalData] = useState<{
+        selectedFeedbackModalid: number;
+        maxStr: number;
+    } | null>(null);
     const getUserAnswers = async () => {
         await AdminService.getUserAnswers(store.contest.session).then((res) => {
             if (res.data) {
@@ -69,15 +69,18 @@ const AdminAnswers: React.FC<AdminAnswersProps> = observer(() => {
                 handleDownloadFile={handleDownloadFile}
                 rows={store.userAnswser}
                 setOpenSetStateModal={setOpenSetStateModal}
-                setSelectedFeedbackModalId={setSelectedFeedbackModalId}
+                setSelectedFeedbackModalData={setSelectedFeedbackModalData}
                 setJudgeComment={setJudgeComment}
                 setActiveCommentModal={setActiveCommentModal}
             />
-            <JudgeFeedback
-                userTasksId={selectedFeedbackModalId}
-                isOpenSetStateModal={isOpenSetStateModal}
-                setOpenSetStateModal={setOpenSetStateModal}
-            />
+            {selectedFeedbackModalData && (
+                <JudgeFeedback
+                    userTasksData={selectedFeedbackModalData}
+                    isOpenSetStateModal={isOpenSetStateModal}
+                    setOpenSetStateModal={setOpenSetStateModal}
+                />
+            )}
+
             <ModalComment
                 active={isActiveCommentModal}
                 setActive={setActiveCommentModal}

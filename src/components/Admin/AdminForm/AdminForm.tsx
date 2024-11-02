@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DialogContentText } from '@mui/material';
-import React, { FC, ReactNode, useEffect, useId } from 'react';
-import { FormProvider, useForm, UseFormReturn } from 'react-hook-form';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useApiHook } from '../../../hooks/useApiHook';
 import {
@@ -11,9 +10,9 @@ import {
 import { ContestCreationResponse } from '../../../models/response/ContestCreationResponse';
 import { createContestSchema } from '../../../models/zodSchemas/createContestSchema';
 import AdminService from '../../../services/AdminService';
-import { ButtonComponent } from '../../UI/Button/ButtonComponent';
 import { TextFieldFormComponent } from '../../UI/FormInputs/TextFieldFormComponent';
 import './AdminForm.scss';
+import { BaseFormModal } from '../../UI/BaseFormModal';
 
 interface AdminFormProps {
     active?: boolean;
@@ -84,6 +83,7 @@ const AdminForm: React.FC<AdminFormProps> = (props) => {
         <BaseFormModal
             active={props.active ? props.active : false}
             methods={addFormMethods}
+            title={'Создать'}
             onSubmit={handleAddFormSubmit}
             content={
                 <div style={{ width: '100%' }}>
@@ -123,43 +123,3 @@ const AdminForm: React.FC<AdminFormProps> = (props) => {
     );
 };
 export default AdminForm;
-
-interface BaseFormModalProps {
-    methods: UseFormReturn<any, any, any>;
-    title?: string;
-    content?: ReactNode;
-    onSubmit: (data: any) => Promise<void>;
-    className?: string;
-    active: boolean;
-}
-
-export const BaseFormModal: FC<BaseFormModalProps> = (props) => {
-    const formId = useId();
-
-    return (
-        <FormProvider {...props.methods}>
-            <form
-                style={{ width: '100%' }}
-                id={formId}
-                noValidate
-                onSubmit={props.methods.handleSubmit(props.onSubmit)}
-            >
-                <DialogContentText component={'div'}>
-                    {props.content}
-                </DialogContentText>
-            </form>
-
-            <ButtonComponent
-                variant="contained"
-                className="adminForm__btn"
-                form={formId}
-                fullWidth={true}
-                type={'submit'}
-                tooltipText={'Подтвердить'}
-                disabled={props.methods.formState.isSubmitting}
-            >
-                Создать
-            </ButtonComponent>
-        </FormProvider>
-    );
-};

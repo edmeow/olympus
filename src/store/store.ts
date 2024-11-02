@@ -131,6 +131,10 @@ export default class Store {
         this.contest.state = ContestsStatesEnum.IN_PROGRESS;
     }
 
+    renameContest(name: string) {
+        this.contest.name = name;
+    }
+
     setAuth(bool: boolean) {
         this.isAuth = bool;
     }
