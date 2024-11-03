@@ -1,4 +1,6 @@
 .user-task {
+    padding: 0 10px;
+    overflow-x: auto;
     &__item {
         min-width: 500px;
         min-height: 500px;

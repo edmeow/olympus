@@ -48,7 +48,7 @@ const AdminNav: React.FC<AdminNavProps> = (props) => {
                 <div className="admin-nav__left">
                     <img
                         className="admin-nav__logo"
-                        onClick={() => history('/admin')}
+                        onClick={() => (props.type ? '' : history('/admin'))}
                         src={logo}
                         alt="Логотип"
                     />

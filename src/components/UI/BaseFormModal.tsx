@@ -11,7 +11,7 @@ interface BaseFormModalProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onSubmit: (data: any) => Promise<void>;
     className?: string;
-    active: boolean;
+    active?: boolean;
 }
 
 export const BaseFormModal: FC<BaseFormModalProps> = (props) => {

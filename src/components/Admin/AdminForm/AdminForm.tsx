@@ -50,7 +50,6 @@ const AdminForm: React.FC<AdminFormProps> = (props) => {
 
         if (resp) {
             const base64String = resp.fileContent;
-            console.log(resp);
 
             const binaryData = atob(base64String);
             const byteArray = new Uint8Array(binaryData.length);

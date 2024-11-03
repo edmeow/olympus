@@ -14,7 +14,7 @@ export default class JudgeService {
     static async judgeFeedback<IUserAnwser>(
         userTasksId: number,
         accepted: 'accept' | 'not-accept',
-        points: string | null,
+        points: number,
         comment: string | null,
     ) {
         return await $api.post<IUserAnwser>(`/api/v1/judge/feedback`, {

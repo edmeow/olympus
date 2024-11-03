@@ -31,7 +31,7 @@ const App: FC = observer(() => {
             AuthService.checkJWT()
                 .then((response) => {
                     if (response.data.accessToken) {
-                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
                         const { accessToken, ...data } = response.data;
                         store.setUser(data);
                         store.setAuth(true);
@@ -41,7 +41,10 @@ const App: FC = observer(() => {
                     }
                 })
                 .catch((err: AxiosError) => {
-                    if (err.response?.status === 401) {
+                    if (
+                        err.response?.status === 401 ||
+                        err.response?.status === 403
+                    ) {
                         localStorage.removeItem('jwt');
                     } else {
                         console.log('Error ' + err.message);

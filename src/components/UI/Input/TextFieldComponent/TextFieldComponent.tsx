@@ -44,6 +44,7 @@ export const TextFieldComponent = forwardRef<
             label={props.label}
         >
             <TextField
+                fullWidth
                 inputRef={ref}
                 label={props.label}
                 id={id}
@@ -68,3 +69,4 @@ export const TextFieldComponent = forwardRef<
         </TextFieldStyleWrapper>
     );
 });
+TextFieldComponent.displayName = 'TextFieldComponent';

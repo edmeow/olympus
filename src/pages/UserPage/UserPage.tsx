@@ -23,6 +23,7 @@ const UserPage: FC = () => {
                         store.setContest(response.data);
                     }
                 }
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } catch (error: any) {
                 if (error.code === 'ERR_BAD_RESPONSE') {
                     await getContest();

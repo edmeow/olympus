@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const BASE_URL = 'https://api.olympus.ydns.eu/';
+export const BASE_URL = 'https://api.olympus.ydns.eu';
 
 const $api = axios.create({
     baseURL: BASE_URL,

@@ -14,9 +14,8 @@ const UserTask: React.FC = () => {
         event: React.ChangeEvent<HTMLInputElement>,
     ) => {
         const file = event.target.files && event.target.files[0];
-        const task = store.contest.tasks.find(
-            (task) => task.id === store.selectedTask,
-        );
+        const task = store.getSelectedTask();
+
         if (file && task) {
             const response = await ParticipantService.setAnswer(
                 store.user.session,
@@ -78,7 +77,7 @@ const UserTask: React.FC = () => {
                         onClick={() => {
                             if (selectedTask.name)
                                 handleDownloadFile(
-                                    selectedTask.id,
+                                    selectedTask.taskId,
                                     selectedTask.name,
                                 );
                         }}

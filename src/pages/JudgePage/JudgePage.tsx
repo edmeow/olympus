@@ -20,7 +20,6 @@ const JudgePage = observer(() => {
                     const response = await JudgeService.getContest<IContest>(
                         store.user.session,
                     );
-                    console.log(response);
 
                     store.setContest(response.data);
                 }

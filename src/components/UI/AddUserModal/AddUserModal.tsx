@@ -46,6 +46,7 @@ const AddUserModal: React.FC<ModalProps> = ({ active, setActive }) => {
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
+                    setActive(false);
                 })
 
                 .catch((err: AxiosError) => {

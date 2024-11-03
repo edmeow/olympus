@@ -32,12 +32,14 @@ const SetNamePage: React.FC = () => {
                 store.user.username,
             );
 
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { accessToken, ...data } = response.data;
 
             store.setUser(data);
 
             history(`/session/${store.user.session}`);
             reset();
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
         } catch (e: AxiosError | any) {
             setError('root', {
                 type: 'manual',

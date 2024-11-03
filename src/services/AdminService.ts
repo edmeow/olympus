@@ -68,7 +68,7 @@ export default class AdminService {
         taskId: number,
         fileName: string,
     ) {
-        return await fetch(`${BASE_URL}api/v1/admin/download`, {
+        return await fetch(`${BASE_URL}/api/v1/admin/download`, {
             method: 'POST',
             body: JSON.stringify({
                 session,
