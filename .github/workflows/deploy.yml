@@ -28,5 +28,5 @@ jobs:
             - run: chmod 600 ~/.ssh/id_key
             
             - name: Deploy with SCP
-              run: sshpass -p "$PASS" scp -P 52284 -o StrictHostKeyChecking=no -r ./build/* user@185.186.235.12:/home/contest/front-end-olympus/
+              run: sshpass -p "$PASS" scp -P 52284 -o StrictHostKeyChecking=no -r ./build/* user@185.186.235.12:/home/user/front-end-olympus/
            
