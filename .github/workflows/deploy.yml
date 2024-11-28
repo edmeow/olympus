@@ -1,6 +1,7 @@
 name: Deploy
 env:
     SUPER_SECRET: ${{ secrets.SSH_KEY }}
+    PASS: ${{ secrets.PASS }}
     CI: false
 on:
     push:
@@ -22,4 +23,5 @@ jobs:
             - run: mkdir -p ~/.ssh
             - run: echo "$SUPER_SECRET" | tr -d '\r' > ~/.ssh/id_key
             - run: chmod 600 ~/.ssh/id_key
-            - run: scp -i ~/.ssh/id_key -P 22 -o StrictHostKeyChecking=no -r ./build/* contest@51.250.41.208:/home/contest/olympus-front-end/
+            - run: scp -P 52284 -o StrictHostKeyChecking=no -r ./build/* user@185.186.235.12:/home/contest/front-end-olympus/
+            - run:  "$PASS"
