@@ -9,7 +9,10 @@ import TableRow from '@mui/material/TableRow';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
 import { Context } from '../../..';
-import { IUserAnwser } from '../../../models/IUserAnwser';
+import {
+    IUserAnwser,
+    UserAnswerStateTypeLabels,
+} from '../../../models/IUserAnwser';
 import ParticipantService from '../../../services/ParticipantService';
 import Modal from '../../UI/Modal/Modal';
 import './UserAnswersTable.scss';
@@ -130,7 +133,9 @@ const UserAnswersTable: React.FC = () => {
                                         <div>{answer.fileName}</div>
                                     </Tooltip>
                                 </TableCell>
-                                <TableCell>{answer.state}</TableCell>
+                                <TableCell>
+                                    {UserAnswerStateTypeLabels[answer.state]}
+                                </TableCell>
                                 <TableCell>
                                     {answer.comment ? (
                                         <span
