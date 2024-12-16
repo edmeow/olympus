@@ -46,8 +46,8 @@ export default class JudgeService {
     }
 
     static async getUserResults(session: string) {
-        return $api.get(
-            `/api/v1/judge/contest/user-problems/result/${session}`,
-        );
+        return $api.post(`/api/v1/judge/contest/user-problems/result`, {
+            session: session,
+        });
     }
 }

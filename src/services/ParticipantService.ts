@@ -93,9 +93,9 @@ export default class ParticipantService {
         });
     }
 
-    static async getUserResults(session: string) {
-        return $api.get(
-            `/api/v1/users/contest/user-problems/result/${session}`,
-        );
+    static async getUserResults(id: string, session: string) {
+        return $api.post(`/api/v1/users/contest/user-problems/result/${id}`, {
+            session: session,
+        });
     }
 }

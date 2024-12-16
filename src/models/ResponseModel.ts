@@ -6,6 +6,14 @@ export type ResponseData<Data> = {
     errors: null;
 };
 
+export type ResponseDataList<Data> = {
+    data: Data[];
+};
+
+export type ResponseApiList<Data> = ResponseDataList<Data> | ResponseError;
+
+export type ResponseApiListService<T> = Promise<AxiosResponse<ResponseApi<T>>>;
+
 export type ResponseError = {
     data: null;
     status: false;

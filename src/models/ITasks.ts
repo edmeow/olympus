@@ -7,3 +7,5 @@ export interface Itasks {
     name: string | null;
     taskId: number;
 }
+
+export type ItasksList = Itasks[];

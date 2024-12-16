@@ -3,6 +3,7 @@ import { ContestCreationResponse } from '../models/response/ContestCreationRespo
 import { IСreateContestRequest } from '../models/request/IСreateContestRequest';
 import { ResponseApi } from '../hooks/useApiHook';
 import { ResponseApiService, ResponseStatus } from '../models/ResponseModel';
+import { ItasksList } from '../models/ITasks';
 export default class AdminService {
     static createContest = (
         submitObject: IСreateContestRequest,
@@ -58,9 +59,9 @@ export default class AdminService {
     }
 
     static async getUserResults(session: number) {
-        return $api.get(
-            `/api/v1/admin/contest/user-problems/result/${session}`,
-        );
+        return $api.post(`/api/v1/admin/contest/user-problems/result`, {
+            session: session,
+        });
     }
 
     static async downloadProblem(
@@ -91,7 +92,7 @@ export default class AdminService {
         points: string,
         htmlContent: string,
         htmlName: string,
-    ) {
+    ): ResponseApiService<ItasksList> {
         const formData = new FormData();
         if (problem) {
             formData.append('problem', problem);

@@ -4,7 +4,7 @@ import React, { useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Context } from '../../..';
 import { ContestsStatesEnum } from '../../../models/constants/ContestsStatesEnum';
-import { Itasks } from '../../../models/ITasks';
+import { Itasks, ItasksList } from '../../../models/ITasks';
 import { IChangeDurationRequest } from '../../../models/request/IChangeDurationRequest';
 import { changeDurationSchema } from '../../../models/zodSchemas/changeDurationSchema';
 import AdminService from '../../../services/AdminService';
@@ -14,6 +14,7 @@ import AddUserModal from '../../UI/AddUserModal/AddUserModal';
 import Button from '../../UI/Button/Button';
 import Modal from '../../UI/Modal/Modal';
 import './AdminContest.scss';
+import { useApiHook } from '../../../hooks/useApiHook';
 
 export interface IContestByIdResponse {
     problemInfos: Task[];
@@ -36,6 +37,10 @@ const AdminContest: React.FC = () => {
     const [newDuration, setNewDuration] = React.useState<string>('');
     const [isCreateUserModalOpen, setCreateUserModalOpen] =
         React.useState(false);
+
+    const { handleRequest: addProblem } = useApiHook<ItasksList>({
+        resolveMessage: 'Задание успешно добавлено',
+    });
 
     const {
         register,
@@ -123,29 +128,30 @@ const AdminContest: React.FC = () => {
         });
     };
 
-    const handleAddTaskClick = (
+    const handleAddTaskClick = async (
         e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
     ) => {
         e.preventDefault();
         if (newHtmlProblem.htmlContent) {
-            AdminService.addProblem(
-                store.contest.session,
-                newProblem?.name,
-                newProblem?.problem,
-                imagesZip,
-                points,
-                newHtmlProblem.htmlContent,
-                newHtmlProblem.htmlName,
-            )
-                .then((res) => {
-                    store.updateProblemsList(res.data);
-                })
-                .finally(() => {
-                    setPoints('0');
-                    setNewProblem({ problem: null, name: '', fileSize: '' });
-                    setImagesZip(null);
-                    setAddProblemOpen(false);
-                });
+            const resp = await addProblem(() =>
+                AdminService.addProblem(
+                    store.contest.session,
+                    newProblem?.name,
+                    newProblem?.problem,
+                    imagesZip,
+                    points,
+                    newHtmlProblem.htmlContent,
+                    newHtmlProblem.htmlName,
+                ),
+            );
+            if (resp) {
+                store.updateProblemsList(resp);
+            }
+
+            setPoints('0');
+            setNewProblem({ problem: null, name: '', fileSize: '' });
+            setImagesZip(null);
+            setAddProblemOpen(false);
         }
     };
 

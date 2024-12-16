@@ -1,7 +1,6 @@
 name: Deploy
 env:
     SUPER_SECRET: ${{ secrets.SSH_KEY }}
-    PASS: ${{ secrets.PASS }}
     CI: false
 on:
     push:
@@ -19,14 +18,8 @@ jobs:
             - run: npm ci
             - run: npm run build
 
-            - name: Install sshpass
-              run: sudo apt-get update && sudo apt-get install -y sshpass
-
             # Настройка SSH и использование rsync для деплоя
             - run: mkdir -p ~/.ssh
             - run: echo "$SUPER_SECRET" | tr -d '\r' > ~/.ssh/id_key
             - run: chmod 600 ~/.ssh/id_key
-            
-            - name: Deploy with SCP
-              run: sshpass -p "$PASS" scp -P 52284 -o StrictHostKeyChecking=no -r ./build/* user@185.186.235.12:/home/user/front-end-olympus/
-           
+            - run: scp -i ~/.ssh/id_key -P 22 -o StrictHostKeyChecking=no -r ./build/* contest@51.250.41.208:/home/contest/olympus-front-end/

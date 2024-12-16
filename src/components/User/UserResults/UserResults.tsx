@@ -8,13 +8,14 @@ const UserResults: React.FC = observer(() => {
     const { store } = React.useContext(Context);
 
     const getUserResults = async () => {
-        await ParticipantService.getUserResults(store.user.session).then(
-            (res) => {
-                if (res.data) {
-                    store.setUserResults(res.data);
-                }
-            },
-        );
+        await ParticipantService.getUserResults(
+            store.user.id,
+            store.user.session,
+        ).then((res) => {
+            if (res.data) {
+                store.setUserResults(res.data);
+            }
+        });
     };
 
     useEffect(() => {

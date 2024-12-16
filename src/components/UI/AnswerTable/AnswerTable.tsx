@@ -8,7 +8,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { IUserAnwser } from '../../../models/IUserAnwser';
+import {
+    IUserAnwser,
+    UserAnswerStateTypeLabels,
+    UserAnswerStateTypeModel,
+    UserAnswerStateTypeValues,
+} from '../../../models/IUserAnwser';
 import { EmtyIcon } from '../../../utils/icons/EmtyIcon';
 import Button from '../Button/Button';
 import HoverText from '../HoverText/HoverText';
@@ -66,6 +71,16 @@ export default function AnswerTable(props: BasicTableProps) {
             });
         setRows(sortedRows);
     };
+
+    const getRowBackgroundColor = (state: UserAnswerStateTypeModel) => {
+        switch (state) {
+            case UserAnswerStateTypeValues.REJECTED:
+                return 'rgba(255, 0, 0, 0.1)'; // Еле видный красный
+            case UserAnswerStateTypeValues.ACCEPTED:
+                return 'rgba(0, 255, 0, 0.1)'; // Еле видный зеленый
+        }
+    };
+
     return (
         <TableContainer component={Paper}>
             <Table
@@ -129,6 +144,9 @@ export default function AnswerTable(props: BasicTableProps) {
                             <TableRow
                                 key={row.id}
                                 sx={{
+                                    backgroundColor: getRowBackgroundColor(
+                                        row.state,
+                                    ),
                                     '&:last-child td, &:last-child th': {
                                         border: 0,
                                     },
@@ -161,7 +179,9 @@ export default function AnswerTable(props: BasicTableProps) {
                                         {row.fileName || '-'}
                                     </HoverText>
                                 </TableCell>
-                                <TableCell align="right">{row.state}</TableCell>
+                                <TableCell align="right">
+                                    {UserAnswerStateTypeLabels[row.state]}
+                                </TableCell>
                                 <TableCell align="right">
                                     {row.comment ? (
                                         <p
