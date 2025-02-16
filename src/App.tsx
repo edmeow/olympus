@@ -17,26 +17,26 @@ const App: FC = observer(() => {
   const checkJWT = async () => {
     const jwt = localStorage.getItem("jwt");
 
-    if (!jwt) return;
-
-    try {
-      const response = await AuthService.checkJWT();
-      if (response.data.accessToken) {
-        const { accessToken, ...data } = response.data;
-        main.setUser(data);
-        main.setAuth(true);
+    if (jwt) {
+      try {
+        const response = await AuthService.checkJWT();
+        if (response.data.accessToken) {
+          const { accessToken, ...data } = response.data;
+          main.setUser(data);
+          main.setAuth(true);
+        }
+      } catch (err) {
+        const status = (err as AxiosError)?.response?.status;
+        if (status === 401 || status === 403) {
+          localStorage.removeItem("jwt");
+          navigate(routes.login);
+        } else {
+          console.log("Error " + (err as AxiosError).message);
+        }
       }
-    } catch (err) {
-      const status = (err as AxiosError)?.response?.status;
-      if (status === 401 || status === 403) {
-        localStorage.removeItem("jwt");
-        navigate(routes.login);
-      } else {
-        console.log("Error " + (err as AxiosError).message);
-      }
-    } finally {
-      setLoading(false);
     }
+
+    setLoading(false);
   };
 
   useEffect(() => {
