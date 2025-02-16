@@ -6,11 +6,11 @@ import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { ISignInRequest } from '../../models/request/ISignInRequest';
-import { signInSchema } from '../../models/zodSchemas/signInSchema';
-import AuthService from '../../services/AuthService';
+import { ISignInRequest } from '../../../models/request/ISignInRequest';
+import { signInSchema } from '../../../models/zodSchemas/signInSchema';
+import AuthService from '../../../services/AuthService';
 import './loginForm.scss';
-import { useStore } from '../../hooks/useStore';
+import { useStore } from '../../../hooks/useStore';
 
 const LoginForm = () => {
     const [passwordShown, setPasswordShown] = useState(false);

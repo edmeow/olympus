@@ -1,63 +1,76 @@
-import { AxiosError } from 'axios';
-import { observer } from 'mobx-react-lite';
-import { FC, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './App.scss';
-import RoutesPack from './routes';
-import AuthService from './services/AuthService';
-import { useStore } from './hooks/useStore';
+import { AxiosError } from "axios";
+import { observer } from "mobx-react-lite";
+import { FC, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./App.scss";
+import RoutesPack from "./routes";
+import AuthService from "./services/AuthService";
+import { useStore } from "./hooks/useStore";
+import routes from "./config/routes";
+import { CircularProgress } from "@mui/material";
 
 const App: FC = observer(() => {
-    const { main } = useStore();
-    const history = useNavigate();
-    const redirectToPage = (role: string, session: string) => {
-        switch (role) {
-            case 'ROLE_PARTICIPANT':
-                history(`/session/${session}`);
-                break;
-            case 'ROLE_JUDGE':
-                history(`/judge/${session}`);
-                break;
-            case 'ROLE_ADMIN':
-                history(`/admin`);
-                break;
-            default:
-                break;
-        }
-    };
-    useEffect(() => {
-        const jwt = localStorage.getItem('jwt');
-        if (jwt) {
-            AuthService.checkJWT()
-                .then((response) => {
-                    if (response.data.accessToken) {
-                        // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-                        const { accessToken, ...data } = response.data;
-                        main.setUser(data);
-                        main.setAuth(true);
-                        redirectToPage(data.role, data.session);
-                    } else {
-                        history('/login');
-                    }
-                })
-                .catch((err: AxiosError) => {
-                    if (
-                        err.response?.status === 401 ||
-                        err.response?.status === 403
-                    ) {
-                        localStorage.removeItem('jwt');
-                    } else {
-                        console.log('Error ' + err.message);
-                    }
-                });
-        }
-    }, []);
+  const { main } = useStore();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  //   const redirectToPage = (role: string, session: string) => {
+  //     switch (role) {
+  //       case "ROLE_PARTICIPANT":
+  //         history(`/session/${session}`);
+  //         break;
+  //       case "ROLE_JUDGE":
+  //         history(`/judge/${session}`);
+  //         break;
+  //       case "ROLE_ADMIN":
+  //         history(`/admin`);
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //   };
 
+  const checkJWT = async () => {
+    const jwt = localStorage.getItem("jwt");
+
+    if (!jwt) return;
+
+    try {
+      const response = await AuthService.checkJWT();
+      if (response.data.accessToken) {
+        const { accessToken, ...data } = response.data;
+        main.setUser(data);
+        main.setAuth(true);
+        // redirectToPage(data.role, data.session);
+      }
+    } catch (err) {
+      const status = (err as AxiosError)?.response?.status;
+      if (status === 401 || status === 403) {
+        localStorage.removeItem("jwt");
+        navigate(routes.login);
+      } else {
+        console.log("Error " + (err as AxiosError).message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    checkJWT();
+  }, []);
+
+  if (loading)
     return (
-        <div className="App">
-            <RoutesPack />
-        </div>
+      <div className="LoaderContainer">
+        <CircularProgress />
+      </div>
     );
+
+  return (
+    <div className="App">
+      <RoutesPack />
+    </div>
+  );
 });
 
 export default App;
