@@ -45,7 +45,7 @@ const App: FC = observer(() => {
 
   if (loading)
     return (
-      <div className="LoaderContainer">
+      <div className="loader-container">
         <CircularProgress />
       </div>
     );
