@@ -13,21 +13,6 @@ const App: FC = observer(() => {
   const { main } = useStore();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  //   const redirectToPage = (role: string, session: string) => {
-  //     switch (role) {
-  //       case "ROLE_PARTICIPANT":
-  //         history(`/session/${session}`);
-  //         break;
-  //       case "ROLE_JUDGE":
-  //         history(`/judge/${session}`);
-  //         break;
-  //       case "ROLE_ADMIN":
-  //         history(`/admin`);
-  //         break;
-  //       default:
-  //         break;
-  //     }
-  //   };
 
   const checkJWT = async () => {
     const jwt = localStorage.getItem("jwt");
@@ -40,7 +25,6 @@ const App: FC = observer(() => {
         const { accessToken, ...data } = response.data;
         main.setUser(data);
         main.setAuth(true);
-        // redirectToPage(data.role, data.session);
       }
     } catch (err) {
       const status = (err as AxiosError)?.response?.status;
