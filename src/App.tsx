@@ -1,14 +1,14 @@
 import { AxiosError } from 'axios';
 import { observer } from 'mobx-react-lite';
-import { FC, useContext, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Context } from '.';
 import './App.scss';
 import RoutesPack from './routes';
 import AuthService from './services/AuthService';
+import { useStore } from './hooks/useStore';
 
 const App: FC = observer(() => {
-    const { store } = useContext(Context);
+    const { main } = useStore();
     const history = useNavigate();
     const redirectToPage = (role: string, session: string) => {
         switch (role) {
@@ -33,8 +33,8 @@ const App: FC = observer(() => {
                     if (response.data.accessToken) {
                         // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
                         const { accessToken, ...data } = response.data;
-                        store.setUser(data);
-                        store.setAuth(true);
+                        main.setUser(data);
+                        main.setAuth(true);
                         redirectToPage(data.role, data.session);
                     } else {
                         history('/login');

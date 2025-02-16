@@ -1,20 +1,20 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Context } from '../../..';
 import { IAddUsersRequest } from '../../../models/request/IAddUsersRequest';
 import { addUsersSchema } from '../../../models/zodSchemas/addUsersSchema';
 import AdminService from '../../../services/AdminService';
 import Modal from '../Modal/Modal';
 import './AddUserModal.scss';
+import { useStore } from '../../../hooks/useStore';
 interface ModalProps {
     active: boolean;
     setActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AddUserModal: React.FC<ModalProps> = ({ active, setActive }) => {
-    const { store } = useContext(Context);
+    const { main } = useStore();
 
     const {
         register,
@@ -26,9 +26,9 @@ const AddUserModal: React.FC<ModalProps> = ({ active, setActive }) => {
         resolver: zodResolver(addUsersSchema),
     });
     function createUsers(dataFields: IAddUsersRequest) {
-        if (store.contest) {
+        if (main.contest) {
             AdminService.createUsers(
-                store.contest.session,
+                main.contest.session,
                 dataFields.participantCount,
                 dataFields.judgeCount,
             )

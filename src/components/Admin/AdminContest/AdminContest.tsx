@@ -1,8 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { observer } from 'mobx-react-lite';
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Context } from '../../..';
 import { ContestsStatesEnum } from '../../../models/constants/ContestsStatesEnum';
 import { Itasks, ItasksList } from '../../../models/ITasks';
 import { IChangeDurationRequest } from '../../../models/request/IChangeDurationRequest';
@@ -15,6 +14,7 @@ import Button from '../../UI/Button/Button';
 import Modal from '../../UI/Modal/Modal';
 import './AdminContest.scss';
 import { useApiHook } from '../../../hooks/useApiHook';
+import { useStore } from '../../../hooks/useStore';
 
 export interface IContestByIdResponse {
     problemInfos: Task[];
@@ -30,7 +30,7 @@ export interface Task {
 }
 
 const AdminContest: React.FC = () => {
-    const { store } = useContext(Context);
+    const { main } = useStore();
     const [isAddProblemOpen, setAddProblemOpen] = React.useState(false);
     const [isCommentModalOpen, setCommentModalOpen] = React.useState(false);
     const [isChangeDurationOpen, setChangeDurationOpen] = React.useState(false);
@@ -66,7 +66,7 @@ const AdminContest: React.FC = () => {
 
     const handleDownloadFile = (userTaskId: number, fileName: string) => {
         AdminService.downloadProblem(
-            store.contest.session,
+            main.contest.session,
             userTaskId,
             fileName,
         )
@@ -123,8 +123,8 @@ const AdminContest: React.FC = () => {
     };
 
     const handleDeleteProblem = (id: number) => {
-        AdminService.deleteProblem(store.contest.session, id).then((res) => {
-            store.updateProblemsList(res.data);
+        AdminService.deleteProblem(main.contest.session, id).then((res) => {
+            main.updateProblemsList(res.data);
         });
     };
 
@@ -135,7 +135,7 @@ const AdminContest: React.FC = () => {
         if (newHtmlProblem.htmlContent) {
             const resp = await addProblem(() =>
                 AdminService.addProblem(
-                    store.contest.session,
+                    main.contest.session,
                     newProblem?.name,
                     newProblem?.problem,
                     imagesZip,
@@ -145,7 +145,7 @@ const AdminContest: React.FC = () => {
                 ),
             );
             if (resp) {
-                store.updateProblemsList(resp);
+                main.updateProblemsList(resp);
             }
 
             setPoints('0');
@@ -157,11 +157,11 @@ const AdminContest: React.FC = () => {
 
     const changeDurationContest = async () => {
         AdminService.changeContestDuration(
-            store.contest.session,
+            main.contest.session,
             newDuration,
         ).then((res) => {
             if (res.data) {
-                store.updateDurationContest(res.data);
+                main.updateDurationContest(res.data);
                 setChangeDurationOpen(false);
                 setNewDuration('');
             }
@@ -184,25 +184,25 @@ const AdminContest: React.FC = () => {
                     <div className="contest-info__block">
                         <p className="contest-info__label">Сессия</p>
                         <p className="contest-info__value">
-                            #{store.contest.session}
+                            #{main.contest.session}
                         </p>
                     </div>
                     <div className="contest-info__block">
                         <p className="contest-info__label">Префикс олимпиады</p>
                         <p className="contest-info__value">
-                            {store.contest.usernamePrefix}
+                            {main.contest.usernamePrefix}
                         </p>
                     </div>
                     <div className="contest-info__block">
                         <p className="contest-info__label">Участников</p>
                         <p className="contest-info__value">
-                            {store.contest.participantCount}
+                            {main.contest.participantCount}
                         </p>
                     </div>
                     <div className="contest-info__block">
                         <p className="contest-info__label">Жюри</p>
                         <p className="contest-info__value">
-                            {store.contest.judgeCount}
+                            {main.contest.judgeCount}
                         </p>
                     </div>
                     <Button
@@ -220,19 +220,19 @@ const AdminContest: React.FC = () => {
                                 <p className="contest-timing__period-title">
                                     Время проведения
                                 </p>
-                                {store.contest.state !==
+                                {main.contest.state !==
                                 ContestsStatesEnum.NOT_STARTED ? (
                                     <>
                                         <p className="contest-timing__period-label">
                                             Начало
                                             <span className="contest-timing__period-value">
-                                                {store.getStartTime()}
+                                                {main.getStartTime()}
                                             </span>
                                         </p>
                                         <p className="contest-timing__period-label">
                                             Окончание
                                             <span className="contest-timing__period-value">
-                                                {store.getEndTime()}
+                                                {main.getEndTime()}
                                             </span>
                                         </p>
                                     </>
@@ -251,9 +251,9 @@ const AdminContest: React.FC = () => {
                                 </p>
                                 <div className="contest-timing__duration-info">
                                     <p className="contest-timing__duration-value">
-                                        {store.contest.duration}
+                                        {main.contest.duration}
                                     </p>
-                                    {store.contest.state ===
+                                    {main.contest.state ===
                                         ContestsStatesEnum.NOT_STARTED && (
                                         <p
                                             onClick={() =>
@@ -275,10 +275,10 @@ const AdminContest: React.FC = () => {
                     <h2 className="contest-tasks__title">
                         Задания
                         <span className="contest-tasks__count">
-                            {store.contest.tasks?.length || 0}
+                            {main.contest.tasks?.length || 0}
                         </span>
                     </h2>
-                    {store.contest.state === ContestsStatesEnum.NOT_STARTED && (
+                    {main.contest.state === ContestsStatesEnum.NOT_STARTED && (
                         <button
                             onClick={() => setAddProblemOpen(true)}
                             className="contest-tasks__add-button"
@@ -288,8 +288,8 @@ const AdminContest: React.FC = () => {
                     )}
                 </div>
                 <div className="contest-tasks__content">
-                    {store.contest.tasks?.length ? (
-                        store.contest.tasks.map(
+                    {main.contest.tasks?.length ? (
+                        main.contest.tasks.map(
                             (item: Itasks, index: number) => {
                                 return (
                                     <div className="contest-task" key={item.id}>
@@ -297,7 +297,7 @@ const AdminContest: React.FC = () => {
                                             <p className="contest-task__header-text">
                                                 Задание #{index + 1}
                                             </p>
-                                            {store.contest.state ===
+                                            {main.contest.state ===
                                                 ContestsStatesEnum.NOT_STARTED && (
                                                 <button
                                                     className="contest-task__header-btn"
@@ -321,7 +321,7 @@ const AdminContest: React.FC = () => {
                                             <span
                                                 className="contest-task__do-btn"
                                                 onClick={() => {
-                                                    store.setSelectedComment(
+                                                    main.setSelectedComment(
                                                         item.task,
                                                     );
                                                     setCommentModalOpen(true);
@@ -468,7 +468,7 @@ const AdminContest: React.FC = () => {
             <Modal active={isCommentModalOpen} setActive={setCommentModalOpen}>
                 <div
                     className="contest-tasks__modal-task"
-                    dangerouslySetInnerHTML={{ __html: store.selectedComment }}
+                    dangerouslySetInnerHTML={{ __html: main.selectedComment }}
                 ></div>
             </Modal>
 

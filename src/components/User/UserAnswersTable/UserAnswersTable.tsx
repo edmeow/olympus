@@ -8,7 +8,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
-import { Context } from '../../..';
 import {
     IUserAnwser,
     UserAnswerStateTypeLabels,
@@ -16,21 +15,22 @@ import {
 import ParticipantService from '../../../services/ParticipantService';
 import Modal from '../../UI/Modal/Modal';
 import './UserAnswersTable.scss';
+import { useStore } from '../../../hooks/useStore';
 
 const UserAnswersTable: React.FC = () => {
-    const { store } = React.useContext(Context);
+    const { main } = useStore();
     const [isActiveCommentModal, setActiveCommentModal] =
         useState<boolean>(false);
     const [judgeComment, setJudgeComment] = useState<string | null>(null);
 
     const getUserAnswer = () => {
         ParticipantService.getAnswer<IUserAnwser>(
-            store.user.session,
-            store.user.id,
-            store.getSelectedTaskId(),
+            main.user.session,
+            main.user.id,
+            main.getSelectedTaskId(),
         )
             .then((response) => {
-                store.setUserAnswer(response.data);
+                main.setUserAnswer(response.data);
             })
             .catch((err) => console.log(err));
     };
@@ -43,7 +43,7 @@ const UserAnswersTable: React.FC = () => {
         return () => {
             clearInterval(intervalId);
         };
-    }, [store.selectedTask]);
+    }, [main.selectedTask]);
 
     const handleDownloadFile = (
         userId: number,
@@ -112,8 +112,8 @@ const UserAnswersTable: React.FC = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {store.userAnswser.length ? (
-                        store.userAnswser.map((answer) => (
+                    {main.userAnswser.length ? (
+                        main.userAnswser.map((answer) => (
                             <TableRow key={answer.id}>
                                 <TableCell>{answer.sentTime}</TableCell>
                                 <TableCell

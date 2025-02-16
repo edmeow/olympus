@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Context } from '../../..';
 import { IUserAnwser } from '../../../models/IUserAnwser';
 import JudgeService from '../../../services/JudgeService';
 import Modal from '../../UI/Modal/Modal';
@@ -15,6 +14,7 @@ import {
     judgeFeedbackSchema,
 } from '../../../models/zodSchemas/judgeFeedbackSchema';
 import { TextFieldCounted } from '../../UI/Input/TextFieldCounted';
+import { useStore } from '../../../hooks/useStore';
 
 interface JudgeFeedbackProps {
     userTasksData: {
@@ -30,7 +30,7 @@ const JudgeFeedback: React.FC<JudgeFeedbackProps> = ({
     setOpenSetStateModal,
     userTasksData,
 }) => {
-    const { store } = React.useContext(Context);
+    const { main } = useStore();
 
     const methods = useForm<JudgeFeedbackRequestType>({
         mode: 'onBlur',
@@ -51,7 +51,7 @@ const JudgeFeedback: React.FC<JudgeFeedbackProps> = ({
                 dataFields.comment,
             );
             if (response) {
-                store.updateUserAnswer(response.data);
+                main.updateUserAnswer(response.data);
             }
             setOpenSetStateModal(false);
             methods.reset();

@@ -3,14 +3,14 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { AxiosError } from 'axios';
 import { observer } from 'mobx-react-lite';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Context } from '../..';
 import { ISignInRequest } from '../../models/request/ISignInRequest';
 import { signInSchema } from '../../models/zodSchemas/signInSchema';
 import AuthService from '../../services/AuthService';
 import './loginForm.scss';
+import { useStore } from '../../hooks/useStore';
 
 const LoginForm = () => {
     const [passwordShown, setPasswordShown] = useState(false);
@@ -24,7 +24,7 @@ const LoginForm = () => {
         mode: 'onBlur',
         resolver: zodResolver(signInSchema),
     });
-    const { store } = useContext(Context);
+    const { main } = useStore();
     const history = useNavigate();
     const redirectToPage = (role: string, session: string) => {
         switch (role) {
@@ -50,10 +50,10 @@ const LoginForm = () => {
             );
 
             const { accessToken, ...data } = response.data;
-            store.setUser(data);
+            main.setUser(data);
             localStorage.setItem('jwt', accessToken);
-            store.setAuth(true);
-            redirectToPage(store.user.role, store.user.session);
+            main.setAuth(true);
+            redirectToPage(main.user.role, main.user.session);
             reset();
         } catch (e: AxiosError | any) {
             if (e?.response?.status === 401) {

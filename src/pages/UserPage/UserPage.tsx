@@ -1,14 +1,15 @@
-import { FC, useContext, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ParticipantService from '../../services/ParticipantService';
 import { IContest } from '../../models/IContest';
 import UserPageContent from '../../components/User/UserPageContent/UserPageContent';
 import './UserPage.scss';
-import { Context } from '../..';
 import { observer } from 'mobx-react-lite';
+import { useStore } from '../../hooks/useStore';
+
 const UserPage: FC = () => {
     const { sessionId } = useParams<string>();
-    const { store } = useContext(Context);
+    const { main } = useStore();
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const history = useNavigate();
     useEffect(() => {
@@ -20,7 +21,7 @@ const UserPage: FC = () => {
                         sessionId,
                     );
                     if (response?.data) {
-                        store.setContest(response.data);
+                        main.setContest(response.data);
                     }
                 }
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -34,7 +35,7 @@ const UserPage: FC = () => {
                 setIsLoading(false);
             }
         }
-        if (!store.user.email && !store.user.name && !store.user.surname) {
+        if (!main.user.email && !main.user.name && !main.user.surname) {
             history('/add-personal-data');
         }
         getContest();

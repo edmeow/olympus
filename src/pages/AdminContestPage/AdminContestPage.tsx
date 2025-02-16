@@ -1,7 +1,6 @@
 import { observer } from 'mobx-react-lite';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Context } from '../..';
 import AdminAnswers from '../../components/Admin/AdminAnswers/AdminAnswers';
 import AdminContest from '../../components/Admin/AdminContest/AdminContest';
 import AdminResults from '../../components/Admin/AdminResults/AdminResults';
@@ -14,13 +13,14 @@ import AdminService from '../../services/AdminService';
 import { getClassNameByContestState } from '../../utils/utils';
 import './AdminContestPage.scss';
 import RenameContestButton from '../../features/RenameContestButton.tsx/RenameContestButton.tsx';
+import { useStore } from '../../hooks/useStore';
 
 type ViewType = 'info' | 'results' | 'answers';
 
 const AdminContestPage: React.FC = () => {
     const { sessionId } = useParams<{ sessionId: string }>();
     const [view, setView] = useState<ViewType>('info');
-    const { store } = useContext(Context);
+    const { main } = useStore();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -29,7 +29,7 @@ const AdminContestPage: React.FC = () => {
                     const response = await AdminService.getContest<IContest>(
                         sessionId,
                     );
-                    await store.setContest(response.data);
+                    main.setContest(response.data);
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -40,9 +40,9 @@ const AdminContestPage: React.FC = () => {
     }, [sessionId]);
 
     async function startContest() {
-        const response = await AdminService.startContest(store.contest.session);
+        const response = await AdminService.startContest(main.contest.session);
 
-        store.startContest(response.data);
+        main.startContest(response.data);
     }
 
     return (
@@ -50,7 +50,7 @@ const AdminContestPage: React.FC = () => {
             <div className="contest-header">
                 <div className="contest-header__left-block">
                     <h1 className="contest-header__title">
-                        {store.contest.name}
+                        {main.contest.name}
                     </h1>
                     <RenameContestButton />
                 </div>
@@ -59,14 +59,14 @@ const AdminContestPage: React.FC = () => {
                     <div className="contest-header__status-block">
                         <div
                             className={`contest-header__status-circle ${getClassNameByContestState(
-                                store.contest.state,
+                                main.contest.state,
                             )}`}
                         ></div>
                         <p className="contest-header__status-text">
-                            {ContestsStatesLabel[store.contest.state]}
+                            {ContestsStatesLabel[main.contest.state]}
                         </p>
                     </div>
-                    {store.contest.state === ContestsStatesEnum.NOT_STARTED && (
+                    {main.contest.state === ContestsStatesEnum.NOT_STARTED && (
                         <button
                             onClick={startContest}
                             className="contest-header__start-btn"

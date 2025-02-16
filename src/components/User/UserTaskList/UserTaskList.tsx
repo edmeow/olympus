@@ -1,24 +1,24 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import './UserTaskList.scss';
-import { Context } from '../../..';
 import { observer } from 'mobx-react-lite';
+import { useStore } from '../../../hooks/useStore';
 interface UserTaskListProps {}
 
 const UserTaskList: React.FC<UserTaskListProps> = () => {
-    const { store } = useContext(Context);
+    const { main } = useStore();
     const handleItemClick = (id: number) => {
-        store.setSelectedTask(id);
+        main.setSelectedTask(id);
     };
 
     return (
         <div className="user-tasklist">
             <div className="user-tasklist__info">Выберите задание</div>
             <hr className="user-tasklist__divider" />
-            {store.contest.tasks.map((task, index) => {
+            {main.contest.tasks.map((task, index) => {
                 return (
                     <div
                         className={`user-tasklist__item ${
-                            task.id === store.selectedTask
+                            task.id === main.selectedTask
                                 ? 'user-tasklist__item_checked'
                                 : ''
                         }`}

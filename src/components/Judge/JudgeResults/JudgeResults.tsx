@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
 import JudgeService from '../../../services/JudgeService';
-import { Context } from '../../..';
 import { observer } from 'mobx-react-lite';
 import ResultsTable from '../../UI/ResultsTable/ResultsTable';
+import { useStore } from '../../../hooks/useStore';
 
 const JudgeResults: React.FC = observer(() => {
-    const { store } = React.useContext(Context);
+    const { main } = useStore();
 
     const getUserResults = async () => {
-        await JudgeService.getUserResults(store.user.session).then((res) => {
+        await JudgeService.getUserResults(main.user.session).then((res) => {
             if (res.data) {
-                store.setUserResults(res.data);
+                main.setUserResults(res.data);
             }
         });
     };
@@ -22,13 +22,13 @@ const JudgeResults: React.FC = observer(() => {
         }, 90000);
         return () => {
             clearInterval(intervalId);
-            store.setUserResults({ users: [], tasksCount: 0 });
+            main.setUserResults({ users: [], tasksCount: 0 });
         };
     }, []);
 
     return (
         <div>
-            <ResultsTable rows={store.userResults} />
+            <ResultsTable rows={main.userResults} />
         </div>
     );
 });

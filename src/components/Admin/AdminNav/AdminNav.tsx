@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import { Context } from '../../..';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AdminNav.scss';
 import logo from '../../../utils/icons/logo.svg';
@@ -10,18 +9,19 @@ import ChecklistIcon from '@mui/icons-material/Checklist';
 import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import { Button, Menu, MenuItem } from '@mui/material';
+import { useStore } from '../../../hooks/useStore';
 
 interface AdminNavProps {
     type?: 'user' | 'judge';
 }
 
 const AdminNav: React.FC<AdminNavProps> = (props) => {
-    const { store } = useContext(Context);
+    const { main } = useStore();
     const history = useNavigate();
 
     function handleExit(): void {
         try {
-            store.logout();
+            main.logout();
             localStorage.removeItem('jwt');
             history('/login');
         } catch (error) {
@@ -30,8 +30,8 @@ const AdminNav: React.FC<AdminNavProps> = (props) => {
     }
 
     const handleLinkClick = (selectedViewContent: selectedViewContentType) => {
-        store.setSelectedViewContent(selectedViewContent);
-        console.log(store.selectedViewContent);
+        main.setSelectedViewContent(selectedViewContent);
+        console.log(main.selectedViewContent);
     };
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -61,14 +61,14 @@ const AdminNav: React.FC<AdminNavProps> = (props) => {
                                 <FormatListNumberedIcon
                                     className="admin-nav__link-icon"
                                     color={
-                                        store.selectedViewContent === 'answers'
+                                        main.selectedViewContent === 'answers'
                                             ? 'primary'
                                             : 'action'
                                     }
                                 />
                                 <div
                                     className={`admin-nav__link-title ${
-                                        store.selectedViewContent === 'answers'
+                                        main.selectedViewContent === 'answers'
                                             ? 'admin-nav__link-title_active'
                                             : ''
                                     }`}
@@ -83,14 +83,14 @@ const AdminNav: React.FC<AdminNavProps> = (props) => {
                                 <AutoGraphIcon
                                     className="admin-nav__link-icon"
                                     color={
-                                        store.selectedViewContent === 'results'
+                                        main.selectedViewContent === 'results'
                                             ? 'primary'
                                             : 'action'
                                     }
                                 />
                                 <div
                                     className={`admin-nav__link-title ${
-                                        store.selectedViewContent === 'results'
+                                        main.selectedViewContent === 'results'
                                             ? 'admin-nav__link-title_active'
                                             : ''
                                     }`}
@@ -109,7 +109,7 @@ const AdminNav: React.FC<AdminNavProps> = (props) => {
                                 <ChecklistIcon
                                     className="admin-nav__link-icon"
                                     color={
-                                        store.selectedViewContent === 'tasks'
+                                        main.selectedViewContent === 'tasks'
                                             ? 'primary'
                                             : 'action'
                                     }
@@ -117,7 +117,7 @@ const AdminNav: React.FC<AdminNavProps> = (props) => {
 
                                 <div
                                     className={`admin-nav__link-title ${
-                                        store.selectedViewContent === 'tasks'
+                                        main.selectedViewContent === 'tasks'
                                             ? 'admin-nav__link-title_active'
                                             : ''
                                     }`}
@@ -132,14 +132,14 @@ const AdminNav: React.FC<AdminNavProps> = (props) => {
                                 <AutoGraphIcon
                                     className="admin-nav__link-icon"
                                     color={
-                                        store.selectedViewContent === 'results'
+                                        main.selectedViewContent === 'results'
                                             ? 'primary'
                                             : 'action'
                                     }
                                 />
                                 <div
                                     className={`admin-nav__link-title ${
-                                        store.selectedViewContent === 'results'
+                                        main.selectedViewContent === 'results'
                                             ? 'admin-nav__link-title_active'
                                             : ''
                                     }`}
@@ -157,7 +157,7 @@ const AdminNav: React.FC<AdminNavProps> = (props) => {
                                 <div className="admin-nav__info">
                                     <div className="admin-nav__profile-icon"></div>
                                     <h3 className="admin-nav__user-name">
-                                        {store.user.username}
+                                        {main.user.username}
                                     </h3>
                                     <div className="admin-nav__vector"></div>
                                 </div>
@@ -188,15 +188,15 @@ const AdminNav: React.FC<AdminNavProps> = (props) => {
                 <div className="admin-nav__bottom1">
                     <div className="admin-nav__bottom">
                         <h1 className="admin-nav__title">
-                            {store.contest.name}
+                            {main.contest.name}
                         </h1>
-                        {store.contest.endTime && (
+                        {main.contest.endTime && (
                             <p className="admin-nav__timer">
                                 Осталось:
                                 <Countdown
                                     className="admin-nav__time"
                                     daysInHours
-                                    date={new Date(store.contest.endTime)}
+                                    date={new Date(main.contest.endTime)}
                                 />
                             </p>
                         )}

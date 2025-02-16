@@ -1,14 +1,14 @@
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
-import { Context } from '../../..';
 import { IUserAnwser } from '../../../models/IUserAnwser';
 import JudgeService from '../../../services/JudgeService';
 import AnswerTable from '../../UI/AnswerTable/AnswerTable';
 import ModalComment from '../../UI/ModalComment/ModalComment';
 import JudgeFeedback from '../JudgeFeedback/JudgeFeedback';
+import { useStore } from '../../../hooks/useStore';
 
 const JudgeAnswers: React.FC = observer(() => {
-    const { store } = React.useContext(Context);
+    const { main } = useStore();
     const [isOpenSetStateModal, setOpenSetStateModal] =
         useState<boolean>(false);
     const [isActiveCommentModal, setActiveCommentModal] =
@@ -21,10 +21,10 @@ const JudgeAnswers: React.FC = observer(() => {
     } | null>(null);
     const getUserAnswers = async () => {
         await JudgeService.getUserAnswersTable<IUserAnwser>(
-            store.contest.session,
+            main.contest.session,
         ).then((res) => {
             if (res.data) {
-                store.setUserAnswer(res.data);
+                main.setUserAnswer(res.data);
             }
         });
     };
@@ -62,7 +62,7 @@ const JudgeAnswers: React.FC = observer(() => {
         }, 30000);
         return () => {
             clearInterval(intervalId);
-            store.setUserAnswer([]);
+            main.setUserAnswer([]);
         };
     }, []);
 
@@ -70,7 +70,7 @@ const JudgeAnswers: React.FC = observer(() => {
         <div>
             <AnswerTable
                 handleDownloadFile={handleDownloadFile}
-                rows={store.userAnswser}
+                rows={main.userAnswser}
                 setOpenSetStateModal={setOpenSetStateModal}
                 setSelectedFeedbackModalData={setSelectedFeedbackModalData}
                 setJudgeComment={setJudgeComment}

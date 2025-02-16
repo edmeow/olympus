@@ -7,8 +7,9 @@ import { IUserAnwser } from '../models/IUserAnwser';
 import { IUserResults } from '../models/IUserResult';
 import { ContestsStatesEnum } from '../models/constants/ContestsStatesEnum';
 import { selectedViewContentType } from '../models/selectedContentModel';
+import { createContext } from 'react';
 
-export default class Store {
+class MainStore {
     user = {} as IUser;
     contest = {} as IContest;
     selectedTask: number = 0;
@@ -153,3 +154,9 @@ export default class Store {
         }
     }
 }
+
+const main = new MainStore();
+
+export const StoreContext = createContext({ main });
+
+export default main;

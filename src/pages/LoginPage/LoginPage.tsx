@@ -1,15 +1,15 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import LoginForm from '../../components/LoginForm/LoginForm';
 import AuthService from '../../services/AuthService';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Context } from '../..';
 import './LoginPage.scss';
 import Logo from '../../utils/icons/logo.svg';
 import LoginBack from '../../utils/icons/login-form-bg-Image.png';
+import { useStore } from '../../hooks/useStore';
 
 function LoginPage() {
-    const { store } = useContext(Context);
+    const { main } = useStore();
     const [loading, setLoading] = useState(true);
 
     const history = useNavigate();
@@ -35,8 +35,8 @@ function LoginPage() {
                 .then((response) => {
                     if (response.data.accessToken) {
                         const { accessToken, ...data } = response.data;
-                        store.setUser(data);
-                        store.setAuth(true);
+                        main.setUser(data);
+                        main.setAuth(true);
                         redirectToPage(data.role, data.session);
                     }
                 })

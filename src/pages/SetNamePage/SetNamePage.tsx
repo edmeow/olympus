@@ -1,16 +1,16 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AxiosError } from 'axios';
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { Context } from '../..';
 import { IAddPersonalDataRequest } from '../../models/request/IAddPersonalDataRequest';
 import { addPersonalSchema } from '../../models/zodSchemas/addPersonalSchema';
 import ParticipantService from '../../services/ParticipantService';
 import './SetNamePage.scss';
+import { useStore } from '../../hooks/useStore';
 
 const SetNamePage: React.FC = () => {
-    const { store } = useContext(Context);
+    const { main } = useStore();
     const history = useNavigate();
     const {
         register,
@@ -29,15 +29,15 @@ const SetNamePage: React.FC = () => {
                 dataFields.name,
                 dataFields.surname,
                 dataFields.email,
-                store.user.username,
+                main.user.username,
             );
 
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { accessToken, ...data } = response.data;
 
-            store.setUser(data);
+            main.setUser(data);
 
-            history(`/session/${store.user.session}`);
+            history(`/session/${main.user.session}`);
             reset();
             // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
         } catch (e: AxiosError | any) {
@@ -48,8 +48,8 @@ const SetNamePage: React.FC = () => {
         }
     };
     useEffect(() => {
-        if (store.user.email && store.user.surname && store.user.name) {
-            history(`/session/${store.user.session}`);
+        if (main.user.email && main.user.surname && main.user.name) {
+            history(`/session/${main.user.session}`);
         }
     }, []);
     return (

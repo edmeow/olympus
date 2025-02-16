@@ -1,5 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
-import { Context } from '../..';
+import { useEffect, useState } from 'react';
 import { useApiHook } from '../../hooks/useApiHook';
 import AdminService from '../../services/AdminService';
 import { useForm } from 'react-hook-form';
@@ -7,9 +6,10 @@ import { TextFieldFormComponent } from '../../components/UI/FormInputs/TextField
 import { BaseFormModal } from '../../components/UI/BaseFormModal';
 import Modal from '../../components/UI/Modal/Modal';
 import { observer } from 'mobx-react-lite';
+import { useStore } from '../../hooks/useStore';
 
 const RenameContestButton = () => {
-    const { store } = useContext(Context);
+    const { main } = useStore();
     const [isModalOpen, setModalOpen] = useState(false);
 
     const { handleRequest: renameContest } = useApiHook({
@@ -17,17 +17,17 @@ const RenameContestButton = () => {
     });
 
     const methods = useForm<{ name: string }>({
-        defaultValues: { name: store.contest.name },
+        defaultValues: { name: main.contest.name },
     });
 
     const handleRenameContest = async (data: { name: string }) => {
         setModalOpen(true);
         const resp = await renameContest(() =>
-            AdminService.renameContest(store.contest.session, data.name),
+            AdminService.renameContest(main.contest.session, data.name),
         );
 
         if (resp) {
-            store.renameContest(data.name);
+            main.renameContest(data.name);
             setModalOpen(false);
         }
     };
@@ -36,7 +36,7 @@ const RenameContestButton = () => {
         setModalOpen(true);
     };
     useEffect(() => {
-        methods.reset({ name: store.contest.name });
+        methods.reset({ name: main.contest.name });
     }, [isModalOpen]);
     return (
         <>

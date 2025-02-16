@@ -1,5 +1,4 @@
-import { useContext, useEffect } from 'react';
-import { Context } from '../..';
+import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import JudgeAnswers from '../../components/Judge/JudgeAnswers/JudgeAnswers';
 import JudgeResults from '../../components/Judge/JudgeResults/JudgeResults';
@@ -8,20 +7,21 @@ import './JudgePage.scss';
 import JudgeService from '../../services/JudgeService';
 import { IContest } from '../../models/IContest';
 import { CircularProgress } from '@mui/material';
+import { useStore } from '../../hooks/useStore';
 const cnJudgePage = cn('JudgePage');
 
 const JudgePage = observer(() => {
-    const { store } = useContext(Context);
+    const { main } = useStore();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                if (store.user.session) {
+                if (main.user.session) {
                     const response = await JudgeService.getContest<IContest>(
-                        store.user.session,
+                        main.user.session,
                     );
 
-                    store.setContest(response.data);
+                    main.setContest(response.data);
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -33,12 +33,12 @@ const JudgePage = observer(() => {
 
     return (
         <>
-            {store.contest.session ? (
+            {main.contest.session ? (
                 <div className={cnJudgePage()}>
-                    {store.selectedViewContent === 'answers' && (
+                    {main.selectedViewContent === 'answers' && (
                         <JudgeAnswers />
                     )}
-                    {store.selectedViewContent === 'results' && (
+                    {main.selectedViewContent === 'results' && (
                         <JudgeResults />
                     )}
                 </div>

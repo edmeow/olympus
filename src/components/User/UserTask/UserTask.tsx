@@ -1,38 +1,38 @@
 import AddIcon from '@mui/icons-material/Add';
 import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
-import { Context } from '../../..';
+import React from 'react';
 import { Itasks } from '../../../models/ITasks';
 import ParticipantService from '../../../services/ParticipantService';
 import './UserTask.scss';
+import { useStore } from '../../../hooks/useStore';
 
 const UserTask: React.FC = () => {
-    const { store } = useContext(Context);
-    const selectedTask: Itasks = store.getSelectedTask();
+    const { main } = useStore();
+    const selectedTask: Itasks = main.getSelectedTask();
 
     const handleFileUpload = async (
         event: React.ChangeEvent<HTMLInputElement>,
     ) => {
         const file = event.target.files && event.target.files[0];
-        const task = store.getSelectedTask();
+        const task = main.getSelectedTask();
 
         if (file && task) {
             const response = await ParticipantService.setAnswer(
-                store.user.session,
-                store.user.id,
+                main.user.session,
+                main.user.id,
                 task.taskId,
                 file,
                 file.name,
             );
             if (response) {
-                store.setUserAnswer(response.data);
+                main.setUserAnswer(response.data);
                 event.target.value = '';
             }
         }
     };
     const handleDownloadFile = (userTaskId: number, fileName: string) => {
         ParticipantService.downloadFileZip(
-            store.contest.session,
+            main.contest.session,
             userTaskId,
             fileName,
         )
@@ -104,7 +104,7 @@ const UserTask: React.FC = () => {
             >
                 <div
                     className="user-task__item"
-                    dangerouslySetInnerHTML={store.sanitizeHtml(
+                    dangerouslySetInnerHTML={main.sanitizeHtml(
                         selectedTask.task,
                     )}
                 ></div>

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const BASE_URL = 'https://api.olympus.ydns.eu';
+export const BASE_URL = 'https://192.168.1.112:3001';
 //export const BASE_URL = 'https://8bc1-188-191-29-81.ngrok-free.app';
 
 const $api = axios.create({

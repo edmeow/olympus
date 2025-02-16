@@ -1,18 +1,18 @@
 import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
-import { Context } from '../../..';
 import AdminService from '../../../services/AdminService';
 import ResultsTable from '../../UI/ResultsTable/ResultsTable';
+import { useStore } from '../../../hooks/useStore';
 
 interface AdminResultsProps {}
 
 const AdminResults: React.FC<AdminResultsProps> = observer(() => {
-    const { store } = React.useContext(Context);
+    const { main } = useStore();
 
     const getUserResults = async () => {
-        await AdminService.getUserResults(store.contest.session).then((res) => {
+        await AdminService.getUserResults(main.contest.session).then((res) => {
             if (res.data) {
-                store.setUserResults(res.data);
+                main.setUserResults(res.data);
             }
         });
     };
@@ -24,13 +24,13 @@ const AdminResults: React.FC<AdminResultsProps> = observer(() => {
         }, 30000);
         return () => {
             clearInterval(intervalId);
-            store.setUserResults({ users: [], tasksCount: 0 });
+            main.setUserResults({ users: [], tasksCount: 0 });
         };
     }, []);
 
     return (
         <div>
-            <ResultsTable rows={store.userResults} />
+            <ResultsTable rows={main.userResults} />
         </div>
     );
 });
