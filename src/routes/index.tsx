@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import UserPage from "../pages/UserPage/UserPage";
 import JudgePage from "../pages/JudgePage/JudgePage";
 import AdminPage from "../pages/AdminPage/AdminPage";
@@ -65,11 +65,11 @@ const RoutesPack = () => {
             />
           </Route>
         </Route>
+        <Route
+          path="*"
+          element={<div style={{ paddingTop: "40px" }}>Not found</div>}
+        />
       </Route>
-      <Route
-        path="*"
-        element={<div style={{ paddingTop: "40px" }}>Not found</div>}
-      ></Route>
     </Routes>
   );
 };
