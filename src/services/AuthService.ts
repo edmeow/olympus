@@ -1,17 +1,11 @@
-import $api from '../http';
-import { AxiosResponse } from 'axios';
-import { AuthResponse } from '../models/response/AuthResponse';
+import $api from "../http";
+import { IAuthResponse } from "../models/response/IAuthResponse";
 export default class AuthService {
-    static async login(
-        username: string,
-        password: string,
-    ): Promise<AxiosResponse<AuthResponse>> {
-        return $api.post<AuthResponse>('/api/v1/auth/login', {
-            username,
-            password,
-        });
-    }
-    static async checkJWT(): Promise<AxiosResponse<AuthResponse>> {
-        return $api.get<AuthResponse>('/api/v1/auth/checkAuth');
-    }
+  static async login(body: { username: string; password: string }) {
+    return $api.post<IAuthResponse>("/api/v1/auth/login", body);
+  }
+
+  static async checkJWT() {
+    return $api.get<IAuthResponse>("/api/v1/auth/checkAuth");
+  }
 }

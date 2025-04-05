@@ -6,25 +6,45 @@ import { observer } from "mobx-react-lite";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import AuthService from "../../../services/AuthService";
 import { ISignInRequest } from "../../../models/request/ISignInRequest";
 import { signInSchema } from "../../../models/zodSchemas/signInSchema";
-import AuthService from "../../../services/AuthService";
-import "./loginForm.scss";
 import { useStore } from "../../../hooks/useStore";
+import "./loginForm.scss";
 
 const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    reset,
     setError,
-    formState: { errors, isSubmitting, isValid },
+    formState: { errors },
   } = useForm<ISignInRequest>({
-    mode: "onBlur",
+    mode: "onSubmit",
     resolver: zodResolver(signInSchema),
   });
   const { main } = useStore();
   const history = useNavigate();
+
+  const loginMutation = useMutation({
+    mutationFn: AuthService.login,
+    onSuccess: (res) => {
+      main.setUser(res.data);
+      main.setAuth(true);
+      redirectToPage(main.user.role);
+    },
+    onError: (err: AxiosError) => {
+      if (err?.status === 400) {
+        setError("root", {
+          message: "Неверный логин или пароль",
+        });
+      } else {
+        setError("root", {
+          message: "Неизвестная ошибка",
+        });
+      }
+    },
+  });
 
   const [passwordShown, setPasswordShown] = useState(false);
 
@@ -45,37 +65,14 @@ const LoginForm = () => {
   };
 
   const onSubmit = async (dataFields: ISignInRequest) => {
-    try {
-      const response = await AuthService.login(
-        dataFields.username,
-        dataFields.password
-      );
-
-      const { accessToken, ...data } = response.data;
-      main.setUser(data);
-      localStorage.setItem("jwt", accessToken);
-      main.setAuth(true);
-      redirectToPage(main.user.role);
-      reset();
-    } catch (e: AxiosError | any) {
-      if (e?.response?.status === 401) {
-        setError("root", {
-          type: "manual",
-          message: "Ошибка неправильных данных при логине",
-        });
-      } else if (e?.request) {
-        setError("root", {
-          type: "manual",
-          message: "Запрос был выполнен, но не получен ответ",
-        });
-      } else {
-        console.log(1);
-      }
-    }
+    loginMutation.mutate({
+      username: dataFields.username,
+      password: dataFields.password,
+    });
   };
 
   const togglePasswordVisiblity = () => {
-    setPasswordShown(passwordShown ? false : true);
+    setPasswordShown((prev) => !prev);
   };
 
   return (
@@ -122,8 +119,8 @@ const LoginForm = () => {
         </p>
       </label>
       <p className="formAuth__error">{errors.root?.message}</p>
-      <button disabled={!isValid || isSubmitting} className="formAuth__btn">
-        {isSubmitting ? "Ожидание ответа" : "Войти"}
+      <button disabled={loginMutation.isPending} className="formAuth__btn">
+        Войти
       </button>
     </form>
   );

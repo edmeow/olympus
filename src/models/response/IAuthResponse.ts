@@ -1,4 +1,4 @@
-export interface AuthResponse {
+export interface IAuthResponse {
     id: string;
     username: string;
     name: string | null;

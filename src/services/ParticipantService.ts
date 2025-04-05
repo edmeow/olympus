@@ -1,6 +1,6 @@
 import $api, { BASE_URL } from "../http";
 import { IUserAnwser } from "../models/IUserAnwser";
-import { AuthResponse } from "../models/response/AuthResponse";
+import { IAuthResponse } from "../models/response/IAuthResponse";
 export default class ParticipantService {
   static async getContest<IContest>() {
     return await $api.get<IContest>(`/api/v1/users/contest`);
@@ -17,7 +17,7 @@ export default class ParticipantService {
     email: string,
     username: string
   ) {
-    return await $api.post<AuthResponse>(`/api/v1/users/welcome`, {
+    return await $api.post<IAuthResponse>(`/api/v1/users/welcome`, {
       name,
       surname,
       email,
