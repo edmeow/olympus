@@ -1,13 +1,13 @@
 import { ContestsStatesEnum } from '../constants/ContestsStatesEnum';
 
-export type IContestListRequest = {
+export type IContestListResponse = {
     count: number;
     contestsInfos: ContestsInfo[];
 };
 
 export interface ContestsInfo {
     name: string;
-    session: number;
+    contestId: number;
     contestState: ContestsStatesEnum;
     duration: string;
     startTime: string;

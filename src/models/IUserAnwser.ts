@@ -2,7 +2,6 @@ import { z } from 'zod';
 
 export interface IUserAnwser {
     id: number;
-    session: number;
     userId: number;
     userName: string;
     taskNumber: number;

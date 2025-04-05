@@ -18,16 +18,16 @@ import { useStore } from '../../hooks/useStore';
 type ViewType = 'info' | 'results' | 'answers';
 
 const AdminContestPage: React.FC = () => {
-    const { sessionId } = useParams<{ sessionId: string }>();
+    const { contestId } = useParams<{ contestId: string }>();
     const [view, setView] = useState<ViewType>('info');
     const { main } = useStore();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                if (sessionId) {
+                if (contestId) {
                     const response = await AdminService.getContest<IContest>(
-                        sessionId,
+                        contestId,
                     );
                     main.setContest(response.data);
                 }
@@ -37,10 +37,10 @@ const AdminContestPage: React.FC = () => {
         };
 
         fetchData();
-    }, [sessionId]);
+    }, [contestId]);
 
     async function startContest() {
-        const response = await AdminService.startContest(main.contest.session);
+        const response = await AdminService.startContest(main.contest.contestId);
 
         main.startContest(response.data);
     }

@@ -22,11 +22,11 @@ const RenameContestButton = () => {
 
     const handleRenameContest = async (data: { name: string }) => {
         setModalOpen(true);
-        const resp = await renameContest(() =>
-            AdminService.renameContest(main.contest.session, data.name),
+        const res = await renameContest(() =>
+            AdminService.renameContest(main.contest.contestId, data.name),
         );
 
-        if (resp) {
+        if (res) {
             main.renameContest(data.name);
             setModalOpen(false);
         }

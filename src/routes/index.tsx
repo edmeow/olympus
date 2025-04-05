@@ -31,7 +31,7 @@ const RoutesPack = () => {
         >
           <Route path={`/add-personal-data`} element={<SetNamePage />} />
           <Route element={<AdminNavRouter type={"user"} />}>
-            <Route path={`/session/:sessionId`} element={<UserPage />} />
+            <Route path={`/participant`} element={<UserPage />} />
           </Route>
         </Route>
 
@@ -44,7 +44,7 @@ const RoutesPack = () => {
           }
         >
           <Route element={<AdminNavRouter type={"judge"} />}>
-            <Route path={`/judge/:sessionId`} element={<JudgePage />} />
+            <Route path={`/judge`} element={<JudgePage />} />
           </Route>
         </Route>
 
@@ -60,7 +60,7 @@ const RoutesPack = () => {
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/admin/create-contest" element={<AdminForm />} />
             <Route
-              path="/admin/contest/:sessionId"
+              path="/admin/contest/:contestId"
               element={<AdminContestPage />}
             />
           </Route>

@@ -62,7 +62,7 @@ const AdminForm: React.FC<AdminFormProps> = (props) => {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            history(`/admin/contest/${resp.contest.session}`);
+            history(`/admin/contest/${resp.contest.contestId}`);
         }
     };
 
