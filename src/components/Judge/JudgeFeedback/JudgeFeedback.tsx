@@ -3,17 +3,17 @@ import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { IUserAnwser } from '../../../models/IUserAnwser';
 import JudgeService from '../../../services/JudgeService';
-import Modal from '../../UI/Modal/Modal';
+import Modal from '../../DeprecatedUI/Modal/Modal';
 import './JudgeFeedback.scss';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { AxiosError } from 'axios';
-import { TextFieldFormComponent } from '../../UI/FormInputs/TextFieldFormComponent';
-import { BaseFormModal } from '../../UI/BaseFormModal';
+import { TextFieldFormComponent } from '../../DeprecatedUI/FormInputs/TextFieldFormComponent';
+import { BaseFormModal } from '../../DeprecatedUI/BaseFormModal';
 import {
     JudgeFeedbackRequestType,
     judgeFeedbackSchema,
 } from '../../../models/zodSchemas/judgeFeedbackSchema';
-import { TextFieldCounted } from '../../UI/Input/TextFieldCounted';
+import { TextFieldCounted } from '../../DeprecatedUI/Input/TextFieldCounted';
 import { useStore } from '../../../hooks/useStore';
 
 interface JudgeFeedbackProps {

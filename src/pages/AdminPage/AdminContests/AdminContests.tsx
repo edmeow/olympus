@@ -1,46 +1,70 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ContestsStatesLabel } from "../../../models/constants/ContestsStatesEnum";
 import AdminService from "../../../services/AdminService";
 import img from "../../../utils/icons/contestIcons/img-contest1.png";
 import { getClassNameByContestState } from "../../../utils/utils";
-import Modal from "../../UI/Modal/Modal";
-import AdminForm from "../AdminForm/AdminForm";
 import "./AdminContests.scss";
 import {
   ContestsInfo,
   IContestListResponse,
 } from "../../../models/response/IContestListResponse";
+import { useQuery } from "@tanstack/react-query";
+import {
+  Box,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
+import Button from "../../../components/ui/Button";
+import Input from "../../../components/ui/Input";
+import { Controller, useForm } from "react-hook-form";
 
-const AdminContests: React.FC = () => {
-  const history = useNavigate();
+interface CreateContestFormFields {
+  name: string;
+}
 
-  const [contests, setContests] = useState<IContestListResponse>();
+const AdminContests = () => {
+  const navigate = useNavigate();
+  const { control, handleSubmit } = useForm<CreateContestFormFields>({
+    mode: "onSubmit",
+    defaultValues: { name: "" },
+  });
+
   const [page, setPage] = useState<number>(1);
   const [pageNumbers, setPageNumbers] = useState<number[]>([]);
-  const [isAdminFormOpen, setAdminFormOpen] = React.useState(false);
+  const [isCreateContestModalOpen, setCreateContestModalOpen] = useState(false);
 
-  const onClickHanler = (_: unknown, contestId: number) => {
-    history("/admin/contest/" + contestId);
-  };
+  const {
+    error,
+    data: contests,
+    isFetching,
+  } = useQuery<IContestListResponse>({
+    queryKey: ["contests", page],
+    queryFn: async () => {
+      const res = await AdminService.getContests(page);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await AdminService.getContests(page);
-
-      if (result.data.count) {
+      if (res.data.count) {
         const array = [];
-        for (let i = 1; i <= Math.ceil(result.data.count / 6); i++) {
+        for (let i = 1; i <= Math.ceil(res.data.count / 10); i++) {
           array.push(i);
         }
         setPageNumbers(array);
-
-        setContests(result.data);
       }
-    };
 
-    fetchData();
-  }, [page]);
+      return res.data;
+    },
+  });
+
+  const onClickHanler = (_: unknown, contestId: number) => {
+    navigate("/admin/contest/" + contestId);
+  };
+
+  const createOlym = (data: CreateContestFormFields) => {
+
+  };
 
   return (
     <div className="admin-content">
@@ -51,15 +75,20 @@ const AdminContests: React.FC = () => {
         </div>
         <div className="admin-content__info-right">
           <button
-            onClick={() => setAdminFormOpen(true)}
+            onClick={() => setCreateContestModalOpen(true)}
             className="admin-content__btn-create"
           >
             Создать олимпиаду
           </button>
         </div>
       </div>
-
+      {error && (
+        <div className="contest-error">
+          <p className="contest-error__text">{error?.message}</p>
+        </div>
+      )}
       <ul className="contest-list">
+        {isFetching && <CircularProgress />}
         {contests?.contestsInfos.map((contest: ContestsInfo) => {
           return (
             <div key={contest.contestId} className="contest-list__item">
@@ -131,9 +160,34 @@ const AdminContests: React.FC = () => {
             </div>
           ))}
       </div>
-      <Modal active={isAdminFormOpen} setActive={setAdminFormOpen}>
-        <AdminForm active={isAdminFormOpen} />
-      </Modal>
+      {/* <Modal
+        active={isCreateContestModalOpen}
+        setActive={setCreateContestModalOpen}
+      >
+        <CreateContestForm />
+      </Modal> */}
+      <Dialog
+        open={isCreateContestModalOpen}
+        onClose={() => setCreateContestModalOpen(false)}
+      >
+        <DialogTitle>Создание олимпиады</DialogTitle>
+        <DialogContent>
+          <Box width="400px" component="form" onSubmit={handleSubmit(createOlym)}>
+            <Controller
+              control={control}
+              name="name"
+              render={({ field }) => (
+                <Input {...field} ref={null} label="Название олимпиады" />
+              )}
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button size="large" fullwidth>
+            Кнопка
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

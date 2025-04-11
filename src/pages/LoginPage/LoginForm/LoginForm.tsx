@@ -12,6 +12,7 @@ import { ISignInRequest } from "../../../models/request/ISignInRequest";
 import { signInSchema } from "../../../models/zodSchemas/signInSchema";
 import { useStore } from "../../../hooks/useStore";
 import "./loginForm.scss";
+import { ResponseError } from "../../../models/ResponseModel";
 
 const LoginForm = () => {
   const {
@@ -24,7 +25,9 @@ const LoginForm = () => {
     resolver: zodResolver(signInSchema),
   });
   const { main } = useStore();
-  const history = useNavigate();
+  const navigate = useNavigate();
+
+  const [passwordShown, setPasswordShown] = useState(false);
 
   const loginMutation = useMutation({
     mutationFn: AuthService.login,
@@ -34,37 +37,37 @@ const LoginForm = () => {
       redirectToPage(main.user.role);
     },
     onError: (err: AxiosError) => {
+      console.log(err)
       if (err?.status === 400) {
         setError("root", {
           message: "Неверный логин или пароль",
         });
       } else {
+        const msg = (err?.response?.data as ResponseError)?.errors.join(", ");
         setError("root", {
-          message: "Неизвестная ошибка",
+          message: msg || "Неизвестная ошибка",
         });
       }
     },
   });
 
-  const [passwordShown, setPasswordShown] = useState(false);
-
   const redirectToPage = (role: string) => {
     switch (role) {
       case "ROLE_PARTICIPANT":
-        history("/participant");
+        navigate("/participant");
         break;
       case "ROLE_JUDGE":
-        history("/judge");
+        navigate("/judge");
         break;
       case "ROLE_ADMIN":
-        history("/admin");
+        navigate("/admin");
         break;
       default:
         break;
     }
   };
 
-  const onSubmit = async (dataFields: ISignInRequest) => {
+  const onSubmit = (dataFields: ISignInRequest) => {
     loginMutation.mutate({
       username: dataFields.username,
       password: dataFields.password,
@@ -118,10 +121,10 @@ const LoginForm = () => {
           {errors.password ? errors.password.message : ""}
         </p>
       </label>
-      <p className="formAuth__error">{errors.root?.message}</p>
       <button disabled={loginMutation.isPending} className="formAuth__btn">
         Войти
       </button>
+      <p className="formAuth__error">{errors.root?.message}</p>
     </form>
   );
 };

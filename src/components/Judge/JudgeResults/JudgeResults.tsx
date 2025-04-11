@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import JudgeService from "../../../services/JudgeService";
 import { observer } from "mobx-react-lite";
-import ResultsTable from "../../UI/ResultsTable/ResultsTable";
+import ResultsTable from "../../DeprecatedUI/ResultsTable/ResultsTable";
 import { useStore } from "../../../hooks/useStore";
 
 const JudgeResults: React.FC = observer(() => {

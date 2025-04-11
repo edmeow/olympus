@@ -1,4 +1,4 @@
-import $api from "../http";
+import $api from "../config/api";
 import { IAuthResponse } from "../models/response/IAuthResponse";
 export default class AuthService {
   static async login(body: { username: string; password: string }) {

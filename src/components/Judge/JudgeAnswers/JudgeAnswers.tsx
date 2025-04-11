@@ -2,8 +2,8 @@ import { observer } from "mobx-react-lite";
 import React, { useEffect, useState } from "react";
 import { IUserAnwser } from "../../../models/IUserAnwser";
 import JudgeService from "../../../services/JudgeService";
-import AnswerTable from "../../UI/AnswerTable/AnswerTable";
-import ModalComment from "../../UI/ModalComment/ModalComment";
+import AnswerTable from "../../DeprecatedUI/AnswerTable/AnswerTable";
+import ModalComment from "../../DeprecatedUI/ModalComment/ModalComment";
 import JudgeFeedback from "../JudgeFeedback/JudgeFeedback";
 import { useStore } from "../../../hooks/useStore";
 

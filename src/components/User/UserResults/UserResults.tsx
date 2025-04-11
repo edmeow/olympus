@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import ResultsTable from "../../UI/ResultsTable/ResultsTable";
+import ResultsTable from "../../DeprecatedUI/ResultsTable/ResultsTable";
 import ParticipantService from "../../../services/ParticipantService";
 import { useStore } from "../../../hooks/useStore";
 

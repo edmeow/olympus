@@ -1,4 +1,4 @@
-import $api, { BASE_URL } from "../http";
+import $api, { BASE_URL } from "../config/api";
 
 export default class JudgeService {
   static async getUserAnswersTable<IUserAnwser>() {

@@ -9,9 +9,9 @@ import { changeDurationSchema } from "../../../models/zodSchemas/changeDurationS
 import AdminService from "../../../services/AdminService";
 import { DeleteIcon } from "../../../utils/icons/DeleteIcon";
 import { EmtyIcon } from "../../../utils/icons/EmtyIcon";
-import AddUserModal from "../../UI/AddUserModal/AddUserModal";
-import Button from "../../UI/Button/Button";
-import Modal from "../../UI/Modal/Modal";
+import AddUserModal from "../../DeprecatedUI/AddUserModal/AddUserModal";
+import Button from "../../DeprecatedUI/Button/Button";
+import Modal from "../../DeprecatedUI/Modal/Modal";
 import "./AdminContest.scss";
 import { useApiHook } from "../../../hooks/useApiHook";
 import { useStore } from "../../../hooks/useStore";

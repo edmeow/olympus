@@ -1,4 +1,4 @@
-import $api, { BASE_URL } from "../http";
+import $api from "../config/api";
 import { ContestCreationResponse } from "../models/response/ContestCreationResponse";
 import { IСreateContestRequest } from "../models/request/IСreateContestRequest";
 import { ResponseApi } from "../hooks/useApiHook";

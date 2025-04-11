@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React, { useEffect } from "react";
 import AdminService from "../../../services/AdminService";
-import ResultsTable from "../../UI/ResultsTable/ResultsTable";
+import ResultsTable from "../../DeprecatedUI/ResultsTable/ResultsTable";
 import { useStore } from "../../../hooks/useStore";
 
 interface AdminResultsProps {}

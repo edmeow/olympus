@@ -1,4 +1,4 @@
-import $api, { BASE_URL } from "../http";
+import $api, { BASE_URL } from "../config/api";
 import { IUserAnwser } from "../models/IUserAnwser";
 import { IAuthResponse } from "../models/response/IAuthResponse";
 export default class ParticipantService {

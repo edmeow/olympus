@@ -9,30 +9,22 @@ import { useStore } from "./hooks/useStore";
 import routes from "./config/routes";
 import { CircularProgress } from "@mui/material";
 
-const App: FC = observer(() => {
+const App = observer(() => {
   const { main } = useStore();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
   const checkJWT = async () => {
-    const jwt = localStorage.getItem("jwt");
-
-    if (jwt) {
-      try {
-        const response = await AuthService.checkJWT();
-        if (response.data.accessToken) {
-          const { accessToken, ...data } = response.data;
-          main.setUser(data);
-          main.setAuth(true);
-        }
-      } catch (err) {
-        const status = (err as AxiosError)?.response?.status;
-        if (status === 401 || status === 403) {
-          localStorage.removeItem("jwt");
-          navigate(routes.login);
-        } else {
-          console.log("Error " + (err as AxiosError).message);
-        }
+    try {
+      const response = await AuthService.checkJWT();
+      main.setUser(response.data);
+      main.setAuth(true);
+    } catch (err) {
+      const status = (err as AxiosError)?.response?.status;
+      if (status === 401 || status === 403) {
+        navigate(routes.login);
+      } else {
+        console.log("Error " + (err as AxiosError).message);
       }
     }
 

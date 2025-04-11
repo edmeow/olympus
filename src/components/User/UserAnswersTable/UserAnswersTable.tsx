@@ -13,7 +13,7 @@ import {
   UserAnswerStateTypeLabels,
 } from "../../../models/IUserAnwser";
 import ParticipantService from "../../../services/ParticipantService";
-import Modal from "../../UI/Modal/Modal";
+import Modal from "../../DeprecatedUI/Modal/Modal";
 import "./UserAnswersTable.scss";
 import { useStore } from "../../../hooks/useStore";
 

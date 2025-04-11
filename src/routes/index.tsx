@@ -8,7 +8,6 @@ import ProtectedRoute from "./ProtectedRoute";
 import { observer } from "mobx-react-lite";
 import ProtectedRouteAuth from "./ProtectedRouteAuth";
 import AdminContestPage from "../pages/AdminContestPage/AdminContestPage";
-import AdminForm from "../components/Admin/AdminForm/AdminForm";
 import AdminNavRouter from "./AdminNavRouter";
 import SetNamePage from "../pages/SetNamePage/SetNamePage";
 import routes from "../config/routes";
@@ -58,7 +57,6 @@ const RoutesPack = () => {
         >
           <Route element={<AdminNavRouter />}>
             <Route path="/admin" element={<AdminPage />} />
-            <Route path="/admin/create-contest" element={<AdminForm />} />
             <Route
               path="/admin/contest/:contestId"
               element={<AdminContestPage />}

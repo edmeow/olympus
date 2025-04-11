@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useApiHook } from '../../hooks/useApiHook';
 import AdminService from '../../services/AdminService';
 import { useForm } from 'react-hook-form';
-import { TextFieldFormComponent } from '../../components/UI/FormInputs/TextFieldFormComponent';
-import { BaseFormModal } from '../../components/UI/BaseFormModal';
-import Modal from '../../components/UI/Modal/Modal';
+import { TextFieldFormComponent } from '../../components/DeprecatedUI/FormInputs/TextFieldFormComponent';
+import { BaseFormModal } from '../../components/DeprecatedUI/BaseFormModal';
+import Modal from '../../components/DeprecatedUI/Modal/Modal';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '../../hooks/useStore';
 
