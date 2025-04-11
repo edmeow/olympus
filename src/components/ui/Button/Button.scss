@@ -21,4 +21,10 @@
   &_fullwidth {
     width: 100%;
   }
+
+  &:disabled {
+    background-color: rgb(102, 102, 102);
+    opacity: 1;
+    cursor: default;
+  }
 }

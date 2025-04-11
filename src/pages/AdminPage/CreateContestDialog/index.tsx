@@ -153,8 +153,9 @@ const CreateContestDialog = ({ open, onClose }: CreateContestDialogProps) => {
                 name="group"
                 render={({ field }) => (
                   <Autocomplete
-                    {...field}
                     onChange={(_, value) => field.onChange(value)}
+                    value={field.value}
+                    onInput={field.onChange}
                     size="small"
                     freeSolo
                     options={GROUPS}
