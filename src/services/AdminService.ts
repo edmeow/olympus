@@ -1,15 +1,13 @@
 import $api from "../config/api";
-import { ContestCreationResponse } from "../models/response/ContestCreationResponse";
-import { IСreateContestRequest } from "../models/request/IСreateContestRequest";
+import { ICreateContestResponse } from "../models/response/ICreateContestResponse";
+import { IСreateContestRequest } from "../models/request/ICreateContestRequest";
 import { ResponseApi } from "../hooks/useApiHook";
 import { ResponseApiService, ResponseStatus } from "../models/ResponseModel";
 import { ItasksList } from "../models/ITasks";
 import { IContestListResponse } from "../models/response/IContestListResponse";
 export default class AdminService {
-  static createContest = (
-    submitObject: IСreateContestRequest
-  ): ResponseApiService<ContestCreationResponse> => {
-    return $api.post<ResponseApi<ContestCreationResponse>>(
+  static createContest = (submitObject: IСreateContestRequest) => {
+    return $api.post<ICreateContestResponse>(
       "/api/v1/admin/createContest",
       submitObject
     );
@@ -61,7 +59,9 @@ export default class AdminService {
   }
 
   static async getUserAnswers(contestId: number) {
-    return $api.get(`/api/v1/admin/contest/user-problems?contestId=${contestId}`);
+    return $api.get(
+      `/api/v1/admin/contest/user-problems?contestId=${contestId}`
+    );
   }
 
   static async getUserResults(contestId: number) {

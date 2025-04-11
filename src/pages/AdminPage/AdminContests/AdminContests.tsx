@@ -21,21 +21,15 @@ import {
 import Button from "../../../components/ui/Button";
 import Input from "../../../components/ui/Input";
 import { Controller, useForm } from "react-hook-form";
-
-interface CreateContestFormFields {
-  name: string;
-}
+import CreateContestDialog from "../CreateContestDialog";
 
 const AdminContests = () => {
   const navigate = useNavigate();
-  const { control, handleSubmit } = useForm<CreateContestFormFields>({
-    mode: "onSubmit",
-    defaultValues: { name: "" },
-  });
 
   const [page, setPage] = useState<number>(1);
   const [pageNumbers, setPageNumbers] = useState<number[]>([]);
-  const [isCreateContestModalOpen, setCreateContestModalOpen] = useState(false);
+  const [isOpenCreateContestDialog, setOpenCreateContestDialog] =
+    useState(false);
 
   const {
     error,
@@ -62,8 +56,12 @@ const AdminContests = () => {
     navigate("/admin/contest/" + contestId);
   };
 
-  const createOlym = (data: CreateContestFormFields) => {
+  const openCreateContestDialog = () => {
+    setOpenCreateContestDialog(true);
+  };
 
+  const closeCreateContestDialog = () => {
+    setOpenCreateContestDialog(false);
   };
 
   return (
@@ -75,7 +73,7 @@ const AdminContests = () => {
         </div>
         <div className="admin-content__info-right">
           <button
-            onClick={() => setCreateContestModalOpen(true)}
+            onClick={openCreateContestDialog}
             className="admin-content__btn-create"
           >
             Создать олимпиаду
@@ -160,34 +158,10 @@ const AdminContests = () => {
             </div>
           ))}
       </div>
-      {/* <Modal
-        active={isCreateContestModalOpen}
-        setActive={setCreateContestModalOpen}
-      >
-        <CreateContestForm />
-      </Modal> */}
-      <Dialog
-        open={isCreateContestModalOpen}
-        onClose={() => setCreateContestModalOpen(false)}
-      >
-        <DialogTitle>Создание олимпиады</DialogTitle>
-        <DialogContent>
-          <Box width="400px" component="form" onSubmit={handleSubmit(createOlym)}>
-            <Controller
-              control={control}
-              name="name"
-              render={({ field }) => (
-                <Input {...field} ref={null} label="Название олимпиады" />
-              )}
-            />
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button size="large" fullwidth>
-            Кнопка
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <CreateContestDialog
+        open={isOpenCreateContestDialog}
+        onClose={closeCreateContestDialog}
+      />
     </div>
   );
 };

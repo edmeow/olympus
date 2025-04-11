@@ -122,7 +122,7 @@ const AdminContest: React.FC = () => {
   };
 
   const handleDeleteProblem = async (id: number) => {
-    const res = await AdminService.deleteProblem(main.contest.contestId, id);
+    const res = await AdminService.deleteProblem(main.contest.id, id);
     main.updateProblemsList(res.data);
   };
 
@@ -133,7 +133,7 @@ const AdminContest: React.FC = () => {
     if (newHtmlProblem.htmlContent) {
       const resp = await addProblem(() =>
         AdminService.addProblem(
-          main.contest.contestId,
+          main.contest.id,
           points,
           newProblem?.name,
           null, //newProblem?.pdf,
@@ -153,7 +153,7 @@ const AdminContest: React.FC = () => {
 
   const changeDurationContest = async () => {
     const res = await AdminService.changeContestDuration(
-      main.contest.contestId,
+      main.contest.id,
       newDuration
     );
     if (res.data) {
@@ -178,7 +178,7 @@ const AdminContest: React.FC = () => {
           <h3 className="contest-info__title">Информация</h3>
           <div className="contest-info__block">
             <p className="contest-info__label">Сессия</p>
-            <p className="contest-info__value">#{main.contest.contestId}</p>
+            <p className="contest-info__value">#{main.contest.id}</p>
           </div>
           <div className="contest-info__block">
             <p className="contest-info__label">Префикс олимпиады</p>

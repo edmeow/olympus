@@ -1,6 +1,6 @@
 import { IContest } from '../IContest';
 
-export interface ContestCreationResponse {
+export interface ICreateContestResponse {
     contest: IContest;
     fileContent: string;
 }

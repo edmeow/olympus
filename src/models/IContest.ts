@@ -3,7 +3,6 @@ import { ContestsStatesEnum } from './constants/ContestsStatesEnum';
 
 export interface IContest {
     id: number;
-    contestId: number;
     name: string;
     participantCount: number;
     judgeCount: number;
