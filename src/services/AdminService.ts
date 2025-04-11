@@ -30,7 +30,7 @@ export default class AdminService {
   }
 
   static async getContest<IContest>(contestId: string) {
-    return $api.get<IContest>(`/api/v1/admin/contest/${contestId}`);
+    return $api.get<IContest>(`/api/v1/admin/contest?id=${contestId}`);
   }
 
   static async createUsers(

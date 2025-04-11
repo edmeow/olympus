@@ -11,22 +11,14 @@ import {
 } from "../../../models/response/IContestListResponse";
 import { useQuery } from "@tanstack/react-query";
 import {
-  Box,
   CircularProgress,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
 } from "@mui/material";
-import Button from "../../../components/ui/Button";
-import Input from "../../../components/ui/Input";
-import { Controller, useForm } from "react-hook-form";
 import CreateContestDialog from "../CreateContestDialog";
 
 const AdminContests = () => {
   const navigate = useNavigate();
 
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(0);
   const [pageNumbers, setPageNumbers] = useState<number[]>([]);
   const [isOpenCreateContestDialog, setOpenCreateContestDialog] =
     useState(false);

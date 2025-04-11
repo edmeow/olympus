@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { observer } from "mobx-react-lite";
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./App.scss";
 import RoutesPack from "./routes";

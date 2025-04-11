@@ -40,7 +40,7 @@ const AdminContestPage: React.FC = () => {
     }, [contestId]);
 
     async function startContest() {
-        const response = await AdminService.startContest(main.contest.contestId);
+        const response = await AdminService.startContest(main.contest.id);
 
         main.startContest(response.data);
     }

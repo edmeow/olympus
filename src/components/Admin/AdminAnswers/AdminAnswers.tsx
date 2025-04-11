@@ -18,7 +18,7 @@ const AdminAnswers: React.FC = observer(() => {
   } | null>(null);
 
   const getUserAnswers = async () => {
-    const res = await AdminService.getUserAnswers(main.contest.contestId);
+    const res = await AdminService.getUserAnswers(main.contest.id);
     if (res.data) {
       main.setUserAnswer(res.data);
     }
