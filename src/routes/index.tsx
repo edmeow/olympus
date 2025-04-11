@@ -11,14 +11,13 @@ import AdminContestPage from "../pages/AdminContestPage/AdminContestPage";
 import AdminNavRouter from "./AdminNavRouter";
 import SetNamePage from "../pages/SetNamePage/SetNamePage";
 import routes from "../config/routes";
+import NavigateByPole from "./NavigateByPole";
 
 const RoutesPack = () => {
   return (
     <Routes>
       <Route path={routes.login} element={<LoginPage />} />
-      {/* Маршрут для страницы входа доступен всем */}
       <Route path="/forbidden" element={<ForbiddenPage />} />
-      {/* Маршрут для страницы входа доступен всем */}
       <Route element={<ProtectedRouteAuth />}>
         <Route
           element={
@@ -63,10 +62,7 @@ const RoutesPack = () => {
             />
           </Route>
         </Route>
-        <Route
-          path="*"
-          element={<div style={{ paddingTop: "40px" }}>Not found</div>}
-        />
+        <Route path="*" element={<NavigateByPole />} />
       </Route>
     </Routes>
   );
