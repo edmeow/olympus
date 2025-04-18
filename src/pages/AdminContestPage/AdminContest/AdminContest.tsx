@@ -9,9 +9,9 @@ import { changeDurationSchema } from "../../../models/zodSchemas/changeDurationS
 import AdminService from "../../../services/AdminService";
 import { DeleteIcon } from "../../../utils/icons/DeleteIcon";
 import { EmtyIcon } from "../../../utils/icons/EmtyIcon";
-import AddUserModal from "../../DeprecatedUI/AddUserModal/AddUserModal";
-import Button from "../../DeprecatedUI/Button/Button";
-import Modal from "../../DeprecatedUI/Modal/Modal";
+import AddUserModal from "../../../components/DeprecatedUI/AddUserModal/AddUserModal";
+import Button from "../../../components/DeprecatedUI/Button/Button";
+import Modal from "../../../components/DeprecatedUI/Modal/Modal";
 import "./AdminContest.scss";
 import { useApiHook } from "../../../hooks/useApiHook";
 import { useStore } from "../../../hooks/useStore";
@@ -177,7 +177,7 @@ const AdminContest: React.FC = () => {
         <div className="contest-info">
           <h3 className="contest-info__title">Информация</h3>
           <div className="contest-info__block">
-            <p className="contest-info__label">Сессия</p>
+            <p className="contest-info__label">ID</p>
             <p className="contest-info__value">#{main.contest.id}</p>
           </div>
           <div className="contest-info__block">

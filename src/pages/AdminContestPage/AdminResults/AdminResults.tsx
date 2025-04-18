@@ -1,8 +1,8 @@
 import { observer } from "mobx-react-lite";
 import React, { useEffect } from "react";
 import AdminService from "../../../services/AdminService";
-import ResultsTable from "../../DeprecatedUI/ResultsTable/ResultsTable";
 import { useStore } from "../../../hooks/useStore";
+import ResultsTable from "../../../components/DeprecatedUI/ResultsTable/ResultsTable";
 
 interface AdminResultsProps {}
 
@@ -10,7 +10,7 @@ const AdminResults: React.FC<AdminResultsProps> = observer(() => {
   const { main } = useStore();
 
   const getUserResults = async () => {
-    const res = await AdminService.getUserResults(main.contest.contestId);
+    const res = await AdminService.getUserResults(main.contest.id);
     if (res.data) {
       main.setUserResults(res.data);
     }

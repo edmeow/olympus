@@ -1,10 +1,10 @@
 import { observer } from "mobx-react-lite";
 import React, { useEffect, useState } from "react";
 import AdminService from "../../../services/AdminService";
-import JudgeFeedback from "../../Judge/JudgeFeedback/JudgeFeedback";
-import AnswerTable from "../../DeprecatedUI/AnswerTable/AnswerTable";
-import ModalComment from "../../DeprecatedUI/ModalComment/ModalComment";
 import { useStore } from "../../../hooks/useStore";
+import AnswerTable from "../../../components/DeprecatedUI/AnswerTable/AnswerTable";
+import JudgeFeedback from "../../../components/Judge/JudgeFeedback/JudgeFeedback";
+import ModalComment from "../../../components/DeprecatedUI/ModalComment/ModalComment";
 
 const AdminAnswers: React.FC = observer(() => {
   const { main } = useStore();

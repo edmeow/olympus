@@ -89,7 +89,7 @@ const AdminContests = () => {
                   src={img}
                 />
                 <span className="contest-list__overlay">
-                  Сессия:{" "}
+                  ID:{" "}
                   <span className="contest-list__overlay-text">
                     {contest.contestId}
                   </span>
