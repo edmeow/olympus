@@ -21,7 +21,7 @@ import formatZodError from "../../../utils/formatZodError";
 
 import { createContestSchema, groupSchema } from "./validate";
 import {
-  CreateContestDialogProps,
+  CreateContestModalProps,
   CreateContestFormFields,
   Participant,
 } from "./interfaces";
@@ -31,8 +31,9 @@ import AdminService from "../../../services/AdminService";
 import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import dowloadBase64AsTxt from "../../../utils/downloadBase64";
+import DialogCloseButton from "../../../components/ui/DialogCloseButton";
 
-const CreateContestDialog = ({ open, onClose }: CreateContestDialogProps) => {
+const CreateContestModal = ({ open, onClose }: CreateContestModalProps) => {
   const {
     control,
     getValues,
@@ -116,6 +117,7 @@ const CreateContestDialog = ({ open, onClose }: CreateContestDialogProps) => {
       onSubmit={handleSubmit(createOlym)}
     >
       <DialogTitle>Создание олимпиады</DialogTitle>
+      <DialogCloseButton onClose={onClose} />
       <DialogContent>
         <Stack width="432px" spacing={2} mt={1}>
           <Controller
@@ -259,4 +261,4 @@ const CreateContestDialog = ({ open, onClose }: CreateContestDialogProps) => {
   );
 };
 
-export default CreateContestDialog;
+export default CreateContestModal;

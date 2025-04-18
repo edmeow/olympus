@@ -3,7 +3,6 @@ import { ICreateContestResponse } from "../models/response/ICreateContestRespons
 import { IСreateContestRequest } from "../models/request/ICreateContestRequest";
 import { ResponseApi } from "../hooks/useApiHook";
 import { ResponseApiService, ResponseStatus } from "../models/ResponseModel";
-import { ItasksList } from "../models/ITasks";
 import { IContestListResponse } from "../models/response/IContestListResponse";
 export default class AdminService {
   static createContest = (submitObject: IСreateContestRequest) => {
@@ -70,20 +69,22 @@ export default class AdminService {
     });
   }
 
-  static async addProblem(
-    contestId: number,
-    points: string,
-    name: string,
-    pdf: File | null,
-    addition: File | null
-  ): ResponseApiService<ItasksList> {
+  static async addProblem(body: {
+    contestId: number;
+    points: number;
+    name: string;
+    pdf: File | null;
+    addition: File | null;
+    tests: File | null;
+  }) {
     const formData = new FormData();
 
-    if (pdf) formData.append("task", pdf);
-    if (addition) formData.append("addition", addition);
-    if (name) formData.append("name", name);
-    formData.append("contestId", contestId.toString());
-    formData.append("points", points);
+    if (body.pdf) formData.append("task", body.pdf);
+    if (body.addition) formData.append("addition", body.addition);
+    if (body.tests) formData.append("tests", body.tests);
+    formData.append("name", body.name);
+    formData.append("contest-id", body.contestId.toString());
+    formData.append("points", body.points.toString());
 
     return $api.post(`/api/v1/admin/addProblems`, formData, {
       headers: {

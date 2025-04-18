@@ -3,7 +3,7 @@ import { groupSchema } from "./validate";
 
 export type Participant = z.infer<typeof groupSchema>;
 
-export interface CreateContestDialogProps {
+export interface CreateContestModalProps {
   open: boolean;
   onClose: () => void;
 }

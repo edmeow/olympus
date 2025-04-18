@@ -13,14 +13,14 @@ import { useQuery } from "@tanstack/react-query";
 import {
   CircularProgress,
 } from "@mui/material";
-import CreateContestDialog from "../CreateContestDialog";
+import CreateContestModal from "../CreateContestModal";
 
 const AdminContests = () => {
   const navigate = useNavigate();
 
   const [page, setPage] = useState<number>(0);
   const [pageNumbers, setPageNumbers] = useState<number[]>([]);
-  const [isOpenCreateContestDialog, setOpenCreateContestDialog] =
+  const [isOpenCreateContestModal, setOpenCreateContestModal] =
     useState(false);
 
   const {
@@ -48,12 +48,12 @@ const AdminContests = () => {
     navigate("/admin/contest/" + contestId);
   };
 
-  const openCreateContestDialog = () => {
-    setOpenCreateContestDialog(true);
+  const openCreateContestModal = () => {
+    setOpenCreateContestModal(true);
   };
 
-  const closeCreateContestDialog = () => {
-    setOpenCreateContestDialog(false);
+  const closeCreateContestModal = () => {
+    setOpenCreateContestModal(false);
   };
 
   return (
@@ -65,7 +65,7 @@ const AdminContests = () => {
         </div>
         <div className="admin-content__info-right">
           <button
-            onClick={openCreateContestDialog}
+            onClick={openCreateContestModal}
             className="admin-content__btn-create"
           >
             Создать олимпиаду
@@ -150,9 +150,9 @@ const AdminContests = () => {
             </div>
           ))}
       </div>
-      <CreateContestDialog
-        open={isOpenCreateContestDialog}
-        onClose={closeCreateContestDialog}
+      <CreateContestModal
+        open={isOpenCreateContestModal}
+        onClose={closeCreateContestModal}
       />
     </div>
   );

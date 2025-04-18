@@ -3,18 +3,16 @@ import { observer } from "mobx-react-lite";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ContestsStatesEnum } from "../../../models/constants/ContestsStatesEnum";
-import { Itasks, ItasksList } from "../../../models/ITasks";
 import { IChangeDurationRequest } from "../../../models/request/IChangeDurationRequest";
 import { changeDurationSchema } from "../../../models/zodSchemas/changeDurationSchema";
 import AdminService from "../../../services/AdminService";
 import { DeleteIcon } from "../../../utils/icons/DeleteIcon";
 import { EmtyIcon } from "../../../utils/icons/EmtyIcon";
-import AddUserModal from "../../../components/DeprecatedUI/AddUserModal/AddUserModal";
-import Button from "../../../components/DeprecatedUI/Button/Button";
 import Modal from "../../../components/DeprecatedUI/Modal/Modal";
 import "./AdminContest.scss";
-import { useApiHook } from "../../../hooks/useApiHook";
 import { useStore } from "../../../hooks/useStore";
+import AddProblemModal from "./AddProblemModal";
+import ITask from "../../../models/ITask";
 
 export interface IContestByIdResponse {
   problemInfos: Task[];
@@ -29,17 +27,12 @@ export interface Task {
   task: string;
 }
 
-const AdminContest: React.FC = () => {
+const AdminContest = () => {
   const { main } = useStore();
   const [isAddProblemOpen, setAddProblemOpen] = React.useState(false);
   const [isCommentModalOpen, setCommentModalOpen] = React.useState(false);
   const [isChangeDurationOpen, setChangeDurationOpen] = React.useState(false);
   const [newDuration, setNewDuration] = React.useState<string>("");
-  const [isCreateUserModalOpen, setCreateUserModalOpen] = React.useState(false);
-
-  const { handleRequest: addProblem } = useApiHook<ItasksList>({
-    resolveMessage: "Задание успешно добавлено",
-  });
 
   const {
     register,
@@ -50,18 +43,21 @@ const AdminContest: React.FC = () => {
     resolver: zodResolver(changeDurationSchema),
   });
 
-  const [points, setPoints] = React.useState("0");
-  const [imagesZip, setImagesZip] = React.useState<File | null>(null);
-  const [newProblem, setNewProblem] = React.useState<{
+  const [, setImagesZip] = React.useState<File | null>(null);
+  const [, setNewProblem] = React.useState<{
     problem: File | null;
     name: string;
     fileSize: string;
   }>({ problem: null, name: "", fileSize: "" });
-  const [newHtmlProblem, setNewHtmlProblem] = React.useState<{
+  const [, setNewHtmlProblem] = React.useState<{
     htmlContent: string;
     htmlName: string;
     htmlSize: string;
   }>({ htmlContent: "", htmlName: "", htmlSize: "" });
+
+  const toggleAddProblemModal = () => {
+    setAddProblemOpen((prev) => !prev);
+  };
 
   const handleDownloadFile = (userTaskId: number, fileName: string) => {
     // AdminService.downloadProblem(
@@ -94,61 +90,9 @@ const AdminContest: React.FC = () => {
     setImagesZip(null);
   }, [isAddProblemOpen]);
 
-  const handleFileChange = async (file: File) => {
-    setNewProblem({
-      problem: file,
-      name: file.name,
-      fileSize: file.size.toString(),
-    });
-  };
-
-  const handleImagesZipChange = async (file: File) => {
-    setImagesZip(file);
-  };
-
-  const handleHtmlFileChange = async (file: File) => {
-    const reader = new FileReader();
-
-    reader.readAsText(file);
-
-    reader.onload = function () {
-      if (typeof reader.result === "string")
-        setNewHtmlProblem({
-          htmlContent: reader.result,
-          htmlName: file.name,
-          htmlSize: file.size.toString(),
-        });
-    };
-  };
-
   const handleDeleteProblem = async (id: number) => {
     const res = await AdminService.deleteProblem(main.contest.id, id);
     main.updateProblemsList(res.data);
-  };
-
-  const handleAddTaskClick = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
-    e.preventDefault();
-    if (newHtmlProblem.htmlContent) {
-      const resp = await addProblem(() =>
-        AdminService.addProblem(
-          main.contest.id,
-          points,
-          newProblem?.name,
-          null, //newProblem?.pdf,
-          null //newProblem?.addition
-        )
-      );
-      if (resp) {
-        main.updateProblemsList(resp);
-      }
-
-      setPoints("0");
-      setNewProblem({ problem: null, name: "", fileSize: "" });
-      setImagesZip(null);
-      setAddProblemOpen(false);
-    }
   };
 
   const changeDurationContest = async () => {
@@ -194,11 +138,11 @@ const AdminContest: React.FC = () => {
             <p className="contest-info__label">Жюри</p>
             <p className="contest-info__value">{main.contest.judgeCount}</p>
           </div>
-          <Button
+          {/* <Button
             onClick={() => setCreateUserModalOpen(true)}
             className="contest-info__add-btn"
             label="Добавить пользователей"
-          />
+          /> */}
         </div>
         <div className="contest-timing">
           <h3 className="contest-timing__title">Тайминг</h3>
@@ -261,7 +205,7 @@ const AdminContest: React.FC = () => {
           </h2>
           {main.contest.state === ContestsStatesEnum.NOT_STARTED && (
             <button
-              onClick={() => setAddProblemOpen(true)}
+              onClick={toggleAddProblemModal}
               className="contest-tasks__add-button"
             >
               Добавить задание
@@ -270,7 +214,7 @@ const AdminContest: React.FC = () => {
         </div>
         <div className="contest-tasks__content">
           {main.contest.tasks?.length ? (
-            main.contest.tasks.map((item: Itasks, index: number) => {
+            main.contest.tasks.map((item: ITask, index: number) => {
               return (
                 <div className="contest-task" key={item.id}>
                   <div className="contest-task__header">
@@ -291,12 +235,12 @@ const AdminContest: React.FC = () => {
                       <span className="contest-task__file-prefix">
                         Файл задачи:
                       </span>{" "}
-                      {item.htmlName}
+                      {item.pdfName}
                     </p>
                     <span
                       className="contest-task__do-btn"
                       onClick={() => {
-                        main.setSelectedComment(item.task);
+                        main.setSelectedComment(item.pdfName);
                         setCommentModalOpen(true);
                       }}
                     >
@@ -315,7 +259,7 @@ const AdminContest: React.FC = () => {
                         className="contest-task__do-btn"
                         onClick={() => {
                           if (item.name)
-                            handleDownloadFile(item.taskId, item.name);
+                            handleDownloadFile(item.id, item.name);
                         }}
                       >
                         Скачать
@@ -345,90 +289,12 @@ const AdminContest: React.FC = () => {
         </div>
       </div>
 
-      <Modal active={isAddProblemOpen} setActive={setAddProblemOpen}>
-        <form className="form-add-problem">
-          <label className="form-add-problem__input">
-            <p>Выбрать html файл</p>
-            <input
-              id="formId"
-              type="file"
-              accept=".html"
-              onChange={(e) => {
-                if (e.target.files) {
-                  handleHtmlFileChange(e.target.files[0]);
-                  e.target.value = "";
-                }
-              }}
-            />
-          </label>
+      <AddProblemModal
+        contestId={main.contest.id}
+        open={isAddProblemOpen}
+        onClose={toggleAddProblemModal}
+      />
 
-          <p className="form-add-problem__file">
-            {newHtmlProblem.htmlContent
-              ? `${newHtmlProblem.htmlName} [${newHtmlProblem.htmlSize}кб]`
-              : ""}
-          </p>
-          <label className="form-add-problem__input">
-            <p>Загрузить изображения</p>
-
-            <input
-              id="formId"
-              type="file"
-              onChange={(e) => {
-                if (e.target.files) {
-                  handleImagesZipChange(e.target.files[0]);
-                  e.target.value = "";
-                }
-              }}
-            />
-          </label>
-          <p className="form-add-problem__file">
-            {imagesZip ? `${imagesZip.name} [${imagesZip.size}кб]` : ""}
-          </p>
-          <br></br>
-
-          <label className="form-add-problem__input">
-            <p>Выбрать доп. материалы</p>
-
-            <input
-              id="formId"
-              type="file"
-              onChange={(e) => {
-                if (e.target.files) {
-                  handleFileChange(e.target.files[0]);
-                  e.target.value = "";
-                }
-              }}
-            />
-          </label>
-
-          <p className="form-add-problem__file">
-            {newProblem.problem
-              ? `${newProblem.name} [${newProblem.fileSize}кб]`
-              : ""}
-          </p>
-
-          <label className="form-add-problem__label">
-            <p>Введите количество баллов</p>
-            <input
-              className="form-add-problem__points-input"
-              value={points}
-              onChange={(e) => {
-                setPoints(e.target.value);
-              }}
-              placeholder="Введите количество баллов"
-            ></input>
-          </label>
-
-          <button
-            className="form-add-problem__submit-btn"
-            onClick={(e) => {
-              handleAddTaskClick(e);
-            }}
-          >
-            Добавить
-          </button>
-        </form>
-      </Modal>
       <Modal active={isCommentModalOpen} setActive={setCommentModalOpen}>
         <div
           className="contest-tasks__modal-task"
@@ -467,10 +333,10 @@ const AdminContest: React.FC = () => {
           </button>
         </form>
       </Modal>
-      <AddUserModal
+      {/* <AddUserModal
         active={isCreateUserModalOpen}
         setActive={setCreateUserModalOpen}
-      />
+      /> */}
     </div>
   );
 };
