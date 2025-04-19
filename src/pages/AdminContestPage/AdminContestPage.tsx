@@ -136,7 +136,7 @@ const AdminContestPage: React.FC = () => {
       <div className="contestPage__content">
         {view === "info" && <AdminContest />}
         {view === "answers" && <AdminAnswers />}
-        {view === "results" && <AdminResults />}
+        {view === "results" && <AdminResults contestId={main.contest.id} />}
       </div>
     </div>
   );

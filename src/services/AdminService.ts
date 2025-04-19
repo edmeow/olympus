@@ -5,6 +5,7 @@ import { ResponseApi } from "../hooks/useApiHook";
 import { ResponseApiService, ResponseStatus } from "../models/ResponseModel";
 import { IContestListResponse } from "../models/response/IContestListResponse";
 import ITask from "../models/ITask";
+import { IUserResults } from "../models/IUserResult";
 export default class AdminService {
   static createContest = (submitObject: IСreateContestRequest) => {
     return $api.post<ICreateContestResponse>(
@@ -65,7 +66,7 @@ export default class AdminService {
   }
 
   static async getUserResults(contestId: number) {
-    return $api.post(`/api/v1/admin/contest/user-problems/result`, {
+    return $api.post<IUserResults>(`/api/v1/admin/contest/user-problems/result`, {
       id: contestId,
     });
   }

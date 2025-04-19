@@ -1,20 +1,22 @@
 export interface IUserResults {
+  groups: {
+    group: string;
     users: UserResult[];
-    tasksCount: number;
+  }[];
+  tasksCount: number;
 }
 
 export interface UserResult {
-    name: string;
-    username: string;
-    email: string;
-    userAnswers: UserAnswer[];
-    solvedTasksCount: number;
-    totalPoints: number;
-    place: string;
+  id: number;
+  name: string;
+  username: string;
+  userAnswers: UserAnswer[];
+  solvedTasksCount: number;
+  totalPoints: number;
+  place: string;
 }
 
 interface UserAnswer {
-    taskNumber: number;
-    answerStatus: string;
-    points: number;
+  taskNumber: number;
+  points: number;
 }
