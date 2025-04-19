@@ -1,12 +1,10 @@
 import { observer } from "mobx-react-lite";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import AdminService from "../../../services/AdminService";
 import { useStore } from "../../../hooks/useStore";
 import ResultsTable from "../../../components/DeprecatedUI/ResultsTable/ResultsTable";
 
-interface AdminResultsProps {}
-
-const AdminResults: React.FC<AdminResultsProps> = observer(() => {
+const AdminResults = observer(() => {
   const { main } = useStore();
 
   const getUserResults = async () => {

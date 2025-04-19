@@ -4,6 +4,7 @@ import { IСreateContestRequest } from "../models/request/ICreateContestRequest"
 import { ResponseApi } from "../hooks/useApiHook";
 import { ResponseApiService, ResponseStatus } from "../models/ResponseModel";
 import { IContestListResponse } from "../models/response/IContestListResponse";
+import ITask from "../models/ITask";
 export default class AdminService {
   static createContest = (submitObject: IСreateContestRequest) => {
     return $api.post<ICreateContestResponse>(
@@ -86,7 +87,7 @@ export default class AdminService {
     formData.append("contest-id", body.contestId.toString());
     formData.append("points", body.points.toString());
 
-    return $api.post(`/api/v1/admin/addProblems`, formData, {
+    return $api.post<ITask[]>(`/api/v1/admin/addProblems`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

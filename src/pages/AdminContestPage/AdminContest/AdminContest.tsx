@@ -13,6 +13,7 @@ import "./AdminContest.scss";
 import { useStore } from "../../../hooks/useStore";
 import AddProblemModal from "./AddProblemModal";
 import ITask from "../../../models/ITask";
+import { BASE_URL } from "../../../config/api";
 
 export interface IContestByIdResponse {
   problemInfos: Task[];
@@ -30,7 +31,6 @@ export interface Task {
 const AdminContest = () => {
   const { main } = useStore();
   const [isAddProblemOpen, setAddProblemOpen] = React.useState(false);
-  const [isCommentModalOpen, setCommentModalOpen] = React.useState(false);
   const [isChangeDurationOpen, setChangeDurationOpen] = React.useState(false);
   const [newDuration, setNewDuration] = React.useState<string>("");
 
@@ -59,31 +59,6 @@ const AdminContest = () => {
     setAddProblemOpen((prev) => !prev);
   };
 
-  const handleDownloadFile = (userTaskId: number, fileName: string) => {
-    // AdminService.downloadProblem(
-    //     main.contest.session,
-    //     userTaskId,
-    //     fileName,
-    // )
-    //     .then((res) => {
-    //         res.blob()
-    //             .then((blob) => {
-    //                 const url = URL.createObjectURL(blob);
-    //                 const link = document.createElement('a');
-    //                 link.href = url;
-    //                 link.download = fileName;
-    //                 document.body.appendChild(link);
-    //                 link.click();
-    //                 document.body.removeChild(link);
-    //             })
-    //             .catch((err) => {
-    //                 console.log(err);
-    //             });
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     });
-  };
   useEffect(() => {
     setNewHtmlProblem({ htmlContent: "", htmlName: "", htmlSize: "" });
     setNewProblem({ problem: null, name: "", fileSize: "" });
@@ -237,33 +212,33 @@ const AdminContest = () => {
                       </span>{" "}
                       {item.pdfName}
                     </p>
-                    <span
+                    <a
                       className="contest-task__do-btn"
-                      onClick={() => {
-                        main.setSelectedComment(item.pdfName);
-                        setCommentModalOpen(true);
-                      }}
+                      download={`${item.pdfName}`}
+                      href={`${BASE_URL}/${item.pdfPath}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
                     >
                       Открыть
-                    </span>
+                    </a>
                   </div>
-                  {item.name ? (
+                  {item.additionsName ? (
                     <div className="contest-task__text-container">
                       <p className="contest-task__file-name">
                         <span className="contest-task__file-prefix">
                           Доп. материалы:
                         </span>
-                        {item.name}
+                        {item.additionsName}
                       </p>
-                      <span
+                      <a
                         className="contest-task__do-btn"
-                        onClick={() => {
-                          if (item.name)
-                            handleDownloadFile(item.id, item.name);
-                        }}
+                        href={`${BASE_URL}/${item.additionsPath}`}
+                        download={`${item.additionsName}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
                       >
                         Скачать
-                      </span>
+                      </a>
                     </div>
                   ) : (
                     <span className="contest-task__file-prefix">
@@ -293,14 +268,8 @@ const AdminContest = () => {
         contestId={main.contest.id}
         open={isAddProblemOpen}
         onClose={toggleAddProblemModal}
+        onTasksUpdate={(tasks) => main.updateProblemsList(tasks)}
       />
-
-      <Modal active={isCommentModalOpen} setActive={setCommentModalOpen}>
-        <div
-          className="contest-tasks__modal-task"
-          dangerouslySetInnerHTML={{ __html: main.selectedComment }}
-        ></div>
-      </Modal>
 
       <Modal active={isChangeDurationOpen} setActive={setChangeDurationOpen}>
         <form

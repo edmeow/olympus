@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useApiHook } from '../../hooks/useApiHook';
 import AdminService from '../../services/AdminService';
 import { useForm } from 'react-hook-form';
 import { TextFieldFormComponent } from '../../components/DeprecatedUI/FormInputs/TextFieldFormComponent';
@@ -12,24 +11,16 @@ const RenameContestButton = () => {
     const { main } = useStore();
     const [isModalOpen, setModalOpen] = useState(false);
 
-    const { handleRequest: renameContest } = useApiHook({
-        resolveMessage: 'Имя олимпиады успешно обновлено',
-    });
-
     const methods = useForm<{ name: string }>({
         defaultValues: { name: main.contest.name },
     });
 
     const handleRenameContest = async (data: { name: string }) => {
         setModalOpen(true);
-        const res = await renameContest(() =>
-            AdminService.renameContest(main.contest.contestId, data.name),
-        );
+        await AdminService.renameContest(main.contest.id, data.name);
 
-        if (res) {
-            main.renameContest(data.name);
-            setModalOpen(false);
-        }
+        main.renameContest(data.name);
+        setModalOpen(false);
     };
 
     const handleButtonClick = async () => {

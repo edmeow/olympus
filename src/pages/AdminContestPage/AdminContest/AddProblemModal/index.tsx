@@ -17,11 +17,13 @@ import { createProblemSchema } from "./validate";
 import { useMutation } from "@tanstack/react-query";
 import AdminService from "../../../../services/AdminService";
 import { enqueueSnackbar } from "notistack";
+import ITask from "../../../../models/ITask";
 
 interface AddProblemModalProps {
   contestId: number;
   open: boolean;
   onClose: () => void;
+  onTasksUpdate: (tasks: ITask[]) => void;
 }
 
 interface AddProblemModalFormField {
@@ -32,7 +34,7 @@ interface AddProblemModalFormField {
   tests?: File;
 }
 
-const AddProblemModal = ({ contestId, open, onClose }: AddProblemModalProps) => {
+const AddProblemModal = ({ contestId, open, onClose, onTasksUpdate }: AddProblemModalProps) => {
   const {
     control,
     watch,
@@ -50,7 +52,10 @@ const AddProblemModal = ({ contestId, open, onClose }: AddProblemModalProps) => 
 
   const createProblemMutation = useMutation({
     mutationFn: AdminService.addProblem,
-    onSuccess: () => onClose(),
+    onSuccess: (res) => {
+      onTasksUpdate(res.data);
+      onClose();
+    },
     onError: (err) => {
       enqueueSnackbar({
         variant: "error",
