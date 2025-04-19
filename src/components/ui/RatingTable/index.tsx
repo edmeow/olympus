@@ -15,6 +15,8 @@ interface RatingTableProps {
 }
 
 const RatingTable = ({ rows, taskCount }: RatingTableProps) => {
+  const emptyTasks = Array(taskCount).fill(null);
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="rating table">
@@ -22,11 +24,9 @@ const RatingTable = ({ rows, taskCount }: RatingTableProps) => {
           <TableRow>
             <TableCell>Место</TableCell>
             <TableCell>Участник</TableCell>
-            {Array(taskCount)
-              .fill(null)
-              .map((_, i) => (
-                <TableCell key={i + 1}>Задание {i + 1}</TableCell>
-              ))}
+            {emptyTasks.map((_, i) => (
+              <TableCell key={i + 1}>Задание {i + 1}</TableCell>
+            ))}
             <TableCell>Решено</TableCell>
             <TableCell>Итог</TableCell>
           </TableRow>
@@ -36,11 +36,13 @@ const RatingTable = ({ rows, taskCount }: RatingTableProps) => {
             <TableRow key={row.id}>
               <TableCell>{row.place}</TableCell>
               <TableCell>{row.username}</TableCell>
-              {Array(taskCount)
-                .fill(null)
-                .map((_, i) => (
-                  <TableCell key={i + 1}>-</TableCell>
-                ))}
+              {emptyTasks.map((_, i) => (
+                <TableCell key={i + 1}>
+                  {row.userAnswers?.find(
+                    (answer) => answer.taskNumber === i + 1
+                  )?.points || "—"}
+                </TableCell>
+              ))}
               <TableCell>
                 {row.solvedTasksCount}/{taskCount}
               </TableCell>
