@@ -5,10 +5,11 @@ import RatingTable from "../../ui/RatingTable";
 import { getRowsByUserGroup } from "./utils";
 
 interface UserResultsProps {
+  userId: number;
   userGroup: string;
 }
 
-const UserResults = ({ userGroup }: UserResultsProps) => {
+const UserResults = ({ userId, userGroup }: UserResultsProps) => {
   const { data: rating, isLoading } = useQuery({
     queryKey: ["user-rating"],
     queryFn: () => ParticipantService.getUserResults(),
@@ -22,6 +23,7 @@ const UserResults = ({ userGroup }: UserResultsProps) => {
       <RatingTable
         rows={getRowsByUserGroup(rating?.data, userGroup)}
         taskCount={rating?.data?.tasksCount || 0}
+        highligthRowByUserId={userId}
       />
     </div>
   );

@@ -12,9 +12,10 @@ import { UserResult } from "../../../models/IUserResult";
 interface RatingTableProps {
   rows: UserResult[];
   taskCount: number;
+  highligthRowByUserId?: number;
 }
 
-const RatingTable = ({ rows, taskCount }: RatingTableProps) => {
+const RatingTable = ({ rows, taskCount, highligthRowByUserId }: RatingTableProps) => {
   const emptyTasks = Array(taskCount).fill(null);
 
   return (
@@ -33,9 +34,9 @@ const RatingTable = ({ rows, taskCount }: RatingTableProps) => {
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.id}>
+            <TableRow key={row.id} selected={row.id === highligthRowByUserId}>
               <TableCell>{row.place}</TableCell>
-              <TableCell>{row.name}</TableCell>
+              <TableCell>{row.name || row.username}</TableCell>
               {emptyTasks.map((_, i) => (
                 <TableCell key={i + 1}>
                   {row.userAnswers?.find(

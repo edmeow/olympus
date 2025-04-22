@@ -22,7 +22,7 @@ const UserPageContent: React.FC = () => {
       )}
       {main.selectedViewContent === "results" && (
         <div>
-          <UserResults userGroup={main.user.group} />
+          <UserResults userGroup={main.user.group} userId={main.user.id} />
         </div>
       )}
     </div>
