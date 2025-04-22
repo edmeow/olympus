@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AxiosError } from "axios";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -32,15 +31,11 @@ const SetNamePage: React.FC = () => {
         main.user.username
       );
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { accessToken, ...data } = response.data;
-
-      main.setUser(data);
+      main.setUser(response.data);
 
       history("/participant");
       reset();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
-    } catch (e: AxiosError | any) {
+    } catch {
       setError("root", {
         type: "manual",
         message: "Невалидные данные в форме",

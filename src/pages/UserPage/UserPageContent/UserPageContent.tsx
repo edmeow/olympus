@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import './UserPageContent.scss';
-import UserTaskList from '../UserTaskList/UserTaskList';
-import UserTask from '../UserTask/UserTask';
+import UserTaskList from '../../../components/User/UserTaskList/UserTaskList';
+import UserTask from '../../../components/User/UserTask/UserTask';
 import { observer } from 'mobx-react-lite';
-import UserAnswersTable from '../UserAnswersTable/UserAnswersTable';
-import UserResults from '../UserResults/UserResults';
+import UserAnswersTable from '../../../components/User/UserAnswersTable/UserAnswersTable';
+import UserResults from '../../../components/User/UserResults/UserResults';
 import { useStore } from '../../../hooks/useStore';
 
 const UserPageContent: React.FC = () => {

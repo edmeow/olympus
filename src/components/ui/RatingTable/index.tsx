@@ -35,7 +35,7 @@ const RatingTable = ({ rows, taskCount }: RatingTableProps) => {
           {rows.map((row) => (
             <TableRow key={row.id}>
               <TableCell>{row.place}</TableCell>
-              <TableCell>{row.username}</TableCell>
+              <TableCell>{row.name}</TableCell>
               {emptyTasks.map((_, i) => (
                 <TableCell key={i + 1}>
                   {row.userAnswers?.find(

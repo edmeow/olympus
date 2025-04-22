@@ -17,7 +17,7 @@ class MainStore {
     userAnswser = [] as IUserAnwser[];
     isAuth = false;
     userResults: IUserResults = {
-        users: [],
+        groups: [],
         tasksCount: 0,
     };
     selectedViewContent: selectedViewContentType = 'answers';

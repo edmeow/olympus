@@ -5,6 +5,10 @@ export default class AuthService {
     return $api.post<IAuthResponse>("/api/v1/auth/login", body);
   }
 
+  static async logout() {
+    return $api.get("/api/v1/auth/logout");
+  }
+
   static async checkJWT() {
     return $api.get<IAuthResponse>("/api/v1/auth/checkAuth");
   }

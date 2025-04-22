@@ -10,6 +10,7 @@ import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import { Button, Menu, MenuItem } from '@mui/material';
 import { useStore } from '../../../hooks/useStore';
+import AuthService from '../../../services/AuthService';
 
 interface AdminNavProps {
     type?: 'user' | 'judge';
@@ -23,7 +24,9 @@ const AdminNav: React.FC<AdminNavProps> = (props) => {
         try {
             main.logout();
             localStorage.removeItem('jwt');
-            history('/login');
+            AuthService.logout().then(() => {
+                history('/login');
+            });
         } catch (error) {
             console.log(error);
         }

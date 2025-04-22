@@ -1,44 +1,38 @@
-import { FC, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ParticipantService from "../../services/ParticipantService";
-import { IContest } from "../../models/IContest";
-import UserPageContent from "../../components/User/UserPageContent/UserPageContent";
+import UserPageContent from "./UserPageContent/UserPageContent";
 import "./UserPage.scss";
 import { observer } from "mobx-react-lite";
 import { useStore } from "../../hooks/useStore";
+import { useQuery } from "@tanstack/react-query";
+import { Alert, CircularProgress } from "@mui/material";
+import { isUserHasNotPersonalData } from "./utils";
 
-const UserPage: FC = () => {
+const UserPage = () => {
   const { main } = useStore();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const history = useNavigate();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    async function getContest() {
-      try {
-        const res = await ParticipantService.getContest<IContest>();
-        if (res?.data) {
-          main.setContest(res.data);
-        }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (error: any) {
-        if (error.code === "ERR_BAD_RESPONSE") {
-          await getContest();
-        } else {
-          console.log(error);
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    if (!main.user.email && !main.user.name && !main.user.surname) {
-      history("/add-personal-data");
-    }
-    getContest();
-  }, []);
+  const { isLoading, isError } = useQuery({
+    queryKey: ["contest"],
+    queryFn: async () => {
+      const res = await ParticipantService.getContest();
+      main.setContest(res.data);
+      return res;
+    },
+  });
 
-  if (isLoading) {
-    return <div>Ожидайте</div>;
+  if (isUserHasNotPersonalData(main.user)) {
+    navigate("/add-personal-data");
   }
+
+  if (isLoading) return <CircularProgress />;
+
+  if (isError)
+    return (
+      <Alert severity="error">
+        Что-то пошло не так. Сообщите о проблеме организатору
+      </Alert>
+    );
 
   return (
     <div className="userPage">

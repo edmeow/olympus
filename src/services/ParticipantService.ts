@@ -1,8 +1,9 @@
 import $api, { BASE_URL } from "../config/api";
+import { IContest } from "../models/IContest";
 import { IUserAnwser } from "../models/IUserAnwser";
 import { IAuthResponse } from "../models/response/IAuthResponse";
 export default class ParticipantService {
-  static async getContest<IContest>() {
+  static async getContest() {
     return await $api.get<IContest>(`/api/v1/users/contest`);
   }
   static async getAnswer<IUserAnwser>(userId: string, taskNumber: number) {
