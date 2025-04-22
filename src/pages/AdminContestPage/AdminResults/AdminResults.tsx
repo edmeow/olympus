@@ -13,7 +13,7 @@ const AdminResults = ({ contestId }: AdminResultsProps) => {
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
 
   const { data: rating, isLoading } = useQuery({
-    queryKey: ["rating"],
+    queryKey: ["admin-rating"],
     queryFn: () => AdminService.getUserResults(contestId),
     refetchInterval: 30000,
   });

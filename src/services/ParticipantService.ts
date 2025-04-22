@@ -1,7 +1,8 @@
 import $api, { BASE_URL } from "../config/api";
 import { IContest } from "../models/IContest";
+import { IUser } from "../models/IUser";
 import { IUserAnwser } from "../models/IUserAnwser";
-import { IAuthResponse } from "../models/response/IAuthResponse";
+import { IUserResults } from "../models/IUserResult";
 export default class ParticipantService {
   static async getContest() {
     return await $api.get<IContest>(`/api/v1/users/contest`);
@@ -18,7 +19,7 @@ export default class ParticipantService {
     email: string,
     username: string
   ) {
-    return await $api.post<IAuthResponse>(`/api/v1/users/welcome`, {
+    return await $api.post<IUser>(`/api/v1/users/welcome`, {
       name,
       surname,
       email,
@@ -82,7 +83,7 @@ export default class ParticipantService {
     });
   }
 
-  static async getUserResults(id: string) {
-    return $api.post(`/api/v1/users/contest/user-problems/result/${id}`);
+  static async getUserResults() {
+    return $api.post<IUserResults>("/api/v1/users/contest/user-problems/result");
   }
 }

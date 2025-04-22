@@ -1,36 +1,30 @@
-import React, { useEffect } from "react";
-import { observer } from "mobx-react-lite";
-import ResultsTable from "../../DeprecatedUI/ResultsTable/ResultsTable";
 import ParticipantService from "../../../services/ParticipantService";
-import { useStore } from "../../../hooks/useStore";
+import { useQuery } from "@tanstack/react-query";
+import { CircularProgress } from "@mui/material";
+import RatingTable from "../../ui/RatingTable";
+import { getRowsByUserGroup } from "./utils";
 
-const UserResults: React.FC = observer(() => {
-  const { main } = useStore();
+interface UserResultsProps {
+  userGroup: string;
+}
 
-  const getUserResults = async () => {
-    await ParticipantService.getUserResults(main.user.id).then((res) => {
-      if (res.data) {
-        main.setUserResults(res.data);
-      }
-    });
-  };
+const UserResults = ({ userGroup }: UserResultsProps) => {
+  const { data: rating, isLoading } = useQuery({
+    queryKey: ["user-rating"],
+    queryFn: () => ParticipantService.getUserResults(),
+    refetchInterval: 90000,
+  });
 
-  useEffect(() => {
-    getUserResults();
-    const intervalId = setInterval(() => {
-      getUserResults();
-    }, 90000);
-    return () => {
-      clearInterval(intervalId);
-      main.setUserResults({ users: [], tasksCount: 0 });
-    };
-  }, []);
+  if (isLoading) return <CircularProgress />;
 
   return (
     <div>
-      <ResultsTable rows={main.userResults} />
+      <RatingTable
+        rows={getRowsByUserGroup(rating?.data, userGroup)}
+        taskCount={rating?.data?.tasksCount || 0}
+      />
     </div>
   );
-});
+};
 
 export default UserResults;
