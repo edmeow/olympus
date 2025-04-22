@@ -215,7 +215,7 @@ const AdminContest = () => {
                     <a
                       className="contest-task__do-btn"
                       download={`${item.pdfName}`}
-                      href={`${BASE_URL}/${item.pdfPath}`}
+                      href={`${BASE_URL}${item.pdfPath}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >

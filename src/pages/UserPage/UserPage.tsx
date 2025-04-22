@@ -7,6 +7,7 @@ import { useStore } from "../../hooks/useStore";
 import { useQuery } from "@tanstack/react-query";
 import { Alert, CircularProgress } from "@mui/material";
 import { isUserHasNotPersonalData } from "./utils";
+import { useEffect } from "react";
 
 const UserPage = () => {
   const { main } = useStore();
@@ -21,9 +22,11 @@ const UserPage = () => {
     },
   });
 
-  if (isUserHasNotPersonalData(main.user)) {
-    navigate("/add-personal-data");
-  }
+  useEffect(() => {
+    if (isUserHasNotPersonalData(main.user)) {
+      navigate("/add-personal-data");
+    }
+  }, [main.user]);
 
   if (isLoading) return <CircularProgress />;
 

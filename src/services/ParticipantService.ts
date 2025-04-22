@@ -27,7 +27,7 @@ export default class ParticipantService {
     });
   }
   static async setAnswer(
-    userId: string,
+    userId: number,
     taskNum: number,
     file: File,
     fileName: string
