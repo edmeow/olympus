@@ -1,9 +1,8 @@
 .user-task {
     padding: 0 10px;
-    overflow-x: auto;
     &__item {
-        min-width: 500px;
-        min-height: 500px;
+        width: 632px;
+        min-height: 400px;
         max-height: 800px;
         overflow-y: auto;
         border: 1px solid #d3d9de;

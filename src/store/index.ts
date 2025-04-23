@@ -12,7 +12,7 @@ import ITask from '../models/ITask';
 class MainStore {
     user = {} as IUser;
     contest = {} as IContest;
-    selectedTask: number = 0;
+    selectedTaskId: number = 0;
     selectedComment: string = '';
     userAnswser = [] as IUserAnwser[];
     isAuth = false;
@@ -45,8 +45,8 @@ class MainStore {
         this.userAnswser[index] = answer;
     }
 
-    setSelectedTask(task: number) {
-        this.selectedTask = task;
+    setSelectedTaskId(task: number) {
+        this.selectedTaskId = task;
     }
 
     setSelectedComment(task: string) {
@@ -59,26 +59,16 @@ class MainStore {
         return { __html: sanitizedHtml };
     };
 
-    getSelectedTask(): ITask {
+    get selectedTask(): ITask {
         const task = this.contest.tasks.find(
-            (task: ITask) => task.id === this.selectedTask,
+            (task: ITask) => task.id === this.selectedTaskId,
         );
         return task as ITask;
     }
 
-    getSelectedTaskId(): number {
-        const task = this.contest.tasks.find(
-            (task: ITask) => task.id === this.selectedTask,
-        );
-        if (task && task.taskId) {
-            return task.taskId;
-        }
-        return 0;
-    }
-
     setContest(contest: IContest) {
         if (contest.tasks.length) {
-            this.setSelectedTask(contest.tasks[0].id);
+            this.setSelectedTaskId(contest.tasks[0].id);
         }
         this.contest = contest;
     }

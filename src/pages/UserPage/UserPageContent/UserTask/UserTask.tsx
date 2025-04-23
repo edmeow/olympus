@@ -1,18 +1,17 @@
 import { observer } from "mobx-react-lite";
 import React, { useState } from "react";
-import ParticipantService from "../../../services/ParticipantService";
+import ParticipantService from "../../../../services/ParticipantService";
 import "./UserTask.scss";
-import { useStore } from "../../../hooks/useStore";
+import { useStore } from "../../../../hooks/useStore";
 import { Document, Page } from "react-pdf";
 import DownloadIcon from "@mui/icons-material/Download";
-import { BASE_URL } from "../../../config/api";
+import { BASE_URL } from "../../../../config/api";
 import { Box, CircularProgress, Stack } from "@mui/material";
 
 const pdfDocumentOptions = { withCredentials: true };
 
 const UserTask: React.FC = () => {
   const { main } = useStore();
-  const selectedTask = main.getSelectedTask();
   const [pageSlots, setPageSlots] = useState<number[]>([]);
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
@@ -23,7 +22,7 @@ const UserTask: React.FC = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files && event.target.files[0];
-    const task = main.getSelectedTask();
+    const task = main.selectedTask;
 
     if (file && task) {
       const response = await ParticipantService.setAnswer(
@@ -52,15 +51,11 @@ const UserTask: React.FC = () => {
       >
         <div className="user-task__item">
           <Document
-            file={`${BASE_URL}${selectedTask.pdfPath}`}
+            file={`${BASE_URL}${main.selectedTask.pdfPath}`}
             onLoadSuccess={onDocumentLoadSuccess}
             options={pdfDocumentOptions}
             loading={
-              <Box
-                display="flex"
-                justifyContent="center"
-                mt={4}
-              >
+              <Box display="flex" justifyContent="center" mt={4}>
                 <CircularProgress />
               </Box>
             }
@@ -76,7 +71,7 @@ const UserTask: React.FC = () => {
         bgcolor="white"
         style={{
           display: "flex",
-          justifyContent: selectedTask.name ? "space-between" : "flex-end",
+          justifyContent: main.selectedTask.name ? "space-between" : "flex-end",
           width: "100%",
           boxShadow: "0px 4px 10px 0px rgba(0, 0, 0, 0.25)",
           padding: "10px 20px",
@@ -84,11 +79,11 @@ const UserTask: React.FC = () => {
           boxSizing: "border-box",
         }}
       >
-        {selectedTask.additionsName && (
+        {main.selectedTask.additionsName && (
           <div className="user-task__additional-file">
             <a
-              href={`${BASE_URL}/${selectedTask.additionsPath}`}
-              download={`${selectedTask.additionsName}`}
+              href={`${BASE_URL}/${main.selectedTask.additionsPath}`}
+              download={`${main.selectedTask.additionsName}`}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -98,7 +93,8 @@ const UserTask: React.FC = () => {
         )}
         <p style={{ textAlign: "center" }}>
           За это задание можно получить до{" "}
-          <span style={{ color: "#F7931A" }}>{selectedTask.points}</span> баллов
+          <span style={{ color: "#F7931A" }}>{main.selectedTask.points}</span>{" "}
+          баллов
         </p>
       </Stack>
       <div
@@ -107,7 +103,6 @@ const UserTask: React.FC = () => {
           backgroundColor: "white",
           padding: "10px",
           boxShadow: "0px 4px 10px 0px rgba(0, 0, 0, 0.25)",
-          marginBottom: "16px",
         }}
       >
         <label className="user-task__input-label">

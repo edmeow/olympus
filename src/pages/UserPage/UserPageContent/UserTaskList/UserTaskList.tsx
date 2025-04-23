@@ -1,13 +1,12 @@
-import React from 'react';
 import './UserTaskList.scss';
 import { observer } from 'mobx-react-lite';
-import { useStore } from '../../../hooks/useStore';
-interface UserTaskListProps {}
+import { useStore } from '../../../../hooks/useStore';
 
-const UserTaskList: React.FC<UserTaskListProps> = () => {
+const UserTaskList = () => {
     const { main } = useStore();
+
     const handleItemClick = (id: number) => {
-        main.setSelectedTask(id);
+        main.setSelectedTaskId(id);
     };
 
     return (
@@ -18,7 +17,7 @@ const UserTaskList: React.FC<UserTaskListProps> = () => {
                 return (
                     <div
                         className={`user-tasklist__item ${
-                            task.id === main.selectedTask
+                            task.id === main.selectedTaskId
                                 ? 'user-tasklist__item_checked'
                                 : ''
                         }`}

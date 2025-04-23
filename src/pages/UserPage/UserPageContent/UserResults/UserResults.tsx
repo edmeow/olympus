@@ -1,8 +1,8 @@
-import ParticipantService from "../../../services/ParticipantService";
 import { useQuery } from "@tanstack/react-query";
 import { CircularProgress } from "@mui/material";
-import RatingTable from "../../ui/RatingTable";
 import { getRowsByUserGroup } from "./utils";
+import ParticipantService from "../../../../services/ParticipantService";
+import RatingTable from "../../../../components/ui/RatingTable";
 
 interface UserResultsProps {
   userId: number;

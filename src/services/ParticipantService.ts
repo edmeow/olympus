@@ -7,7 +7,7 @@ export default class ParticipantService {
   static async getContest() {
     return await $api.get<IContest>(`/api/v1/users/contest`);
   }
-  static async getAnswer<IUserAnwser>(userId: string, taskNumber: number) {
+  static async getAnswer<IUserAnwser>(userId: number, taskNumber: number) {
     return await $api.post<IUserAnwser[]>(`/api/v1/users/contest/answers`, {
       userId,
       taskNumber,

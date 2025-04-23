@@ -1,5 +1,4 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AxiosError } from "axios";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { IAddUsersRequest } from "../../../models/request/IAddUsersRequest";
@@ -30,7 +29,7 @@ const AddUserModal: React.FC<ModalProps> = ({ active, setActive }) => {
     if (!main.contest) return;
 
     const res = await AdminService.createUsers(
-      main.contest.contestId,
+      main.contest.id,
       dataFields.participantCount,
       dataFields.judgeCount
     );

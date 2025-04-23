@@ -8,14 +8,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { observer } from "mobx-react-lite";
 import React, { useEffect, useState } from "react";
-import {
-  IUserAnwser,
-  UserAnswerStateTypeLabels,
-} from "../../../models/IUserAnwser";
-import ParticipantService from "../../../services/ParticipantService";
-import Modal from "../../DeprecatedUI/Modal/Modal";
+
 import "./UserAnswersTable.scss";
-import { useStore } from "../../../hooks/useStore";
+import { IUserAnwser, UserAnswerStateTypeLabels } from "../../../../models/IUserAnwser";
+import { useStore } from "../../../../hooks/useStore";
+import ParticipantService from "../../../../services/ParticipantService";
+import Modal from "../../../../components/DeprecatedUI/Modal/Modal";
 
 const UserAnswersTable: React.FC = () => {
   const { main } = useStore();
@@ -26,7 +24,7 @@ const UserAnswersTable: React.FC = () => {
   const getUserAnswer = () => {
     ParticipantService.getAnswer<IUserAnwser>(
       main.user.id,
-      main.getSelectedTaskId()
+      main.selectedTaskId
     )
       .then((response) => {
         main.setUserAnswer(response.data);
@@ -42,7 +40,7 @@ const UserAnswersTable: React.FC = () => {
     return () => {
       clearInterval(intervalId);
     };
-  }, [main.selectedTask]);
+  }, [main.selectedTaskId]);
 
   const handleDownloadFile = (
     userId: number,
