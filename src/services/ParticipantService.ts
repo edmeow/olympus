@@ -26,17 +26,17 @@ export default class ParticipantService {
       username,
     });
   }
-  static async setAnswer(
-    userId: number,
-    taskNum: number,
-    file: File,
-    fileName: string
-  ) {
+  static async setAnswer(body: {
+    userId: number;
+    taskNum: number;
+    file: File;
+    fileName: string;
+  }) {
     const formData = new FormData();
-    formData.append("file", file);
-    formData.append("userId", userId.toString());
-    formData.append("taskNumber", taskNum.toString());
-    formData.append("fileName", fileName.toString());
+    formData.append("file", body.file);
+    formData.append("userId", body.userId.toString());
+    formData.append("taskNumber", body.taskNum.toString());
+    formData.append("fileName", body.fileName.toString());
     return await $api.post<IUserAnwser[]>(
       `/api/v1/users/contest/uploadFile`,
       formData,
@@ -84,6 +84,8 @@ export default class ParticipantService {
   }
 
   static async getUserResults() {
-    return $api.post<IUserResults>("/api/v1/users/contest/user-problems/result");
+    return $api.post<IUserResults>(
+      "/api/v1/users/contest/user-problems/result"
+    );
   }
 }

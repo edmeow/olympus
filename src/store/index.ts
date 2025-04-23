@@ -59,11 +59,11 @@ class MainStore {
         return { __html: sanitizedHtml };
     };
 
-    get selectedTask(): ITask {
+    get selectedTask(): ITask | null {
         const task = this.contest.tasks.find(
             (task: ITask) => task.id === this.selectedTaskId,
         );
-        return task as ITask;
+        return task || null;
     }
 
     setContest(contest: IContest) {

@@ -7,6 +7,8 @@ import { Document, Page } from "react-pdf";
 import DownloadIcon from "@mui/icons-material/Download";
 import { BASE_URL } from "../../../../config/api";
 import { Box, CircularProgress, Stack } from "@mui/material";
+import { useMutation } from "@tanstack/react-query";
+import { enqueueSnackbar } from "notistack";
 
 const pdfDocumentOptions = { withCredentials: true };
 
@@ -14,9 +16,22 @@ const UserTask: React.FC = () => {
   const { main } = useStore();
   const [pageSlots, setPageSlots] = useState<number[]>([]);
 
-  function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
+  const uploadFileMutation = useMutation({
+    mutationFn: ParticipantService.setAnswer,
+    onSuccess: (response) => {
+      main.setUserAnswer(response.data);
+    },
+    onError: (err) => {
+      enqueueSnackbar({
+        variant: "error",
+        message: `Не удалось загрузить решение: ${err.message}`,
+      });
+    },
+  });
+
+  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setPageSlots(new Array(numPages).fill(null));
-  }
+  };
 
   const handleFileUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -25,18 +40,17 @@ const UserTask: React.FC = () => {
     const task = main.selectedTask;
 
     if (file && task) {
-      const response = await ParticipantService.setAnswer(
-        main.user.id,
-        task.id,
+      uploadFileMutation.mutate({
+        userId: main.user.id,
+        taskNum: task.taskNumber,
         file,
-        file.name
-      );
-      if (response) {
-        main.setUserAnswer(response.data);
-        event.target.value = "";
-      }
+        fileName: file.name,
+      });
     }
   };
+
+  if (!main.selectedTask)
+    return <div className="user-task">Выберите задание</div>;
 
   return (
     <div className="user-task">
@@ -112,7 +126,8 @@ const UserTask: React.FC = () => {
             className="user-task__input"
             type="file"
             multiple={false}
-            accept=".zip, .js"
+            accept=".zip, .js, .ts"
+            disabled={uploadFileMutation.isPending}
           />
         </label>
       </div>
