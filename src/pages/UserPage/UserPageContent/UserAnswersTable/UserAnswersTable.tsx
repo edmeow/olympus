@@ -1,4 +1,4 @@
-import { Tooltip } from "@mui/material";
+import { CircularProgress, Tooltip } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,40 +7,33 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { observer } from "mobx-react-lite";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 
 import "./UserAnswersTable.scss";
-import { IUserAnwser, UserAnswerStateTypeLabels } from "../../../../models/IUserAnwser";
+import {
+  UserAnswerStateTypeLabels,
+} from "../../../../models/IUserAnwser";
 import { useStore } from "../../../../hooks/useStore";
 import ParticipantService from "../../../../services/ParticipantService";
 import Modal from "../../../../components/DeprecatedUI/Modal/Modal";
+import { useQuery } from "@tanstack/react-query";
 
-const UserAnswersTable: React.FC = () => {
+const UserAnswersTable = () => {
   const { main } = useStore();
-  const [isActiveCommentModal, setActiveCommentModal] =
-    useState<boolean>(false);
+  const [isActiveCommentModal, setActiveCommentModal] = useState(false);
   const [judgeComment, setJudgeComment] = useState<string | null>(null);
 
-  const getUserAnswer = () => {
-    ParticipantService.getAnswer<IUserAnwser>(
-      main.user.id,
-      main.selectedTaskId
-    )
-      .then((response) => {
-        main.setUserAnswer(response.data);
-      })
-      .catch((err) => console.log(err));
-  };
-  useEffect(() => {
-    getUserAnswer();
-    const intervalId = setInterval(() => {
-      getUserAnswer();
-    }, 90000);
+  const { data: answers, isLoading, refetch } = useQuery({
+    queryKey: ["user-answers"],
+    queryFn: async () => {
+      if (main.selectedTask === null) return;
+      const res = ParticipantService.getAnswer(main.selectedTask.taskNumber);
+      return res;
+    },
+    refetchInterval: 90000,
+  });
 
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [main.selectedTaskId]);
+  if (isLoading) return <CircularProgress />;
 
   const handleDownloadFile = (
     userId: number,
@@ -69,6 +62,8 @@ const UserAnswersTable: React.FC = () => {
       });
   };
 
+  const refetchAnswersImmdeditely = () => refetch();
+
   return (
     <TableContainer
       component={Paper}
@@ -80,7 +75,7 @@ const UserAnswersTable: React.FC = () => {
       }}
     >
       <div
-        onClick={getUserAnswer}
+        onClick={refetchAnswersImmdeditely}
         style={{
           background: "#3987FD",
           width: "160px",
@@ -110,8 +105,8 @@ const UserAnswersTable: React.FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {main.userAnswser.length ? (
-            main.userAnswser.map((answer) => (
+          {answers && answers.data.length ? (
+            answers.data.map((answer) => (
               <TableRow key={answer.id}>
                 <TableCell>{answer.sentTime}</TableCell>
                 <TableCell

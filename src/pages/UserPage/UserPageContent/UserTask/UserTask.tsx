@@ -9,17 +9,24 @@ import { BASE_URL } from "../../../../config/api";
 import { Box, CircularProgress, Stack } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { enqueueSnackbar } from "notistack";
+import queryClient from "../../../../query-client";
+import { cn } from "@bem-react/classname";
+
+const cnUserTaskInputLabel = cn("user-task__input-label");
 
 const pdfDocumentOptions = { withCredentials: true };
 
-const UserTask: React.FC = () => {
+const UserTask = () => {
   const { main } = useStore();
   const [pageSlots, setPageSlots] = useState<number[]>([]);
 
   const uploadFileMutation = useMutation({
     mutationFn: ParticipantService.setAnswer,
-    onSuccess: (response) => {
-      main.setUserAnswer(response.data);
+    onSuccess: () => {
+      queryClient.refetchQueries({
+        queryKey: ["user-answers"],
+        type: "active",
+      });
     },
     onError: (err) => {
       enqueueSnackbar({
@@ -46,6 +53,7 @@ const UserTask: React.FC = () => {
         file,
         fileName: file.name,
       });
+      event.target.value = "";
     }
   };
 
@@ -119,7 +127,11 @@ const UserTask: React.FC = () => {
           boxShadow: "0px 4px 10px 0px rgba(0, 0, 0, 0.25)",
         }}
       >
-        <label className="user-task__input-label">
+        <label
+          className={cnUserTaskInputLabel({
+            disabled: uploadFileMutation.isPending,
+          })}
+        >
           Отправить работу на проверку
           <input
             onChange={handleFileUpload}
@@ -127,7 +139,6 @@ const UserTask: React.FC = () => {
             type="file"
             multiple={false}
             accept=".zip, .js, .ts"
-            disabled={uploadFileMutation.isPending}
           />
         </label>
       </div>
