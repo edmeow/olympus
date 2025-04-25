@@ -13,9 +13,15 @@ interface RatingTableProps {
   rows: UserResult[];
   taskCount: number;
   highligthRowByUserId?: number;
+  isAdmin?: boolean;
 }
 
-const RatingTable = ({ rows, taskCount, highligthRowByUserId }: RatingTableProps) => {
+const RatingTable = ({
+  rows,
+  taskCount,
+  highligthRowByUserId,
+  isAdmin,
+}: RatingTableProps) => {
   const emptyTasks = Array(taskCount).fill(null);
 
   return (
@@ -24,7 +30,8 @@ const RatingTable = ({ rows, taskCount, highligthRowByUserId }: RatingTableProps
         <TableHead>
           <TableRow>
             <TableCell>Место</TableCell>
-            <TableCell>Участник</TableCell>
+            {isAdmin && <TableCell>Участник</TableCell>}
+            <TableCell>Идентификатор участника</TableCell>
             {emptyTasks.map((_, i) => (
               <TableCell key={i + 1}>Задание {i + 1}</TableCell>
             ))}
@@ -36,7 +43,8 @@ const RatingTable = ({ rows, taskCount, highligthRowByUserId }: RatingTableProps
           {rows.map((row) => (
             <TableRow key={row.id} selected={row.id === highligthRowByUserId}>
               <TableCell>{row.place}</TableCell>
-              <TableCell>{row.name || row.username}</TableCell>
+              {isAdmin && <TableCell>{row.name || "Аноним"}</TableCell>}
+              <TableCell>{row.username}</TableCell>
               {emptyTasks.map((_, i) => (
                 <TableCell key={i + 1}>
                   {row.userAnswers?.find(
