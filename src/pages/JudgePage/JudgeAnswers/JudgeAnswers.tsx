@@ -2,9 +2,9 @@ import { observer } from "mobx-react-lite";
 import React, { useEffect, useState } from "react";
 import { IUserAnwser } from "../../../models/IUserAnwser";
 import JudgeService from "../../../services/JudgeService";
-import AnswerTable from "../../DeprecatedUI/AnswerTable/AnswerTable";
-import ModalComment from "../../DeprecatedUI/ModalComment/ModalComment";
-import JudgeFeedback from "../JudgeFeedback/JudgeFeedback";
+import AnswerTable from "../../../components/DeprecatedUI/AnswerTable/AnswerTable";
+import ModalComment from "../../../components/DeprecatedUI/ModalComment/ModalComment";
+import JudgeFeedback from "../../../components/Judge/JudgeFeedback/JudgeFeedback";
 import { useStore } from "../../../hooks/useStore";
 
 const JudgeAnswers: React.FC = observer(() => {

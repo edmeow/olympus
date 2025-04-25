@@ -1,11 +1,13 @@
-import $api, { BASE_URL } from "../config/api";
+import $api from "../config/api";
+import { IContest } from "../models/IContest";
+import { IUserResults } from "../models/IUserResult";
 
 export default class JudgeService {
   static async getUserAnswersTable<IUserAnwser>() {
     return await $api.get<IUserAnwser[]>(`/api/v1/judge/contest/table`);
   }
 
-  static async getContest<IContest>() {
+  static async getContest() {
     return await $api.get<IContest>(`/api/v1/judge/contest`);
   }
 
@@ -23,27 +25,7 @@ export default class JudgeService {
     });
   }
 
-  static async downloadFile(
-    userId: number,
-    userTasksId: number,
-    fileName: string
-  ) {
-    return await fetch(`${BASE_URL}/api/v1/judge/download`, {
-      method: "POST",
-      body: JSON.stringify({
-        userId,
-        userTasksId,
-        fileName,
-      }),
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-      },
-    });
-  }
-
   static async getUserResults() {
-    return $api.post(`/api/v1/judge/contest/user-problems/result`);
+    return $api.post<IUserResults>(`/api/v1/judge/contest/user-problems/result`);
   }
 }

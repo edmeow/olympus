@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ContestsStatesLabel } from "../../../models/constants/ContestsStatesEnum";
 import AdminService from "../../../services/AdminService";
 import img from "../../../utils/icons/contestIcons/img-contest1.png";
-import { getClassNameByContestState } from "../../../utils/utils";
+import { getClassNameByContestState } from "../../../utils";
 import "./AdminContests.scss";
 import {
   ContestsInfo,

@@ -1,21 +1,18 @@
-import AdminService from "../../../services/AdminService";
-import RatingTable from "../../../components/ui/RatingTable";
+import { useEffect, useMemo, useState } from "react";
+import JudgeService from "../../../services/JudgeService";
+import { observer } from "mobx-react-lite";
 import { useQuery } from "@tanstack/react-query";
 import { Chip, CircularProgress, Stack } from "@mui/material";
-import { useEffect, useMemo, useState } from "react";
+import RatingTable from "../../../components/ui/RatingTable";
 import { getRowsByGroup, getUniqueGroups } from "../../../utils";
 
-interface AdminResultsProps {
-  contestId: number;
-}
-
-const AdminResults = ({ contestId }: AdminResultsProps) => {
+const JudgeResults = observer(() => {
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
 
   const { data: rating, isLoading } = useQuery({
-    queryKey: ["admin-rating"],
-    queryFn: () => AdminService.getUserResults(contestId),
-    refetchInterval: 30000,
+    queryKey: ["judge-rating"],
+    queryFn: JudgeService.getUserResults,
+    refetchInterval: 90000,
   });
 
   const groups = useMemo(() => getUniqueGroups(rating?.data), [rating]);
@@ -49,6 +46,6 @@ const AdminResults = ({ contestId }: AdminResultsProps) => {
       />
     </div>
   );
-};
+});
 
-export default AdminResults;
+export default JudgeResults;

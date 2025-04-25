@@ -8,7 +8,7 @@ import {
 } from "../../models/constants/ContestsStatesEnum";
 import { IContest } from "../../models/IContest";
 import AdminService from "../../services/AdminService";
-import { getClassNameByContestState } from "../../utils/utils";
+import { getClassNameByContestState } from "../../utils";
 import "./AdminContestPage.scss";
 import RenameContestButton from "../../features/RenameContestButton.tsx/RenameContestButton.tsx";
 import { useStore } from "../../hooks/useStore";

@@ -14,10 +14,13 @@ const UserPage = () => {
   const navigate = useNavigate();
 
   const { isLoading, isError } = useQuery({
-    queryKey: ["contest"],
+    queryKey: ["user-contest"],
     queryFn: async () => {
       const res = await ParticipantService.getContest();
       main.setContest(res.data);
+      if (main.selectedViewContent === null) {
+        main.setSelectedViewContent("tasks");
+      }
       return res;
     },
   });

@@ -20,7 +20,7 @@ class MainStore {
         groups: [],
         tasksCount: 0,
     };
-    selectedViewContent: selectedViewContentType = 'tasks';
+    selectedViewContent: selectedViewContentType | null = null;
 
     constructor() {
         makeAutoObservable(this);
