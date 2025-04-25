@@ -40,6 +40,7 @@ const AddProblemModal = ({ contestId, open, onClose, onTasksUpdate }: AddProblem
     watch,
     setValue,
     handleSubmit,
+    reset: resetForm,
     formState: { errors },
   } = useForm<AddProblemModalFormField>({
     mode: "onSubmit",
@@ -54,7 +55,7 @@ const AddProblemModal = ({ contestId, open, onClose, onTasksUpdate }: AddProblem
     mutationFn: AdminService.addProblem,
     onSuccess: (res) => {
       onTasksUpdate(res.data);
-      onClose();
+      handleClose();
     },
     onError: (err) => {
       enqueueSnackbar({
@@ -100,16 +101,21 @@ const AddProblemModal = ({ contestId, open, onClose, onTasksUpdate }: AddProblem
     }
   };
 
+  const handleClose = () => {
+    onClose();
+    resetForm();
+  };
+
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       component="form"
       onSubmit={handleSubmit(createProblem)}
       className="form-add-problem"
     >
       <DialogTitle>Новое задание</DialogTitle>
-      <DialogCloseButton onClose={onClose} />
+      <DialogCloseButton onClose={handleClose} />
       <DialogContent>
         <Stack width="432px" spacing={2}>
           <Controller
