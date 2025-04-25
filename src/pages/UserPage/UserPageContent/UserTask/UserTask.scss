@@ -47,18 +47,13 @@
         cursor: pointer;
         text-align: center;
         box-sizing: border-box;
+        text-decoration: none;
         transition: background-color 0.3s ease;
 
         &:hover {
           background-color: rgb(102, 102, 102, 0.1);
         }
         
-        a {
-            display: flex;
-            align-items: center;
-            color: inherit;
-            text-decoration: none;
-          }
     }
 }
 

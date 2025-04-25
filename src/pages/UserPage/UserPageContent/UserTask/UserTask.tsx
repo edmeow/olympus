@@ -102,16 +102,18 @@ const UserTask = () => {
         }}
       >
         {main.selectedTask.additionsName && (
-          <div className="user-task__additional-file">
-            <a
-              href={`${BASE_URL}/${main.selectedTask.additionsPath}`}
-              download={`${main.selectedTask.additionsName}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <DownloadIcon /> Скачать дополнительные материалы
-            </a>
-          </div>
+          <a
+            href={`${BASE_URL}${main.selectedTask.additionsPath}`}
+            download={`${main.selectedTask.additionsName}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="user-task__additional-file"
+          >
+            <DownloadIcon />
+            <span style={{ marginLeft: "8px" }}>
+              Дополнительные материалы
+            </span>
+          </a>
         )}
         <p style={{ textAlign: "center" }}>
           За это задание можно получить до{" "}

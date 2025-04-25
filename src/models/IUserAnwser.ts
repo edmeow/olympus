@@ -2,16 +2,13 @@ import { z } from 'zod';
 
 export interface IUserAnwser {
     id: number;
-    userId: number;
     userName: string;
     taskNumber: number;
     points: number | null;
-    maxPoints: number;
-    comment: string | null;
     sentTime: string;
     fileName: string;
-    state: UserAnswerStateTypeModel;
-    answerId: number;
+    filePath: string;
+    viewPaths: string;
 }
 
 export const UserAnswerStateTypeValues = {

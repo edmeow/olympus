@@ -7,23 +7,22 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { observer } from "mobx-react-lite";
-import { useState } from "react";
 
 import "./UserAnswersTable.scss";
-import {
-  UserAnswerStateTypeLabels,
-} from "../../../../models/IUserAnwser";
 import { useStore } from "../../../../hooks/useStore";
 import ParticipantService from "../../../../services/ParticipantService";
-import Modal from "../../../../components/DeprecatedUI/Modal/Modal";
 import { useQuery } from "@tanstack/react-query";
+import { BASE_URL } from "../../../../config/api";
+import { getAnswerStatus } from "./utils";
 
 const UserAnswersTable = () => {
   const { main } = useStore();
-  const [isActiveCommentModal, setActiveCommentModal] = useState(false);
-  const [judgeComment, setJudgeComment] = useState<string | null>(null);
 
-  const { data: answers, isLoading, refetch } = useQuery({
+  const {
+    data: answers,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["user-answers"],
     queryFn: async () => {
       if (main.selectedTask === null) return;
@@ -34,33 +33,6 @@ const UserAnswersTable = () => {
   });
 
   if (isLoading) return <CircularProgress />;
-
-  const handleDownloadFile = (
-    userId: number,
-    userTaskId: number,
-    fileName: string
-  ) => {
-    ParticipantService.downloadFile(userId, userTaskId, fileName)
-      .then((res) => {
-        res
-          .blob()
-          .then((blob) => {
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.href = url;
-            link.download = fileName;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   const refetchAnswersImmdeditely = () => refetch();
 
@@ -100,7 +72,6 @@ const UserAnswersTable = () => {
             <TableCell>Время отправки</TableCell>
             <TableCell>Файл</TableCell>
             <TableCell>Статус</TableCell>
-            <TableCell>Комментарий</TableCell>
             <TableCell>Оценка</TableCell>
           </TableRow>
         </TableHead>
@@ -109,41 +80,25 @@ const UserAnswersTable = () => {
             answers.data.map((answer) => (
               <TableRow key={answer.id}>
                 <TableCell>{answer.sentTime}</TableCell>
-                <TableCell
-                  onClick={() =>
-                    handleDownloadFile(
-                      answer.userId,
-                      answer.id,
-                      answer.fileName
-                    )
-                  }
-                >
+                <TableCell>
                   <Tooltip
                     placement="bottom-start"
-                    title={"Загрузить файл"}
+                    title="Загрузить файл"
                     className="user-table__file"
                   >
-                    <div>{answer.fileName}</div>
+                    <a
+                      href={`${BASE_URL}${answer.filePath}`}
+                      download={`${answer.fileName}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {answer.fileName}
+                    </a>
                   </Tooltip>
                 </TableCell>
-                <TableCell>{UserAnswerStateTypeLabels[answer.state]}</TableCell>
+                <TableCell>{getAnswerStatus(answer)}</TableCell>
                 <TableCell>
-                  {answer.comment ? (
-                    <span
-                      className="user-table__comment"
-                      onClick={() => {
-                        setJudgeComment(answer.comment);
-                        setActiveCommentModal(true);
-                      }}
-                    >
-                      Открыть комментарий
-                    </span>
-                  ) : (
-                    "Пусто"
-                  )}
-                </TableCell>
-                <TableCell>
-                  {answer.points === null ? "Пусто" : answer.points}
+                  {answer.points === null ? "—" : answer.points}
                 </TableCell>
               </TableRow>
             ))
@@ -156,9 +111,6 @@ const UserAnswersTable = () => {
           )}
         </TableBody>
       </Table>
-      <Modal active={isActiveCommentModal} setActive={setActiveCommentModal}>
-        <p>{judgeComment}</p>
-      </Modal>
     </TableContainer>
   );
 };
