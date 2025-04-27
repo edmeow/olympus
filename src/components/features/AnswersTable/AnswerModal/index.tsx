@@ -4,11 +4,13 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Fade,
   Grid,
   Stack,
   Typography,
 } from "@mui/material";
 import CloudIcon from "@mui/icons-material/Cloud";
+import CodeIcon from "@mui/icons-material/Code";
 import Input from "../../../ui/Input";
 import Button from "../../../ui/Button";
 import InputAndButtonGroup from "../../../ui/InputAndButtonGroup";
@@ -19,13 +21,19 @@ import { cn } from "@bem-react/classname";
 import "./styles.scss";
 import AddCommentBlock from "./AddCommentBlock";
 import { Controller, useForm } from "react-hook-form";
-import { AnswerModalFormFields, DialogProps } from "./interfaces";
+import {
+  AnswerModalFormFields,
+  AnswerModalTabs,
+  DialogProps,
+} from "./interfaces";
 import { judgeFeedbackSchema } from "./validate";
 import { useSnackbar } from "notistack";
 import formatZodError from "../../../../utils/formatZodError";
 import { useMutation } from "@tanstack/react-query";
 import JudgeService from "../../../../services/JudgeService";
 import queryClient from "../../../../query-client";
+import { useState } from "react";
+import SourceCode from "./SourceCode";
 
 const cnAnswerModal = cn("AnswerModal");
 
@@ -34,6 +42,8 @@ const AnswerModal = ({ open, answer, onClose, onMinimize }: DialogProps) => {
   const { control, handleSubmit } = useForm<AnswerModalFormFields>({
     defaultValues: { points: "" },
   });
+
+  const [tab, setTab] = useState<AnswerModalTabs>("main");
 
   const judgeFeedbackMutation = useMutation({
     mutationFn: JudgeService.judgeFeedback,
@@ -54,8 +64,6 @@ const AnswerModal = ({ open, answer, onClose, onMinimize }: DialogProps) => {
       });
     },
   });
-
-  const isActionsEmpty = answer?.viewEntryPoint === null;
 
   const openPreview = () => {
     if (answer?.viewEntryPoint)
@@ -86,6 +94,14 @@ const AnswerModal = ({ open, answer, onClose, onMinimize }: DialogProps) => {
     }
   };
 
+  const openSource = () => {
+    setTab("source");
+  };
+
+  const backToMain = () => {
+    setTab("main");
+  };
+
   if (!answer) return;
 
   return (
@@ -98,59 +114,68 @@ const AnswerModal = ({ open, answer, onClose, onMinimize }: DialogProps) => {
       <DialogTitle>Оценка решения</DialogTitle>
       <WindowActions onClose={onClose} onMinimize={onMinimize} />
       <DialogContent>
-        <Grid container spacing={4}>
-          <Grid size={6}>
-            <Box display="flex" justifyContent="space-between">
-              <Typography variant="body1">
-                Задача #{answer.taskNumber}
-              </Typography>
-              <Typography variant="body1" color="primary">
-                {answer.sentTime}
-              </Typography>
-            </Box>
-            <Typography variant="body1">
-              Отправитель: {answer.userName}
-            </Typography>
-            <Typography variant="body1">
-              Файл:{" "}
-              <a
-                className={cnAnswerModal("DownloadLink")}
-                href={`${BASE_URL}/${answer.filePath}`}
-                download={`${answer.fileName}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {answer.fileName}
-              </a>
-            </Typography>
-            <AddCommentBlock
-              key={answer.points}
-              className={cnAnswerModal("CommentBnt")}
-              answerId={answer.id}
-            />
-          </Grid>
-          <Grid size={6}>
-            <Typography variant="h6">Действия</Typography>
-            {isActionsEmpty && (
-              <Typography variant="body1" color="text.secondary">
-                Нет доступных действий для этого ответа
-              </Typography>
-            )}
-            <Stack mt={2} spacing={1}>
-              {answer.viewEntryPoint && (
-                <div
-                  className={cnAnswerModal("ActionItem")}
-                  onClick={openPreview}
-                >
+        {tab === "main" && (
+          <Fade in>
+            <Grid container spacing={4}>
+              <Grid size={6}>
+                <Box display="flex" justifyContent="space-between">
                   <Typography variant="body1">
-                    Запустить решение в новой вкладке
+                    Задача #{answer.taskNumber}
                   </Typography>
-                  <CloudIcon />
-                </div>
-              )}
-            </Stack>
-          </Grid>
-        </Grid>
+                  <Typography variant="body1" color="primary">
+                    {answer.sentTime}
+                  </Typography>
+                </Box>
+                <Typography variant="body1">
+                  Отправитель: {answer.userName}
+                </Typography>
+                <Typography variant="body1">
+                  Файл:{" "}
+                  <a
+                    className={cnAnswerModal("DownloadLink")}
+                    href={`${BASE_URL}${answer.filePath}`}
+                    download={`${answer.fileName}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {answer.fileName}
+                  </a>
+                </Typography>
+                <AddCommentBlock
+                  key={answer.points}
+                  className={cnAnswerModal("CommentBnt")}
+                  answerId={answer.id}
+                />
+              </Grid>
+              <Grid size={6}>
+                <Typography variant="h6">Действия</Typography>
+                <Stack mt={2} spacing={1}>
+                  <div
+                    className={cnAnswerModal("ActionItem")}
+                    onClick={openSource}
+                  >
+                    <Typography variant="body1">
+                      Посмотреть исходный код
+                    </Typography>
+                    <CodeIcon />
+                  </div>
+                  {answer.viewEntryPoint && (
+                    <div
+                      className={cnAnswerModal("ActionItem")}
+                      onClick={openPreview}
+                    >
+                      <Typography variant="body1">
+                        Запустить решение в новой вкладке
+                      </Typography>
+                      <CloudIcon />
+                    </div>
+                  )}
+                </Stack>
+              </Grid>
+            </Grid>
+          </Fade>
+        )}
+        {tab === "source" && <SourceCode onBack={backToMain} />}
       </DialogContent>
       <DialogActions>
         <InputAndButtonGroup>

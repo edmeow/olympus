@@ -28,6 +28,8 @@ const initialTableState: GridInitialStateCommunity = {
   },
 };
 
+const pageSizeOptions = [10, 25, { value: -1, label: "Всё" }];
+
 const getRowClassName = (params: GridRowClassNameParams<IUserAnwser>) => {
   return cnAnswersTable("Row", {
     variant: getVariantByPointsProp(params.row.points),
@@ -78,6 +80,7 @@ const AnswersTable = ({ rows = [] }: AnswersTableProps) => {
         disableRowSelectionOnClick
         slots={{ noRowsOverlay: NoRowsOverlay }}
         getRowClassName={getRowClassName}
+        pageSizeOptions={pageSizeOptions}
       />
       <AnswerModal
         key={answer?.id}

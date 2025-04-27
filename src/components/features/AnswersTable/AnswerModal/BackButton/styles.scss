@@ -1,0 +1,19 @@
+.BackButton {
+  display: inline-block;
+  width: min-content;
+  display: flex;
+  align-items: center;
+  transition: color 0.5s;
+  color: rgb(57, 135, 253);
+  background-color: rgba(57, 135, 253, 0.1);
+  border-radius: 6px;
+  padding: 4px 16px;
+  cursor: pointer;
+  & svg {
+    transition: color 0.5s;
+    color: rgb(57, 135, 253);
+  }
+  &:hover {
+    opacity: 0.8;
+  }
+}

@@ -25,7 +25,7 @@ export default defineConfig([
     files: ["**/*.{js,jsx,ts,tsx}"],
     rules: {
       "react/react-in-jsx-scope": "off",
-      indent: ["error", 2, { "SwitchCase": 1 }],
+      indent: ["error", 2, { SwitchCase: 1 }],
       "@stylistic/ts/indent": ["error", 2],
     },
     settings: {

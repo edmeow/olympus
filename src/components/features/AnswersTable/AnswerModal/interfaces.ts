@@ -10,3 +10,5 @@ export interface DialogProps {
 export interface AnswerModalFormFields {
   points: string;
 }
+
+export type AnswerModalTabs = "main" | "source";
