@@ -1,6 +1,6 @@
 import AdminService from "../../../services/AdminService";
 import { useQuery } from "@tanstack/react-query";
-import AnswersTable from "../../../components/layouts/AnswersTable";
+import AnswersTable from "../../../components/features/AnswersTable";
 import { CircularProgress } from "@mui/material";
 
 interface AdminAnswersProps {

@@ -1,5 +1,5 @@
 import JudgeService from "../../../services/JudgeService";
-import AnswersTable from "../../../components/layouts/AnswersTable";
+import AnswersTable from "../../../components/features/AnswersTable";
 import { useQuery } from "@tanstack/react-query";
 import { CircularProgress } from "@mui/material";
 

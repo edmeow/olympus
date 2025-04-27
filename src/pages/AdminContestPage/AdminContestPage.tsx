@@ -13,7 +13,7 @@ import "./AdminContestPage.scss";
 import { useStore } from "../../hooks/useStore";
 import AdminAnswers from "./AdminAnswers/AdminAnswers";
 import AdminResults from "./AdminResults/AdminResults";
-import RenameContestButton from "../../components/layouts/RenameContestButton";
+import RenameContestButton from "../../components/features/RenameContestButton";
 
 type ViewType = "info" | "results" | "answers";
 
