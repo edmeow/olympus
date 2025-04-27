@@ -1,0 +1,16 @@
+.AnswersTable {
+  &-Row {
+    &_variant_graded {
+      background-color: rgb(222, 243, 222);
+      &:hover {
+        background-color: darken(rgb(222, 243, 222), 2%) !important;
+      }
+    }
+    &_variant_rejected {
+      background-color: rgb(255 234 234);
+      &:hover {
+        background-color: darken(rgb(255 234 234), 2%) !important;
+      }
+    }
+  }
+}

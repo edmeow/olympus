@@ -9,7 +9,6 @@ import {
   Typography,
 } from "@mui/material";
 import CloudIcon from "@mui/icons-material/Cloud";
-import { IUserAnwser } from "../../../../models/IUserAnwser";
 import Input from "../../../ui/Input";
 import Button from "../../../ui/Button";
 import InputAndButtonGroup from "../../../ui/InputAndButtonGroup";
@@ -19,20 +18,72 @@ import { BASE_URL } from "../../../../config/api";
 import { cn } from "@bem-react/classname";
 import "./styles.scss";
 import AddCommentBlock from "./AddCommentBlock";
-
-interface DialogProps {
-  open: boolean;
-  answer?: IUserAnwser;
-  onClose: () => void;
-  onMinimize: () => void;
-}
+import { Controller, useForm } from "react-hook-form";
+import { AnswerModalFormFields, DialogProps } from "./interfaces";
+import { judgeFeedbackSchema } from "./validate";
+import { useSnackbar } from "notistack";
+import formatZodError from "../../../../utils/formatZodError";
+import { useMutation } from "@tanstack/react-query";
+import JudgeService from "../../../../services/JudgeService";
+import queryClient from "../../../../query-client";
 
 const cnAnswerModal = cn("AnswerModal");
 
 const AnswerModal = ({ open, answer, onClose, onMinimize }: DialogProps) => {
+  const { enqueueSnackbar } = useSnackbar();
+  const { control, handleSubmit } = useForm<AnswerModalFormFields>({
+    defaultValues: { points: "" },
+  });
+
+  const judgeFeedbackMutation = useMutation({
+    mutationFn: JudgeService.judgeFeedback,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["user-answers"],
+        type: "active",
+      });
+      enqueueSnackbar({
+        variant: "success",
+        message: "Ответ оценён",
+      });
+    },
+    onError: (err) => {
+      enqueueSnackbar({
+        variant: "error",
+        message: `Не удалось поставить оценку: ${err.message}`,
+      });
+    },
+  });
+
+  const isActionsEmpty = answer?.viewEntryPoint === null;
+
   const openPreview = () => {
     if (answer?.viewEntryPoint)
       window.open(BASE_URL + answer.viewEntryPoint, "_blank");
+  };
+
+  const reject = () => {
+    if (!answer) return;
+    judgeFeedbackMutation.mutate({
+      userTasksId: answer.id,
+      points: 0,
+    });
+  };
+
+  const grade = (data: AnswerModalFormFields) => {
+    if (!answer) return;
+    try {
+      const parsed = judgeFeedbackSchema(answer.maxPoints).parse(data);
+      judgeFeedbackMutation.mutate({
+        userTasksId: answer.id,
+        ...parsed,
+      });
+    } catch (err) {
+      enqueueSnackbar({
+        variant: "error",
+        message: formatZodError(err).message,
+      });
+    }
   };
 
   if (!answer) return;
@@ -43,6 +94,8 @@ const AnswerModal = ({ open, answer, onClose, onMinimize }: DialogProps) => {
       open={open}
       onClose={onMinimize}
       slots={{ transition: Transition }}
+      component="form"
+      onSubmit={handleSubmit(grade)}
     >
       <DialogTitle>Оценка решения</DialogTitle>
       <WindowActions onClose={onClose} onMinimize={onMinimize} />
@@ -73,12 +126,18 @@ const AnswerModal = ({ open, answer, onClose, onMinimize }: DialogProps) => {
               </a>
             </Typography>
             <AddCommentBlock
-              answerId={answer.id}
+              key={answer.points}
               className={cnAnswerModal("CommentBnt")}
+              answerId={answer.id}
             />
           </Grid>
           <Grid size={6}>
             <Typography variant="h6">Действия</Typography>
+            {isActionsEmpty && (
+              <Typography variant="body1" color="text.secondary">
+                Нет доступных действий для этого ответа
+              </Typography>
+            )}
             <Stack mt={2} spacing={1}>
               {answer.viewEntryPoint && (
                 <div
@@ -97,14 +156,27 @@ const AnswerModal = ({ open, answer, onClose, onMinimize }: DialogProps) => {
       </DialogContent>
       <DialogActions>
         <InputAndButtonGroup>
-          <Input
-            fullWidth
-            size="small"
-            placeholder={`Выставите оценку (максимум ${answer.maxPoints})`}
+          <Controller
+            control={control}
+            name="points"
+            render={({ field }) => (
+              <Input
+                {...field}
+                fullWidth
+                size="small"
+                placeholder={`Выставите оценку (максимум ${answer.maxPoints})`}
+                title={`Выставите оценку (максимум ${answer.maxPoints})`}
+                autoComplete="off"
+              />
+            )}
           />
-          <Button>Оценить</Button>
+          <Button type="submit">
+            {answer.points === null ? "Оценить" : "Пересмотреть оценку"}
+          </Button>
         </InputAndButtonGroup>
-        <Button error>Отклонить</Button>
+        <Button error onClick={reject}>
+          Отклонить
+        </Button>
       </DialogActions>
     </Dialog>
   );

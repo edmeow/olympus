@@ -10,23 +10,23 @@ import AnswerTab from "./AnswerTab";
 import useAnswerTable from "./useAnswerTable";
 import { useStore } from "../../../hooks/useStore";
 import { observer } from "mobx-react-lite";
+import { cn } from "@bem-react/classname";
+import "./styles.scss";
+import { getVariantByPointsProp } from "./utils";
 
 interface AnswersTableProps {
   rows: IUserAnwser[];
 }
 
+const cnAnswersTable = cn("AnswersTable");
+
 const AnswersTable = ({ rows }: AnswersTableProps) => {
   const { answers } = useStore();
-  const {
-    isOpenDetail,
-    openAnswer,
-    closeAnswer,
-    closeDetail,
-    minimizeDetail,
-  } = useAnswerTable(answers);
+  const { isOpenDetail, openAnswer, closeAnswer, closeDetail, minimizeDetail } =
+    useAnswerTable(answers);
 
   const answer = rows.find(({ id }) => id === answers.lastOpened);
-  
+
   const columns: GridColDef[] = useMemo(
     () => [
       { field: "id", headerName: "ID" },
@@ -37,7 +37,8 @@ const AnswersTable = ({ rows }: AnswersTableProps) => {
         field: "points",
         headerName: "Ваша оценка",
         flex: 1,
-        valueFormatter: (value) => value || "Не оценено",
+        valueFormatter: (value) =>
+          value === 0 ? "Отклонено" : value || "Не оценено",
       },
       {
         field: "actions",
@@ -61,6 +62,11 @@ const AnswersTable = ({ rows }: AnswersTableProps) => {
         hideFooter
         disableRowSelectionOnClick
         slots={{ noRowsOverlay: NoRowsOverlay }}
+        getRowClassName={(params) =>
+          cnAnswersTable("Row", {
+            variant: getVariantByPointsProp(params.row.points),
+          })
+        }
         sx={{
           border: 0,
           "& .MuiDataGrid-row .MuiDataGrid-cell": { outline: "none" },
@@ -68,6 +74,7 @@ const AnswersTable = ({ rows }: AnswersTableProps) => {
         }}
       />
       <AnswerModal
+        key={answer?.id}
         open={isOpenDetail}
         answer={answer}
         onClose={closeDetail}

@@ -6,6 +6,7 @@ import { ResponseApiService, ResponseStatus } from "../models/ResponseModel";
 import { IContestListResponse } from "../models/response/IContestListResponse";
 import ITask from "../models/ITask";
 import { IUserResults } from "../models/IUserResult";
+import { IUserAnwser } from "../models/IUserAnwser";
 export default class AdminService {
   static createContest = (submitObject: IСreateContestRequest) => {
     return $api.post<ICreateContestResponse>(
@@ -60,7 +61,7 @@ export default class AdminService {
   }
 
   static async getUserAnswers(contestId: number) {
-    return $api.get(
+    return $api.get<IUserAnwser[]>(
       `/api/v1/admin/contest/user-problems?contestId=${contestId}`
     );
   }

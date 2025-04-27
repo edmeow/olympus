@@ -5,7 +5,7 @@ export interface IUserAnwser {
     userName: string;
     taskNumber: number;
     points: number | null;
-    maxPoint: number;
+    maxPoints: number;
     sentTime: string;
     fileName: string;
     filePath: string;
