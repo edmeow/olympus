@@ -5,10 +5,12 @@ export interface IUserAnwser {
     userName: string;
     taskNumber: number;
     points: number | null;
+    maxPoint: number;
     sentTime: string;
     fileName: string;
     filePath: string;
     viewPaths: string;
+    viewEntryPoint: string | null;
 }
 
 export const UserAnswerStateTypeValues = {

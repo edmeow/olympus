@@ -10,10 +10,10 @@ import { IContest } from "../../models/IContest";
 import AdminService from "../../services/AdminService";
 import { getClassNameByContestState } from "../../utils";
 import "./AdminContestPage.scss";
-import RenameContestButton from "../../features/RenameContestButton.tsx/RenameContestButton.tsx";
 import { useStore } from "../../hooks/useStore";
 import AdminAnswers from "./AdminAnswers/AdminAnswers";
 import AdminResults from "./AdminResults/AdminResults";
+import RenameContestButton from "../../components/layouts/RenameContestButton";
 
 type ViewType = "info" | "results" | "answers";
 

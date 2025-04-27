@@ -1,0 +1,19 @@
+.InputAndButtonGroup {
+  width: 320px;
+  display: flex;
+
+  & .Input .MuiInputBase-root {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  & input {
+    padding: 3.5px 14px
+  }
+  & input::placeholder {
+    font-size: 12px;
+  }
+  & .Button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}

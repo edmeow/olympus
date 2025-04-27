@@ -1,0 +1,57 @@
+.AnswerModal {
+  & .MuiDialog-paper {
+    max-width: calc(100% - 40px);
+    width: 100%;
+    min-height: 400px;
+  }
+
+  &-DownloadLink {
+    color: rgb(57, 135, 253);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(57, 135, 253, 0.1);
+    transition: color 0.3s, border-bottom 0.3s;
+
+    &:hover {
+      color: rgb(57, 135, 253, 0.8);
+      border-bottom: 1px solid rgb(57, 135, 253, 0.4);
+    }
+
+    &:active {
+      color: darken(rgb(57, 135, 253), 10%);
+    }
+
+    &:visited {
+      color: darken(rgb(57, 135, 253), 20%);
+    }
+  }
+
+  &-CommentBnt,
+  &-CommentBnt .MuiTypography-root,
+  &-CommentBnt svg {
+    cursor: pointer;
+    transition: color 0.5s;
+    &:hover,
+    &:hover .MuiTypography-root,
+    &:hover svg {
+      color: rgb(57, 135, 253);
+    }
+  }
+
+  &-ActionItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgb(57, 135, 253);
+    background-color: rgba(57, 135, 253, 0.1);
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.5s;
+    & svg {
+      color: rgb(57, 135, 253);
+    }
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

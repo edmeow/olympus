@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import main, { StoreContext } from "./store";
+import store, { StoreContext } from "./store";
 import { BrowserRouter } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -25,7 +25,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <StoreContext.Provider value={{ main }}>
+      <StoreContext.Provider value={store}>
         <QueryClientProvider client={queryClient}>
           <BrowserRouter>
             <SnackbarProvider>

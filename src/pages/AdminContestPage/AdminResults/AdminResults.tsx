@@ -46,6 +46,7 @@ const AdminResults = ({ contestId }: AdminResultsProps) => {
       <RatingTable
         rows={getRowsByGroup(rating?.data, selectedGroup)}
         taskCount={rating?.data?.tasksCount || 0}
+        isAdmin
       />
     </div>
   );

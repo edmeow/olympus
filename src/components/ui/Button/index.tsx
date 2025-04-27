@@ -1,16 +1,17 @@
 import { ButtonBase, ButtonBaseProps } from "@mui/material";
-import "./Button.scss";
 import { cn } from "@bem-react/classname";
+import "./styles.scss";
 
 interface ButtonProps extends ButtonBaseProps {
   size?: "small" | "medium" | "large";
+  error?: boolean;
   fullwidth?: boolean;
 }
 
 const cnBtn = cn("Button");
 
-const Button = ({ size, fullwidth, ...props }: ButtonProps) => {
-  return <ButtonBase className={cnBtn({ size, fullwidth })} {...props} />;
+const Button = ({ size, fullwidth, error, ...props }: ButtonProps) => {
+  return <ButtonBase className={cnBtn({ size, fullwidth, error })} {...props} />;
 };
 
 export default Button;

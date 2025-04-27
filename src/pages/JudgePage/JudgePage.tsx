@@ -11,13 +11,14 @@ import { useQuery } from "@tanstack/react-query";
 const cnJudgePage = cn("JudgePage");
 
 const JudgePage = observer(() => {
-  const { main } = useStore();
+  const { main, answers } = useStore();
 
   const { isLoading, isError, error } = useQuery({
     queryKey: ["judge-contest"],
     queryFn: async () => {
       const res = await JudgeService.getContest();
       main.setContest(res.data);
+      answers.setContestId(res.data.id);
       if (main.selectedViewContent === null) {
         main.setSelectedViewContent("answers");
       }

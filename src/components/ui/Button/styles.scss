@@ -22,6 +22,12 @@
     width: 100%;
   }
 
+  &_error {
+    background: transparent;
+    border: 1px solid #e91e63;
+    color: #e91e63;
+  }
+
   &:disabled {
     background-color: rgb(102, 102, 102);
     opacity: 1;

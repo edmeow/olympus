@@ -8,6 +8,7 @@ import { ContestsStatesEnum } from '../models/constants/ContestsStatesEnum';
 import { selectedViewContentType } from '../models/selectedContentModel';
 import { createContext } from 'react';
 import ITask from '../models/ITask';
+import AnswerTableStore from './AnswerTableStore.ts';
 
 class MainStore {
     user = {} as IUser;
@@ -151,7 +152,10 @@ class MainStore {
 }
 
 const main = new MainStore();
+const answers = new AnswerTableStore();
 
-export const StoreContext = createContext({ main });
+const store = { main, answers };
 
-export default main;
+export const StoreContext = createContext(store);
+
+export default store;
