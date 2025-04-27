@@ -1,5 +1,5 @@
 import { Grid, Paper } from "@mui/material";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRowClassNameParams } from "@mui/x-data-grid";
 import Button from "../../ui/Button";
 import { IUserAnwser } from "../../../models/IUserAnwser";
 import NoRowsOverlay from "./NoRowsOverlay";
@@ -13,14 +13,28 @@ import { observer } from "mobx-react-lite";
 import { cn } from "@bem-react/classname";
 import "./styles.scss";
 import { getVariantByPointsProp } from "./utils";
+import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 
 interface AnswersTableProps {
-  rows: IUserAnwser[];
+  rows?: IUserAnwser[];
 }
 
 const cnAnswersTable = cn("AnswersTable");
 
-const AnswersTable = ({ rows }: AnswersTableProps) => {
+const initialTableState: GridInitialStateCommunity = {
+  pagination: { paginationModel: { pageSize: 10 } },
+  sorting: {
+    sortModel: [{ field: "id", sort: "desc" }],
+  },
+};
+
+const getRowClassName = (params: GridRowClassNameParams<IUserAnwser>) => {
+  return cnAnswersTable("Row", {
+    variant: getVariantByPointsProp(params.row.points),
+  });
+};
+
+const AnswersTable = ({ rows = [] }: AnswersTableProps) => {
   const { answers } = useStore();
   const { isOpenDetail, openAnswer, closeAnswer, closeDetail, minimizeDetail } =
     useAnswerTable(answers);
@@ -57,21 +71,13 @@ const AnswersTable = ({ rows }: AnswersTableProps) => {
   return (
     <Paper>
       <DataGrid
+        className={cnAnswersTable()}
         rows={rows}
         columns={columns}
-        hideFooter
+        initialState={initialTableState}
         disableRowSelectionOnClick
         slots={{ noRowsOverlay: NoRowsOverlay }}
-        getRowClassName={(params) =>
-          cnAnswersTable("Row", {
-            variant: getVariantByPointsProp(params.row.points),
-          })
-        }
-        sx={{
-          border: 0,
-          "& .MuiDataGrid-row .MuiDataGrid-cell": { outline: "none" },
-          "--DataGrid-overlayHeight": "300px",
-        }}
+        getRowClassName={getRowClassName}
       />
       <AnswerModal
         key={answer?.id}

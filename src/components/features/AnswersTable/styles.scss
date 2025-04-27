@@ -1,4 +1,10 @@
 .AnswersTable {
+  border: 0 !important;
+  & .MuiDataGrid-cell {
+    outline: none !important;
+  }
+  --DataGrid-overlayHeight: 300px;
+
   &-Row {
     &_variant_graded {
       background-color: rgb(222, 243, 222);

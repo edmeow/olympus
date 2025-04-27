@@ -94,8 +94,6 @@ const AnswerModal = ({ open, answer, onClose, onMinimize }: DialogProps) => {
       open={open}
       onClose={onMinimize}
       slots={{ transition: Transition }}
-      component="form"
-      onSubmit={handleSubmit(grade)}
     >
       <DialogTitle>Оценка решения</DialogTitle>
       <WindowActions onClose={onClose} onMinimize={onMinimize} />
@@ -170,7 +168,7 @@ const AnswerModal = ({ open, answer, onClose, onMinimize }: DialogProps) => {
               />
             )}
           />
-          <Button type="submit">
+          <Button onClick={handleSubmit(grade)}>
             {answer.points === null ? "Оценить" : "Пересмотреть оценку"}
           </Button>
         </InputAndButtonGroup>

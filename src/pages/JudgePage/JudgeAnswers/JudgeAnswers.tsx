@@ -14,7 +14,7 @@ const JudgeAnswers = () => {
 
   return (
     <div>
-      <AnswersTable rows={userAnswser?.data || []} />
+      <AnswersTable rows={userAnswser?.data} />
     </div>
   );
 };
