@@ -5,15 +5,15 @@ import { Outlet } from 'react-router-dom';
 import AdminNav from '../components/Admin/AdminNav/AdminNav';
 
 interface AdminNavRouterProps {
-    type?: 'user' | 'judge';
+  type?: 'user' | 'judge';
 }
 
 const AdminNavRouter: FC<AdminNavRouterProps> = observer((props) => {
-    return (
-        <>
-            <AdminNav type={props.type} />
-            <Outlet />
-        </>
-    );
+  return (
+    <>
+      <AdminNav type={props.type} />
+      <Outlet />
+    </>
+  );
 });
 export default AdminNavRouter;

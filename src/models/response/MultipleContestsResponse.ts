@@ -1,3 +1,3 @@
 export interface MultipleContestsResponse {
-    name: string;
+  name: string;
 }

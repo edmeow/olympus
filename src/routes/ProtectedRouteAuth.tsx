@@ -3,13 +3,13 @@ import { observer } from 'mobx-react-lite';
 import { useStore } from '../hooks/useStore';
 
 const ProtectedRouteAuth = observer(() => {
-    const { main } = useStore();
+  const { main } = useStore();
 
-    if (main.isAuth) {
-        return <Outlet />;
-    }
+  if (main.isAuth) {
+    return <Outlet />;
+  }
 
-    return <Navigate to="/login" />;
+  return <Navigate to="/login" />;
 });
 
 export default ProtectedRouteAuth;
