@@ -8,14 +8,18 @@ import { SnackbarProvider } from "notistack";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "@mui/material";
 import theme from "./theme";
-import { pdfjs } from 'react-pdf';
-import 'react-pdf/dist/Page/TextLayer.css';
-import 'react-pdf/dist/Page/AnnotationLayer.css';
+import { pdfjs } from "react-pdf";
+import "react-pdf/dist/Page/TextLayer.css";
+import "react-pdf/dist/Page/AnnotationLayer.css";
 import queryClient from "./query-client";
+import hljs from "highlight.js";
+import javascript from 'highlight.js/lib/languages/javascript';
+
+hljs.registerLanguage('javascript', javascript);
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.mjs',
-  import.meta.url,
+  "pdfjs-dist/build/pdf.worker.min.mjs",
+  import.meta.url
 ).toString();
 
 const root = ReactDOM.createRoot(

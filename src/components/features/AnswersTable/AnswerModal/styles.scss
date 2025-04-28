@@ -5,6 +5,10 @@
     min-height: 400px;
   }
 
+  & .MuiDialogContent-root {
+    max-height: 60dvh;
+  }
+
   &-DownloadLink {
     color: rgb(57, 135, 253);
     text-decoration: none;

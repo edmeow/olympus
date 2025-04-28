@@ -175,7 +175,9 @@ const AnswerModal = ({ open, answer, onClose, onMinimize }: DialogProps) => {
             </Grid>
           </Fade>
         )}
-        {tab === "source" && <SourceCode onBack={backToMain} />}
+        {tab === "source" && (
+          <SourceCode answerId={answer.id} onBack={backToMain} />
+        )}
       </DialogContent>
       <DialogActions>
         <InputAndButtonGroup>
