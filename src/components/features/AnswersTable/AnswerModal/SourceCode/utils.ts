@@ -3,7 +3,7 @@ import { TreeItem } from "./interfaces";
 
 export const getTreeViewItems = (root?: IFileTree) => {
   if (!root) return [];
-  
+
   let idCount = 0;
 
   const convertToTreeItem = (folder: IFileTree) => {
@@ -33,4 +33,17 @@ export const getTreeViewItems = (root?: IFileTree) => {
   return convertToTreeItem(root)?.children || [];
 };
 
-export const getFileExtention = (link?: string) => link?.split(".").pop() || "plaintext";
+export const getFileExtention = (link?: string) => {
+  return link?.split(".").pop() || "plaintext";
+};
+
+export const getPrettyPrintJson = (jsonString: string) => {
+  try {
+    const jsonObject = JSON.parse(jsonString);
+    const prettyJsonString = JSON.stringify(jsonObject, null, 2);
+    return prettyJsonString;
+  } catch (err) {
+    console.error(err);
+    return jsonString;
+  }
+};

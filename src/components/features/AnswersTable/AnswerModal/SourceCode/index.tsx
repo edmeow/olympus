@@ -1,4 +1,5 @@
 import { Box, CircularProgress, Fade, Grid, Typography } from "@mui/material";
+import FileOpenIcon from "@mui/icons-material/FileOpen";
 import BackButton from "../BackButton";
 import { RichTreeView } from "@mui/x-tree-view/RichTreeView";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -6,9 +7,17 @@ import JudgeService from "../../../../../services/JudgeService";
 import { useMemo, useState } from "react";
 import { useTreeViewApiRef } from "@mui/x-tree-view";
 import hljs from "highlight.js";
-import "highlight.js/styles/github-dark.css";
+import "highlight.js/styles/vs2015.min.css";
 import { SourceCodeProps } from "./interfaces";
-import { getFileExtention, getTreeViewItems } from "./utils";
+import {
+  getFileExtention,
+  getPrettyPrintJson,
+  getTreeViewItems,
+} from "./utils";
+import "./styles.scss";
+import { cn } from "@bem-react/classname";
+
+const cnSourceCode = cn("SourceCode");
 
 const SourceCode = ({ answerId, onBack }: SourceCodeProps) => {
   const apiRef = useTreeViewApiRef();
@@ -24,7 +33,11 @@ const SourceCode = ({ answerId, onBack }: SourceCodeProps) => {
     mutationFn: JudgeService.downloadFileAsPlainText,
     onSuccess: ({ data, request }) => {
       const language = getFileExtention(request.responseURL);
-      setCode(hljs.highlight(data, { language }).value);
+      if (language === "json") {
+        setCode(hljs.highlight(getPrettyPrintJson(data), { language }).value);
+      } else {
+        setCode(hljs.highlight(data, { language }).value);
+      }
     },
     onError: (err) => {
       console.error("Error fetching the resource:", err);
@@ -56,6 +69,7 @@ const SourceCode = ({ answerId, onBack }: SourceCodeProps) => {
           <BackButton label="Назад" onClick={onBack} />
           <Box height="8px" />
           <RichTreeView
+            className={cnSourceCode()}
             apiRef={apiRef}
             items={treeViewItems}
             onItemClick={handleItemClick}
@@ -64,7 +78,7 @@ const SourceCode = ({ answerId, onBack }: SourceCodeProps) => {
         <Grid
           size={8}
           overflow="auto"
-          maxHeight="500px"
+          height="500px"
           fontSize="14px"
           bgcolor="rgb(31, 31, 31)"
           color="rgb(224, 224, 224)"
@@ -76,9 +90,12 @@ const SourceCode = ({ answerId, onBack }: SourceCodeProps) => {
           </pre>
           {downloadFileAsPlainTextMutation.isPending && <CircularProgress />}
           {!code && (
-            <Typography variant="body1" color="inherit">
-              Выберите файл
-            </Typography>
+            <div className={cnSourceCode("overlay")}>
+              <FileOpenIcon />
+              <Typography variant="body1" color="inherit">
+                Выберите файл
+              </Typography>
+            </div>
           )}
         </Grid>
       </Grid>

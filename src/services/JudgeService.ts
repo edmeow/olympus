@@ -13,10 +13,7 @@ export default class JudgeService {
     return await $api.get<IContest>(`/api/v1/judge/contest`);
   }
 
-  static async judgeFeedback(body: {
-    userTasksId: number;
-    points: number;
-  }) {
+  static async judgeFeedback(body: { userTasksId: number; points: number }) {
     return await $api.post(`/api/v1/judge/feedback`, body);
   }
 
@@ -27,10 +24,14 @@ export default class JudgeService {
   }
 
   static async getFilesTree(answerId: number) {
-    return $api.get<IFileTree>(`/api/v1/judge/contest/user-problems/files?id=${answerId}`);
+    return $api.get<IFileTree>(
+      `/api/v1/judge/contest/user-problems/files?id=${answerId}`
+    );
   }
 
   static async downloadFileAsPlainText(url: string) {
-    return $api.get<string>(url);
+    return $api.get<string>(url, {
+      responseType: "text",
+    });
   }
 }

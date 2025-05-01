@@ -1,8 +1,11 @@
 .AnswersTable {
   border: 0 !important;
+  margin-bottom: 80px;
+
   & .MuiDataGrid-cell {
     outline: none !important;
   }
+  
   --DataGrid-overlayHeight: 300px;
 
   &-Row {
