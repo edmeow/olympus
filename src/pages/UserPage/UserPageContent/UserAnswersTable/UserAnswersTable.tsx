@@ -14,6 +14,7 @@ import ParticipantService from "../../../../services/ParticipantService";
 import { useQuery } from "@tanstack/react-query";
 import { BASE_URL } from "../../../../config/api";
 import { getAnswerStatus } from "./utils";
+import Button from "../../../../components/ui/Button";
 
 const UserAnswersTable = () => {
   const { main } = useStore();
@@ -73,6 +74,7 @@ const UserAnswersTable = () => {
             <TableCell>Файл</TableCell>
             <TableCell>Статус</TableCell>
             <TableCell>Оценка</TableCell>
+            <TableCell>Действия</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -99,6 +101,22 @@ const UserAnswersTable = () => {
                 <TableCell>{getAnswerStatus(answer)}</TableCell>
                 <TableCell>
                   {answer.points === null ? "—" : answer.points}
+                </TableCell>
+                <TableCell>
+                  {answer.viewEntryPoint && (
+                    <Tooltip title="Здесь вы можете увидеть, как жюри видят ваше решение после автоматического развертывания">
+                      <div>
+                        <Button
+                          fullwidth
+                          onClick={() => {
+                            window.open(BASE_URL + answer.viewEntryPoint);
+                          }}
+                        >
+                          Предпросмотр
+                        </Button>
+                      </div>
+                    </Tooltip>
+                  )}
                 </TableCell>
               </TableRow>
             ))

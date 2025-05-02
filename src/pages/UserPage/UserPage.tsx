@@ -18,9 +18,7 @@ const UserPage = () => {
     queryFn: async () => {
       const res = await ParticipantService.getContest();
       main.setContest(res.data);
-      if (main.selectedViewContent === null) {
-        main.setSelectedViewContent("tasks");
-      }
+      main.setSelectedViewContent("tasks");
       return res;
     },
   });

@@ -19,9 +19,7 @@ const JudgePage = observer(() => {
       const res = await JudgeService.getContest();
       main.setContest(res.data);
       answers.setContestId(res.data.id);
-      if (main.selectedViewContent === null) {
-        main.setSelectedViewContent("answers");
-      }
+      main.setSelectedViewContent("answers");
       return res;
     },
   });
@@ -30,9 +28,7 @@ const JudgePage = observer(() => {
 
   if (isError)
     return (
-      <Alert severity="error">
-        Что-то пошло не так: {error?.message}
-      </Alert>
+      <Alert severity="error">Что-то пошло не так: {error?.message}</Alert>
     );
 
   return (
