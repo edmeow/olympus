@@ -1,4 +1,12 @@
 .AnswerModal {
+  &-idLabel {
+    color: rgb(57, 135, 253);
+    background-color: rgba(57, 135, 253, 0.1);
+    border-radius: 6px;
+    padding: 4px 16px;
+    margin-right: 8px;
+  }
+
   & .MuiDialog-paper {
     max-width: calc(100% - 40px);
     width: 100%;
@@ -56,6 +64,21 @@
     }
     &:hover {
       opacity: 0.8;
+    }
+  }
+
+  &-SameAnswersTable-Row {
+    &_variant_graded {
+      background-color: rgb(222, 243, 222);
+      &:hover {
+        background-color: darken(rgb(222, 243, 222), 2%);
+      }
+    }
+    &_variant_rejected {
+      background-color: rgb(255 234 234);
+      &:hover {
+        background-color: darken(rgb(255 234 234), 2%);
+      }
     }
   }
 }

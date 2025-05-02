@@ -12,7 +12,7 @@ import { useStore } from "../../../hooks/useStore";
 import { observer } from "mobx-react-lite";
 import { cn } from "@bem-react/classname";
 import "./styles.scss";
-import { getVariantByPointsProp } from "./utils";
+import { getSameAnswers, getVariantByPointsProp } from "./utils";
 import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 
 interface AnswersTableProps {
@@ -42,6 +42,7 @@ const AnswersTable = ({ rows = [] }: AnswersTableProps) => {
     useAnswerTable(answers);
 
   const answer = rows.find(({ id }) => id === answers.lastOpened);
+  const sameAnswers = getSameAnswers(rows, answer);
 
   const columns: GridColDef[] = useMemo(
     () => [
@@ -86,8 +87,10 @@ const AnswersTable = ({ rows = [] }: AnswersTableProps) => {
         key={answer?.id}
         open={isOpenDetail}
         answer={answer}
+        sameAnswers={sameAnswers}
         onClose={closeDetail}
         onMinimize={minimizeDetail}
+        onOpenAnswer={openAnswer}
       />
       <AnswerTabs>
         <Grid container spacing={1}>

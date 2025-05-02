@@ -6,7 +6,14 @@ import {
   DialogTitle,
   Fade,
   Grid,
+  Paper,
   Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Typography,
 } from "@mui/material";
 import CloudIcon from "@mui/icons-material/Cloud";
@@ -34,10 +41,18 @@ import JudgeService from "../../../../services/JudgeService";
 import queryClient from "../../../../query-client";
 import { useState } from "react";
 import SourceCode from "./SourceCode";
+import { getVariantByPointsProp } from "../utils";
 
 const cnAnswerModal = cn("AnswerModal");
 
-const AnswerModal = ({ open, answer, onClose, onMinimize }: DialogProps) => {
+const AnswerModal = ({
+  open,
+  answer,
+  sameAnswers = [],
+  onClose,
+  onMinimize,
+  onOpenAnswer,
+}: DialogProps) => {
   const { enqueueSnackbar } = useSnackbar();
   const { control, handleSubmit } = useForm<AnswerModalFormFields>({
     defaultValues: { points: "" },
@@ -111,7 +126,12 @@ const AnswerModal = ({ open, answer, onClose, onMinimize }: DialogProps) => {
       onClose={onMinimize}
       slots={{ transition: Transition }}
     >
-      <DialogTitle>Оценка решения</DialogTitle>
+      <DialogTitle>
+        <span className={cnAnswerModal("idLabel")}>ID {answer.id}</span>{" "}
+        <Typography component="span" variant="h6" fontWeight={700}>
+          Оценка решения
+        </Typography>
+      </DialogTitle>
       <WindowActions onClose={onClose} onMinimize={onMinimize} />
       <DialogContent>
         {tab === "main" && (
@@ -171,6 +191,64 @@ const AnswerModal = ({ open, answer, onClose, onMinimize }: DialogProps) => {
                     </div>
                   )}
                 </Stack>
+                {sameAnswers.length > 0 && (
+                  <Box mt={2}>
+                    <Typography variant="h6">
+                      Похожие отправленные задания
+                    </Typography>
+                    <Typography
+                      component="p"
+                      variant="caption"
+                      color="text.secondary"
+                      mb={1}
+                    >
+                      Перечень ответов, которые дал пользователь{" "}
+                      {answer.userName} на задание с тем же номером
+                    </Typography>
+                    <TableContainer component={Paper}>
+                      <Table aria-label="same answers table" size="small">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>ID</TableCell>
+                            <TableCell>Время отправки</TableCell>
+                            <TableCell>Ваша оценка</TableCell>
+                            {onOpenAnswer && <TableCell>Действия</TableCell>}
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {sameAnswers.map((sameAnswer) => (
+                            <TableRow
+                              key={sameAnswer.id}
+                              className={cnAnswerModal("SameAnswersTable-Row", {
+                                variant: getVariantByPointsProp(
+                                  sameAnswer.points
+                                ),
+                              })}
+                            >
+                              <TableCell>{sameAnswer.id}</TableCell>
+                              <TableCell>{sameAnswer.sentTime}</TableCell>
+                              <TableCell>
+                                {sameAnswer.points === 0
+                                  ? "Отклонено"
+                                  : sameAnswer.points || "Не оценено"}
+                              </TableCell>
+                              {onOpenAnswer && (
+                                <TableCell>
+                                  <Button
+                                    onClick={() => onOpenAnswer(sameAnswer)}
+                                    fullwidth
+                                  >
+                                    Оценить
+                                  </Button>
+                                </TableCell>
+                              )}
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </Box>
+                )}
               </Grid>
             </Grid>
           </Fade>
