@@ -206,12 +206,12 @@ const AdminContest = () => {
                     )}
                   </div>
                   <div className="contest-task__text-container">
-                    <p className="contest-task__file-name">
+                    <div className="contest-task__file-name">
                       <span className="contest-task__file-prefix">
                         Файл задачи:
                       </span>{" "}
                       {item.pdfName}
-                    </p>
+                    </div>
                     <a
                       className="contest-task__do-btn"
                       download={`${item.pdfName}`}
@@ -224,15 +224,15 @@ const AdminContest = () => {
                   </div>
                   {item.additionsName ? (
                     <div className="contest-task__text-container">
-                      <p className="contest-task__file-name">
+                      <div className="contest-task__file-name">
                         <span className="contest-task__file-prefix">
                           Доп. материалы:
                         </span>
                         {item.additionsName}
-                      </p>
+                      </div>
                       <a
                         className="contest-task__do-btn"
-                        href={`${BASE_URL}/${item.additionsPath}`}
+                        href={`${BASE_URL}${item.additionsPath}`}
                         download={`${item.additionsName}`}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -241,17 +241,45 @@ const AdminContest = () => {
                       </a>
                     </div>
                   ) : (
-                    <span className="contest-task__file-prefix">
-                      Дополнительные материалы отсутсвуют
-                    </span>
+                    <div className="contest-task__text-container">
+                      <span className="contest-task__file-prefix">
+                        Дополнительные материалы отсутсвуют
+                      </span>
+                    </div>
                   )}
 
-                  <p className="contest-task__file-name">
+                  {item.testPath ? (
+                    <div className="contest-task__text-container">
+                      <div className="contest-task__file-name">
+                        <span className="contest-task__file-prefix">
+                          Автотесты:
+                        </span>
+                        {item.testName}
+                      </div>
+                      <a
+                        className="contest-task__do-btn"
+                        href={`${BASE_URL}${item.testPath}`}
+                        download={`${item.testName}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Скачать
+                      </a>
+                    </div>
+                  ) : (
+                    <div className="contest-task__text-container">
+                      <span className="contest-task__file-prefix">
+                        Автотесты не настроены
+                      </span>
+                    </div>
+                  )}
+
+                  <div className="contest-task__text-container">
                     <span className="contest-task__file-prefix">
                       Баллы за задание:
                     </span>
                     {item.points}
-                  </p>
+                  </div>
                 </div>
               );
             })

@@ -42,6 +42,7 @@ import queryClient from "../../../../query-client";
 import { useState } from "react";
 import SourceCode from "./SourceCode";
 import { getVariantByPointsProp } from "../utils";
+import Testplane from "./Testplane";
 
 const cnAnswerModal = cn("AnswerModal");
 
@@ -255,6 +256,9 @@ const AnswerModal = ({
         )}
         {tab === "source" && (
           <SourceCode answerId={answer.id} onBack={backToMain} />
+        )}
+        {tab === "testplane" && (
+          <Testplane answerId={answer.id} onBack={backToMain} />
         )}
       </DialogContent>
       <DialogActions>

@@ -31,7 +31,7 @@ interface AddProblemModalFormField {
   points: string;
   pdf?: File;
   addition?: File;
-  tests?: File;
+  test?: File;
 }
 
 const AddProblemModal = ({ contestId, open, onClose, onTasksUpdate }: AddProblemModalProps) => {
@@ -67,7 +67,7 @@ const AddProblemModal = ({ contestId, open, onClose, onTasksUpdate }: AddProblem
 
   const pdf = watch("pdf");
   const addition = watch("addition");
-  const tests = watch("tests");
+  const test = watch("test");
 
   const createProblem = async (data: AddProblemModalFormField) => {
     createProblemMutation.mutate({
@@ -76,7 +76,7 @@ const AddProblemModal = ({ contestId, open, onClose, onTasksUpdate }: AddProblem
       name: data.name,
       pdf: data.pdf || null,
       addition: data.addition || null,
-      tests: data.tests || null,
+      test: data.test || null,
     });
   };
 
@@ -94,10 +94,10 @@ const AddProblemModal = ({ contestId, open, onClose, onTasksUpdate }: AddProblem
     }
   };
 
-  const handleTestsChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleTestChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setValue("tests", file);
+      setValue("test", file);
     }
   };
 
@@ -126,6 +126,7 @@ const AddProblemModal = ({ contestId, open, onClose, onTasksUpdate }: AddProblem
                 {...field}
                 ref={null}
                 label="Название"
+                size="small"
                 fullWidth
                 error={Boolean(error)}
                 helperText={error?.message}
@@ -141,6 +142,7 @@ const AddProblemModal = ({ contestId, open, onClose, onTasksUpdate }: AddProblem
                 {...field}
                 ref={null}
                 label="Количество баллов за задание"
+                size="small"
                 fullWidth
                 error={Boolean(error)}
                 helperText={error?.message}
@@ -171,11 +173,11 @@ const AddProblemModal = ({ contestId, open, onClose, onTasksUpdate }: AddProblem
               <input
                 type="file"
                 accept=".js, .ts"
-                onChange={handleTestsChange}
+                onChange={handleTestChange}
               />
-              {tests && (
+              {test && (
                 <span className="form-add-problem__helper-text">
-                  {tests.name}
+                  {test.name}
                 </span>
               )}
             </label>

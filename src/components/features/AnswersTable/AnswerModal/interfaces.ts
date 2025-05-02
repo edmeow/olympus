@@ -13,4 +13,4 @@ export interface AnswerModalFormFields {
   points: string;
 }
 
-export type AnswerModalTabs = "main" | "source";
+export type AnswerModalTabs = "main" | "source" | "testplane";

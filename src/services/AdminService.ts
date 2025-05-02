@@ -78,13 +78,13 @@ export default class AdminService {
     name: string;
     pdf: File | null;
     addition: File | null;
-    tests: File | null;
+    test: File | null;
   }) {
     const formData = new FormData();
 
     if (body.pdf) formData.append("task", body.pdf);
     if (body.addition) formData.append("addition", body.addition);
-    if (body.tests) formData.append("tests", body.tests);
+    if (body.test) formData.append("test", body.test);
     formData.append("name", body.name);
     formData.append("contest-id", body.contestId.toString());
     formData.append("points", body.points.toString());

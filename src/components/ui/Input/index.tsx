@@ -1,6 +1,5 @@
 import { BaseTextFieldProps, TextField } from "@mui/material";
 import { cn } from "@bem-react/classname";
-import "./styles.scss";
 import { forwardRef } from "react";
 
 // interface InputProps extends BaseTextFieldProps {}

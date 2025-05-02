@@ -5,9 +5,11 @@ interface ITask {
   pdfName: string;
   pdfPath: string;
   name: string;
-  additionsName: string;
-  additionsPath: string;
+  additionsName: string | null;
+  additionsPath: string | null;
   points: number;
+  testName: string | null;
+  testPath: string | null;
 }
 
 export default ITask;

@@ -1,6 +1,7 @@
 import $api from "../config/api";
 import { IContest } from "../models/IContest";
 import { IFileTree } from "../models/IFile";
+import { ITestsResult } from "../models/ITestResult";
 import { IUserAnwser } from "../models/IUserAnwser";
 import { IUserResults } from "../models/IUserResult";
 
@@ -33,5 +34,11 @@ export default class JudgeService {
     return $api.get<string>(url, {
       responseType: "text",
     });
+  }
+
+  static async runTest(answerId: number) {
+    return $api.get<ITestsResult>(
+      `/api/v1/judge/contest/user-problems/tests?id=${answerId}`
+    );
   }
 }
