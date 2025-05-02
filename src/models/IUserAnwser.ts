@@ -11,6 +11,7 @@ export interface IUserAnwser {
   filePath: string;
   viewPaths: string;
   viewEntryPoint: string | null;
+  testAvailable: boolean;
 }
 
 export const UserAnswerStateTypeValues = {

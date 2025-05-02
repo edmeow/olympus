@@ -102,6 +102,7 @@ const AnswersTable = ({ rows = [] }: AnswersTableProps) => {
                   id={row.id}
                   sender={row.userName}
                   taskNumber={row.taskNumber}
+                  last={row.id === answer?.id}
                   onOpen={() => openAnswer(row)}
                   onClose={() => closeAnswer(row)}
                 />

@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import CloudIcon from "@mui/icons-material/Cloud";
 import CodeIcon from "@mui/icons-material/Code";
+import RuleIcon from '@mui/icons-material/Rule';
 import Input from "../../../ui/Input";
 import Button from "../../../ui/Button";
 import InputAndButtonGroup from "../../../ui/InputAndButtonGroup";
@@ -114,6 +115,10 @@ const AnswerModal = ({
     setTab("source");
   };
 
+  const openTest = () => {
+    setTab("testplane");
+  }
+
   const backToMain = () => {
     setTab("main");
   };
@@ -189,6 +194,17 @@ const AnswerModal = ({
                         Запустить решение в новой вкладке
                       </Typography>
                       <CloudIcon />
+                    </div>
+                  )}
+                  {answer.testAvailable && (
+                    <div
+                      className={cnAnswerModal("ActionItem")}
+                      onClick={openTest}
+                    >
+                      <Typography variant="body1">
+                        Автотест
+                      </Typography>
+                      <RuleIcon />
                     </div>
                   )}
                 </Stack>

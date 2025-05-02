@@ -6,6 +6,7 @@ interface AnswerTabProps {
   id: number;
   sender: string;
   taskNumber: number;
+  last: boolean;
   onOpen: () => void;
   onClose: () => void;
 }
@@ -14,6 +15,7 @@ const AnswerTab = ({
   id,
   sender,
   taskNumber,
+  last,
   onOpen,
   onClose,
 }: AnswerTabProps) => {
@@ -28,6 +30,7 @@ const AnswerTab = ({
       justifyContent="space-between"
       width="148px"
       bgcolor="rgba(57, 135, 253, 0.1)"
+      border={last ? "1px solid rgba(57, 135, 253)" : "none"}
       borderRadius="5px"
       p="5px"
       onClick={onOpen}
