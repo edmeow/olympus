@@ -274,7 +274,7 @@ const AnswerModal = ({
           <SourceCode answerId={answer.id} onBack={backToMain} />
         )}
         {tab === "testplane" && (
-          <Testplane answerId={answer.id} onBack={backToMain} />
+          <Testplane answerId={answer.id} maxPointsForTask={answer.maxPoints} onBack={backToMain} />
         )}
       </DialogContent>
       <DialogActions>

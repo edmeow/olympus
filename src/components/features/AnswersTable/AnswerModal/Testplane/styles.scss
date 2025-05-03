@@ -17,4 +17,21 @@
   //   color: rgba(57, 135, 253);
   //   background-color: rgba(57, 135, 253, 0.1);
   // }
+  &-Test {
+    white-space: break-spaces;
+  }
+
+  & .MuiAccordionSummary-root {
+    justify-content: flex-start;
+  }
+
+  &-Test_variant_success, &-Test_variant_success .MuiAccordionSummary-content {
+    color: rgb(61, 128, 61);
+    flex-grow: unset;
+  }
+
+  &-Test_variant_failed, &-Test_variant_failed .MuiAccordionSummary-content {
+    color: rgb(185, 53, 53);
+    flex-grow: unset;
+  }
 }

@@ -54,7 +54,7 @@ const AnswersTable = ({ rows = [] }: AnswersTableProps) => {
         field: "points",
         headerName: "Ваша оценка",
         flex: 1,
-        valueFormatter: (value) =>
+        valueGetter: (value) =>
           value === 0 ? "Отклонено" : value || "Не оценено",
       },
       {

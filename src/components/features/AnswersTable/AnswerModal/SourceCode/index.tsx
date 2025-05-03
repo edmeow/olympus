@@ -75,17 +75,8 @@ const SourceCode = ({ answerId, onBack }: SourceCodeProps) => {
             onItemClick={handleItemClick}
           />
         </Grid>
-        <Grid
-          size={8}
-          overflow="auto"
-          height="500px"
-          fontSize="14px"
-          bgcolor="rgb(31, 31, 31)"
-          color="rgb(224, 224, 224)"
-          p={1}
-          borderRadius={1}
-        >
-          <pre style={{ margin: 0 }}>
+        <Grid size={8}>
+          <pre style={{ margin: 0 }} className={cnSourceCode("preview")}>
             <code dangerouslySetInnerHTML={{ __html: code }}></code>
           </pre>
           {downloadFileAsPlainTextMutation.isPending && <CircularProgress />}

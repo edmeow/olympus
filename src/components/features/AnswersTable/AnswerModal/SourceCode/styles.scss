@@ -12,9 +12,52 @@
   & .MuiTreeItem-content:hover {
     background-color: rgba(57, 135, 253, 0.1);
   }
-  
-  & .MuiTreeItem-content[data-selected], .MuiTreeItem-content[data-selected][data-focused] {
+
+  & .MuiTreeItem-content[data-selected],
+  .MuiTreeItem-content[data-selected][data-focused] {
     color: rgba(57, 135, 253);
     background-color: rgba(57, 135, 253, 0.1);
+  }
+
+  &-preview {
+    overflow: auto;
+    height: 500px;
+    font-size: 14px;
+    background-color: rgb(31, 31, 31);
+    color: rgb(224, 224, 224);
+    padding: 8px;
+    border-radius: 6px;
+
+    /* Custom scrollbar styles for the Grid component */
+    overflow: auto;
+
+    /* WebKit-based browsers */
+    &::-webkit-scrollbar {
+      width: 10px; /* Width of the vertical scrollbar */
+      height: 10px; /* Height of the horizontal scrollbar */
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgb(45, 45, 45); /* Dark gray background for the track */
+      border-radius: 5px; /* Rounded corners for the track */
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgb(90, 90, 90); /* Lighter gray background for the thumb */
+      border-radius: 5px; /* Rounded corners for the thumb */
+      border: 2px solid rgb(45, 45, 45); /* Border around the thumb */
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: rgb(
+        110,
+        110,
+        110
+      ); /* Slightly lighter gray when hovering over the thumb */
+    }
+
+    /* Firefox */
+    scrollbar-width: thin; /* Thin scrollbar width */
+    scrollbar-color: rgb(90, 90, 90) rgb(45, 45, 45); /* Thumb and track colors */
   }
 }
