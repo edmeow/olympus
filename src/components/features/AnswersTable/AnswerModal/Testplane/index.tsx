@@ -17,6 +17,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { ITestResult } from "../../../../../models/ITestResult";
 import TestResultChip from "../TestResultChip";
+import CircularProgressWithLabel from "./CircularProgreeWithLabel";
 
 const cnTestplane = cn("Testplane");
 
@@ -38,7 +39,7 @@ const Testplane = ({ answerId, maxPointsForTask, onBack }: TestplaneProps) => {
   const status = testResult?.data.status;
 
   useEffect(() => {
-    if (testResult && testResult.data.status === "pending") {
+    if (testResult && testResult.data.status !== "resolved") {
       const timeout = setTimeout(refetch, 5000);
       return () => clearTimeout(timeout);
     }
@@ -64,6 +65,17 @@ const Testplane = ({ answerId, maxPointsForTask, onBack }: TestplaneProps) => {
             </Typography>
           </Box>
         )}
+        {status === "not-started" && <Box>
+            <CircularProgress size="16px" thickness={5} />
+            <Typography
+              component="span"
+              variant="h6"
+              ml={1}
+              color="primary.main"
+            >
+              В очереди
+            </Typography>
+          </Box>}
         {testResult && status === "resolved" && (
           <Typography variant="h6">
             Предварительный результат:{" "}

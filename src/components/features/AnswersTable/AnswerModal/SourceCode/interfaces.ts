@@ -3,6 +3,11 @@ export interface SourceCodeProps {
   onBack: () => void;
 }
 
+export interface PreviewContentProps {
+  code: string;
+  loading: boolean;
+}
+
 export interface TreeItem {
   id: string;
   label: string;

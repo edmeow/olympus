@@ -13,7 +13,7 @@ import { AxiosError } from "axios";
 const UserPage = () => {
   const { main } = useStore();
   const navigate = useNavigate();
-  // NOTE: this hook is need here becouse react-query reset error after the refetch
+  // NOTE: this hook is need here because react-query reset error after the refetch
   //       and it causes the interface to flash
   const [contestNotStarted, setContestNotStarted] = useState(false);
 

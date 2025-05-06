@@ -6,6 +6,6 @@ export interface ITestResult {
 }
 
 export interface ITestsResult {
-  status: "resolved" | "pending";
+  status: "resolved" | "pending" | "not-started";
   results: ITestResult[];
 }

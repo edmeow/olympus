@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import CloudIcon from "@mui/icons-material/Cloud";
 import CodeIcon from "@mui/icons-material/Code";
-import RuleIcon from '@mui/icons-material/Rule';
+import RuleIcon from "@mui/icons-material/Rule";
 import Input from "../../../ui/Input";
 import Button from "../../../ui/Button";
 import InputAndButtonGroup from "../../../ui/InputAndButtonGroup";
@@ -117,7 +117,7 @@ const AnswerModal = ({
 
   const openTest = () => {
     setTab("testplane");
-  }
+  };
 
   const backToMain = () => {
     setTab("main");
@@ -201,9 +201,7 @@ const AnswerModal = ({
                       className={cnAnswerModal("ActionItem")}
                       onClick={openTest}
                     >
-                      <Typography variant="body1">
-                        Автотест
-                      </Typography>
+                      <Typography variant="body1">Автотест</Typography>
                       <RuleIcon />
                     </div>
                   )}
@@ -274,7 +272,11 @@ const AnswerModal = ({
           <SourceCode answerId={answer.id} onBack={backToMain} />
         )}
         {tab === "testplane" && (
-          <Testplane answerId={answer.id} maxPointsForTask={answer.maxPoints} onBack={backToMain} />
+          <Testplane
+            answerId={answer.id}
+            maxPointsForTask={answer.maxPoints}
+            onBack={backToMain}
+          />
         )}
       </DialogContent>
       <DialogActions>
@@ -290,10 +292,14 @@ const AnswerModal = ({
                 placeholder={`Выставите оценку (максимум ${answer.maxPoints})`}
                 title={`Выставите оценку (максимум ${answer.maxPoints})`}
                 autoComplete="off"
+                disabled={judgeFeedbackMutation.isPending}
               />
             )}
           />
-          <Button onClick={handleSubmit(grade)}>
+          <Button
+            onClick={handleSubmit(grade)}
+            disabled={judgeFeedbackMutation.isPending}
+          >
             {answer.points === null ? "Оценить" : "Пересмотреть оценку"}
           </Button>
         </InputAndButtonGroup>

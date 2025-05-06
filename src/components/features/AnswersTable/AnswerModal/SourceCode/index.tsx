@@ -8,7 +8,7 @@ import { useMemo, useState } from "react";
 import { useTreeViewApiRef } from "@mui/x-tree-view";
 import hljs from "highlight.js";
 import "highlight.js/styles/vs2015.min.css";
-import { SourceCodeProps } from "./interfaces";
+import { PreviewContentProps, SourceCodeProps } from "./interfaces";
 import {
   getFileExtention,
   getPrettyPrintJson,
@@ -18,6 +18,20 @@ import "./styles.scss";
 import { cn } from "@bem-react/classname";
 
 const cnSourceCode = cn("SourceCode");
+
+const PreviewContent = ({ code, loading }: PreviewContentProps) => {
+  if (loading) return <CircularProgress />;
+  if (!code)
+    return (
+      <div className={cnSourceCode("overlay")}>
+        <FileOpenIcon />
+        <Typography variant="body1" color="inherit">
+          Выберите файл
+        </Typography>
+      </div>
+    );
+  return <code dangerouslySetInnerHTML={{ __html: code }} />;
+};
 
 const SourceCode = ({ answerId, onBack }: SourceCodeProps) => {
   const apiRef = useTreeViewApiRef();
@@ -77,17 +91,11 @@ const SourceCode = ({ answerId, onBack }: SourceCodeProps) => {
         </Grid>
         <Grid size={8}>
           <pre style={{ margin: 0 }} className={cnSourceCode("preview")}>
-            <code dangerouslySetInnerHTML={{ __html: code }}></code>
+            <PreviewContent
+              code={code}
+              loading={downloadFileAsPlainTextMutation.isPending}
+            />
           </pre>
-          {downloadFileAsPlainTextMutation.isPending && <CircularProgress />}
-          {!code && (
-            <div className={cnSourceCode("overlay")}>
-              <FileOpenIcon />
-              <Typography variant="body1" color="inherit">
-                Выберите файл
-              </Typography>
-            </div>
-          )}
         </Grid>
       </Grid>
     </Fade>
