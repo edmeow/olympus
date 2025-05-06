@@ -12,6 +12,7 @@ import AdminNavRouter from "./AdminNavRouter";
 import SetNamePage from "../pages/SetNamePage/SetNamePage";
 import routes from "../config/routes";
 import NavigateByPole from "./NavigateByPole";
+import WritingTestPage from "../pages/WritingTestPage";
 
 const RoutesPack = () => {
   return (
@@ -60,6 +61,7 @@ const RoutesPack = () => {
               path="/admin/contest/:contestId"
               element={<AdminContestPage />}
             />
+            <Route path="/writing-test" element={<WritingTestPage />} />
           </Route>
         </Route>
         <Route path="*" element={<NavigateByPole />} />

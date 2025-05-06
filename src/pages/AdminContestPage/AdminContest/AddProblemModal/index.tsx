@@ -182,7 +182,7 @@ const AddProblemModal = ({ contestId, open, onClose, onTasksUpdate }: AddProblem
               )}
             </label>
             <p className="form-add-problem__additional-info">
-              <a href="#">Подробнее о том, как писать автотесты для заданий</a>
+              <a href="/writing-test" target="_blank">Подробнее о том, как писать автотесты для заданий</a>
             </p>
           </div>
           {errors.pdf && (
