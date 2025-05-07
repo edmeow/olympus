@@ -56,6 +56,9 @@ const UserPage = () => {
   if (contestNotStarted || (error as AxiosError)?.status === 423)
     return <Alert severity="info">Олимпиада ещё не начата</Alert>;
 
+  if ((error as AxiosError)?.status === 403)
+    return <Alert severity="info">Олимпиада завершена</Alert>;
+
   if (isError)
     return (
       <Alert severity="error">
