@@ -24,7 +24,7 @@ const cnAnswersTable = cn("AnswersTable");
 const initialTableState: GridInitialStateCommunity = {
   pagination: { paginationModel: { pageSize: 10 } },
   sorting: {
-    sortModel: [{ field: "id", sort: "desc" }],
+    sortModel: [{ field: "idInContest", sort: "desc" }],
   },
 };
 
@@ -46,7 +46,7 @@ const AnswersTable = ({ rows = [] }: AnswersTableProps) => {
 
   const columns: GridColDef[] = useMemo(
     () => [
-      { field: "id", headerName: "ID" },
+      { field: "idInContest", headerName: "ID" },
       { field: "sentTime", headerName: "Время отправки", flex: 1 },
       { field: "userName", headerName: "Отправитель", flex: 1 },
       { field: "taskNumber", headerName: "Задание", flex: 1 },

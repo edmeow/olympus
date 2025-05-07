@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 export interface IUserAnwser {
   id: number;
+  idInContest: number;
   userName: string;
   taskNumber: number;
   points: number | null;
