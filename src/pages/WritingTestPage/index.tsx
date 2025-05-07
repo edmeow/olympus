@@ -5,8 +5,6 @@ import javascript from "highlight.js/lib/languages/javascript";
 import { useEffect } from "react";
 import exampleCode from "/example.testplane.ts?url";
 
-console.log(exampleCode.toString());
-
 const code = `describe("github", async function () {
     it("should find testplane", async function ({ browser }) {
         await browser.url("https://github.com/gemini-testing/testplane");
