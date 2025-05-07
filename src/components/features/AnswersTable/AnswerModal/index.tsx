@@ -240,7 +240,7 @@ const AnswerModal = ({
                                 ),
                               })}
                             >
-                              <TableCell>{sameAnswer.id}</TableCell>
+                              <TableCell>{sameAnswer.idInContest}</TableCell>
                               <TableCell>{sameAnswer.sentTime}</TableCell>
                               <TableCell>
                                 {sameAnswer.points === 0
