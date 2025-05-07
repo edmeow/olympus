@@ -133,7 +133,7 @@ const AnswerModal = ({
       slots={{ transition: Transition }}
     >
       <DialogTitle>
-        <span className={cnAnswerModal("idLabel")}>ID {answer.id}</span>{" "}
+        <span className={cnAnswerModal("idLabel")}>ID {answer.idInContest}</span>{" "}
         <Typography component="span" variant="h6" fontWeight={700}>
           Оценка решения
         </Typography>

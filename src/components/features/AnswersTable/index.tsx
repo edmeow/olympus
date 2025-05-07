@@ -99,7 +99,7 @@ const AnswersTable = ({ rows = [] }: AnswersTableProps) => {
             .map((row) => (
               <Grid key={row.id}>
                 <AnswerTab
-                  id={row.id}
+                  id={row.idInContest}
                   sender={row.userName}
                   taskNumber={row.taskNumber}
                   last={row.id === answer?.id}
